@@ -573,6 +573,11 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
           </div>
         </div>
       </div>
+
+      {/* App Version Info Footer */}
+      <div style={{ marginTop: '24px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', opacity: 0.8 }}>
+        Engion Tray Learner • Phiên bản <strong>v1.0.0</strong> (Official Release)
+      </div>
     </div>
   );
 };
