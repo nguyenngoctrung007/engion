@@ -1,0 +1,327 @@
+import React, { useState, useEffect } from 'react';
+import { VocabularyWord, UserWordProgress } from '../../types';
+import { StorageService } from '../../services/storage';
+import { calculateSRS } from '../../services/srs';
+import { FlashcardView } from './FlashcardView';
+import { FillInBlankQuiz } from './FillInBlankQuiz';
+import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
+import { X, Layers, HelpCircle, CheckSquare, Sparkles, Edit3, Trash2, Save } from 'lucide-react';
+
+export const PopupContainer: React.FC = () => {
+  const [currentWord, setCurrentWord] = useState<VocabularyWord | null>(null);
+  const [allWords, setAllWords] = useState<VocabularyWord[]>([]);
+  const [quizMode, setQuizMode] = useState<'flashcard' | 'fill' | 'choice'>('flashcard');
+  const [sessionCount, setSessionCount] = useState<number>(0);
+  const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
+
+  const pickNextWord = () => {
+    const words = StorageService.getAllVocabulary();
+    if (words.length > 0) {
+      const filtered = currentWord ? words.filter(w => w.id !== currentWord.id) : words;
+      const pool = filtered.length > 0 ? filtered : words;
+      const next = pool[Math.floor(Math.random() * pool.length)];
+      setCurrentWord(next);
+    } else {
+      setCurrentWord(null);
+    }
+  };
+
+  useEffect(() => {
+    const words = StorageService.getAllVocabulary();
+    setAllWords(words);
+
+    const settings = StorageService.getSettings();
+    if (settings.quizMode && settings.quizMode !== 'random') {
+      setQuizMode(settings.quizMode as any);
+    } else {
+      const modes: ('flashcard' | 'fill' | 'choice')[] = ['flashcard', 'fill', 'choice'];
+      setQuizMode(modes[Math.floor(Math.random() * modes.length)]);
+    }
+
+    pickNextWord();
+  }, []);
+
+  useEffect(() => {
+    if (currentWord) {
+      const settings = StorageService.getSettings();
+      if (settings.autoAudio && 'speechSynthesis' in window) {
+        try {
+          const utterance = new SpeechSynthesisUtterance(currentWord.word);
+          utterance.lang = settings.accent === 'UK' ? 'en-GB' : 'en-US';
+          window.speechSynthesis.cancel();
+          window.speechSynthesis.speak(utterance);
+        } catch {}
+      }
+    }
+  }, [currentWord]);
+
+  const handleClose = () => {
+    // If running under Electron, always close/destroy the popup window
+    if ((window as any).electronAPI?.closePopup) {
+      (window as any).electronAPI.closePopup();
+      return;
+    }
+
+    // Fallback for browser preview mode
+    if (window.location.hash === '#popup') {
+      window.location.hash = '';
+    } else {
+      try {
+        window.close();
+      } catch {}
+    }
+  };
+
+  const handleAnswer = (rating: 'hard' | 'good' | 'easy', keepGoing: boolean = false) => {
+    if (currentWord) {
+      const progressMap = StorageService.getProgressMap();
+      const currentProgress = progressMap[currentWord.id];
+      const updated = calculateSRS(currentProgress, currentWord.id, rating);
+      StorageService.saveWordProgress(updated);
+      setSessionCount(prev => prev + 1);
+    }
+
+    if (keepGoing) {
+      pickNextWord();
+    } else {
+      handleClose();
+    }
+  };
+
+  const handleDeleteCurrentWord = () => {
+    if (!currentWord) return;
+    if (confirm(`Bạn có chắc chắn muốn xóa từ vựng "${currentWord.word}" khỏi hệ thống không?`)) {
+      StorageService.deleteWord(currentWord.id);
+      pickNextWord();
+    }
+  };
+
+  const handleSaveEditWord = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingWord || !editingWord.word || !editingWord.definition) return;
+
+    StorageService.updateWord(editingWord);
+    setCurrentWord(editingWord);
+    setEditingWord(null);
+  };
+
+  if (!currentWord) return null;
+
+  return (
+    <div
+      className="glass-panel animate-pop"
+      style={{
+        width: '100vw',
+        height: '100vh',
+        padding: '14px 16px',
+        display: 'flex',
+        flexDirection: 'column',
+        boxShadow: 'var(--shadow-popup)',
+        background: 'rgba(15, 23, 42, 0.96)',
+        border: '1px solid rgba(99, 102, 241, 0.3)',
+        overflow: 'hidden'
+      }}
+    >
+      {/* Top Header / Mode selector & Action buttons */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '3px', borderRadius: 'var(--radius-md)' }}>
+          <button
+            onClick={() => setQuizMode('flashcard')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              borderRadius: 'var(--radius-sm)',
+              border: 'none',
+              cursor: 'pointer',
+              background: quizMode === 'flashcard' ? 'var(--accent-primary)' : 'transparent',
+              color: quizMode === 'flashcard' ? '#FFF' : 'var(--text-muted)'
+            }}
+          >
+            <Layers size={13} /> Thẻ từ
+          </button>
+
+          <button
+            onClick={() => setQuizMode('fill')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              borderRadius: 'var(--radius-sm)',
+              border: 'none',
+              cursor: 'pointer',
+              background: quizMode === 'fill' ? 'var(--accent-primary)' : 'transparent',
+              color: quizMode === 'fill' ? '#FFF' : 'var(--text-muted)'
+            }}
+          >
+            <HelpCircle size={13} /> Điền từ
+          </button>
+
+          <button
+            onClick={() => setQuizMode('choice')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '4px 10px',
+              fontSize: '0.75rem',
+              fontWeight: 600,
+              borderRadius: 'var(--radius-sm)',
+              border: 'none',
+              cursor: 'pointer',
+              background: quizMode === 'choice' ? 'var(--accent-primary)' : 'transparent',
+              color: quizMode === 'choice' ? '#FFF' : 'var(--text-muted)'
+            }}
+          >
+            <CheckSquare size={13} /> Trắc nghiệm
+          </button>
+        </div>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          {currentWord && (
+            <>
+              <button
+                onClick={() => setEditingWord({ ...currentWord })}
+                className="btn-icon"
+                style={{ color: 'var(--accent-cyan)', padding: '4px 6px' }}
+                title="Chỉnh sửa từ vựng này"
+              >
+                <Edit3 size={15} />
+              </button>
+
+              <button
+                onClick={handleDeleteCurrentWord}
+                className="btn-icon"
+                style={{ color: '#EF4444', padding: '4px 6px' }}
+                title="Xóa từ vựng này khỏi hệ thống"
+              >
+                <Trash2 size={15} />
+              </button>
+            </>
+          )}
+
+          {sessionCount > 0 && (
+            <span style={{ fontSize: '0.72rem', color: 'var(--accent-amber)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
+              🔥 {sessionCount}
+            </span>
+          )}
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose();
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose();
+            }}
+            className="btn-icon"
+            style={{ borderRadius: '50%', padding: '6px', cursor: 'pointer' }}
+          >
+            <X size={16} />
+          </button>
+        </div>
+      </div>
+
+      {/* Main Mode Body */}
+      <div style={{ flex: 1, overflow: 'hidden' }}>
+        {quizMode === 'flashcard' && <FlashcardView key={currentWord.id} word={currentWord} onAnswer={handleAnswer} />}
+        {quizMode === 'fill' && <FillInBlankQuiz key={currentWord.id} word={currentWord} onAnswer={handleAnswer} />}
+        {quizMode === 'choice' && <MultipleChoiceQuiz key={currentWord.id} word={currentWord} allWords={allWords} onAnswer={handleAnswer} />}
+      </div>
+
+      {/* Quick Edit Word Modal Overlay */}
+      {editingWord && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(15, 23, 42, 0.92)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '16px'
+          }}
+        >
+          <form
+            onSubmit={handleSaveEditWord}
+            className="glass-panel animate-pop"
+            style={{ width: '100%', maxWidth: '380px', padding: '18px' }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+              <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--accent-cyan)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Edit3 size={16} /> Chỉnh Sửa Nhanh Từ Vựng
+              </h4>
+              <button type="button" onClick={() => setEditingWord(null)} className="btn-icon">
+                <X size={16} />
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px' }}>
+              <div>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Từ tiếng Anh:</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={editingWord.word}
+                  onChange={(e) => setEditingWord({ ...editingWord, word: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Phiên âm IPA:</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={editingWord.phonetic}
+                  onChange={(e) => setEditingWord({ ...editingWord, phonetic: e.target.value })}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Nghĩa tiếng Việt:</label>
+                <input
+                  type="text"
+                  className="input-field"
+                  value={editingWord.definition}
+                  onChange={(e) => setEditingWord({ ...editingWord, definition: e.target.value })}
+                  required
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Câu ví dụ:</label>
+                <textarea
+                  className="input-field"
+                  value={editingWord.example}
+                  onChange={(e) => setEditingWord({ ...editingWord, example: e.target.value })}
+                  rows={2}
+                  style={{ resize: 'none' }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+              <button type="button" onClick={() => setEditingWord(null)} className="btn btn-secondary" style={{ padding: '6px 12px', fontSize: '0.8rem' }}>
+                Hủy
+              </button>
+              <button type="submit" className="btn btn-primary" style={{ padding: '6px 14px', fontSize: '0.8rem', gap: '4px' }}>
+                <Save size={14} /> Lưu Thay Đổi
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+};

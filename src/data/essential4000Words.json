@@ -1,0 +1,5402 @@
+[
+  {
+    "id": "essential_4k_1",
+    "word": "afraid",
+    "phonetic": "/ə'freɪd/",
+    "pos": "adjective",
+    "definition": "Sợ hãi",
+    "example": "The woman was afraid of what she saw.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_2",
+    "word": "agree",
+    "phonetic": "/ə'griː/",
+    "pos": "verb",
+    "definition": "Đồng ý",
+    "example": "A: The food is very good in that restaurant.      B: I agree with you.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_3",
+    "word": "angry",
+    "phonetic": "/'æŋgrɪ/",
+    "pos": "adjective",
+    "definition": "Tức giận",
+    "example": "She didn’t do her homework, so her father is angry.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_4",
+    "word": "arrive",
+    "phonetic": "/ə'raɪv/",
+    "pos": "verb",
+    "definition": "Đến, tới nơi",
+    "example": "The bus always arrives at the corner of my street at 4:00.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_5",
+    "word": "attack",
+    "phonetic": "/ə'tæk/",
+    "pos": "verb",
+    "definition": "Tấn công",
+    "example": "The man with the sword attacked the other man first.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_6",
+    "word": "bottom",
+    "phonetic": "/'bɔtəm/",
+    "pos": "adjective",
+    "definition": "phần dưới cùng; đáy",
+    "example": "The bottom of my shoe has a hole in it.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_7",
+    "word": "clever",
+    "phonetic": "/'klevə/",
+    "pos": "adjective",
+    "definition": "Thông minh",
+    "example": "The clever boy thought of a good idea.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_8",
+    "word": "cruel",
+    "phonetic": "/'kruːəl], [kruəl/",
+    "pos": "adjective",
+    "definition": "Độc ác",
+    "example": "The cruel man yelled at his sister.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_9",
+    "word": "finally",
+    "phonetic": "/'faɪn(ə)lɪ/",
+    "pos": "adverb",
+    "definition": "Sau cùng",
+    "example": "He finally crossed the finish line after five hours of running.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_10",
+    "word": "hide",
+    "phonetic": "/haɪd/",
+    "pos": "verb",
+    "definition": "Trốn, ẩn nấp",
+    "example": "The other children will hide while you count to 100.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_11",
+    "word": "hunt",
+    "phonetic": "/hʌnt/",
+    "pos": "verb",
+    "definition": "Săn bắn",
+    "example": "Long ago, people hunted with bows and arrows.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_12",
+    "word": "lot",
+    "phonetic": "/lɔt/",
+    "pos": "verb",
+    "definition": "Mớ, lô, nhiều",
+    "example": "There are a lot of apples in the basket.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_13",
+    "word": "middle",
+    "phonetic": "/'mɪdl/",
+    "pos": "adjective",
+    "definition": "giữa, ở giữa",
+    "example": "The Canadian flag has a maple leaf in the middle of it.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_14",
+    "word": "moment",
+    "phonetic": "/'məumənt/",
+    "pos": "noun",
+    "definition": "Khoảnh khắc, chốc lát",
+    "example": "I was only a few moments late for the meeting.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_15",
+    "word": "pleased",
+    "phonetic": "/pliːzd/",
+    "pos": "adjective",
+    "definition": "Hài lòng",
+    "example": "She was pleased with the phone call she received.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_16",
+    "word": "promise",
+    "phonetic": "/'prɔmɪs/",
+    "pos": "verb",
+    "definition": "Hứa hẹn, lời hứa",
+    "example": "He promised to return my key by tomorrow.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_17",
+    "word": "reply",
+    "phonetic": "/rɪ'plaɪ/",
+    "pos": "verb",
+    "definition": "đáp lại, trả &nbsp;lời",
+    "example": "She asked him what time his meeting was. He replied, “at three.”",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_18",
+    "word": "safe",
+    "phonetic": "/seɪf/",
+    "pos": "adjective",
+    "definition": "An toàn",
+    "example": "Put on your seat belt in the car to be safe.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_19",
+    "word": "trick",
+    "phonetic": "/trɪk/",
+    "pos": "verb",
+    "definition": "Mẹo, thủ thuật",
+    "example": "His card trick really surprised us.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_20",
+    "word": "well",
+    "phonetic": "/wel/",
+    "pos": "adjective",
+    "definition": "Tốt, được",
+    "example": "The couple can dance quite well.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_21",
+    "word": "adventure",
+    "phonetic": "/əd'venʧə/",
+    "pos": "verb",
+    "definition": "phiêu lưu, mạo hiểm",
+    "example": "Riding in the rough water was an adventure.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_22",
+    "word": "approach",
+    "phonetic": "/ə'prəuʧ/",
+    "pos": "verb",
+    "definition": "đến gần, tới gần",
+    "example": "The boy approached his school.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_23",
+    "word": "carefully",
+    "phonetic": "/'keəf(ə)lɪ], [-fulɪ]&nbsp;/",
+    "pos": "adverb",
+    "definition": "cẩn thận",
+    "example": "The baby carefully climbed down the stairs.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_24",
+    "word": "chemical",
+    "phonetic": "/'kemɪk(ə)l/",
+    "pos": "adjective",
+    "definition": "hoá&nbsp;chất",
+    "example": "The scientist mixed the chemicals.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_25",
+    "word": "create",
+    "phonetic": "/krɪ'eɪt/",
+    "pos": "verb",
+    "definition": "tạo nên, tạo ra",
+    "example": "She created an igloo from blocks of snow.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_26",
+    "word": "evil",
+    "phonetic": "/'iːv(ə)l], [-vɪl]&nbsp;/",
+    "pos": "adjective",
+    "definition": "xấu, ác",
+    "example": "The evil figure scared us all.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_27",
+    "word": "experiment",
+    "phonetic": "/ɪk'sperɪmənt], [ek-]&nbsp;/",
+    "pos": "verb",
+    "definition": "thí nghiệm",
+    "example": "The student did an experiment in science class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_28",
+    "word": "kill",
+    "phonetic": "/kɪl/",
+    "pos": "verb",
+    "definition": "giết, làm chết",
+    "example": "I killed the fly with a fly swatter.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_29",
+    "word": "laboratory",
+    "phonetic": "/lə'bɔrət(ə)rɪ/",
+    "pos": "noun",
+    "definition": "phòng thí nghiệm",
+    "example": "My mother works in a laboratory.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_30",
+    "word": "laugh",
+    "phonetic": "/lɑːf/",
+    "pos": "verb",
+    "definition": "tiếng cười (lớn)",
+    "example": "The sound of their laugh filled the room.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_31",
+    "word": "loud",
+    "phonetic": "/laud/",
+    "pos": "adjective",
+    "definition": "to, ầm ĩ",
+    "example": "The man's voice was so loud that we all could hear him.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_32",
+    "word": "nervous",
+    "phonetic": "/'nɜːvəs/",
+    "pos": "adjective",
+    "definition": "căng thẳng",
+    "example": "The boy became nervous when he heard the news.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_33",
+    "word": "noise",
+    "phonetic": "/nɔɪz/",
+    "pos": "verb",
+    "definition": "tiếng ồn",
+    "example": "The crying baby made a loud noise.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_34",
+    "word": "project",
+    "phonetic": "/'prɔʤekt/",
+    "pos": "verb",
+    "definition": "dự án, công trình",
+    "example": "His afternoon work project was to paint the room green.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_35",
+    "word": "scare",
+    "phonetic": "/skeə/",
+    "pos": "verb",
+    "definition": "Dọa,&nbsp;làm sợ hãi",
+    "example": "My uncle was scared by what he saw in the room.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_36",
+    "word": "secret",
+    "phonetic": "/'siːkrət/",
+    "pos": "adjective",
+    "definition": "bí mật",
+    "example": "The two boys were sharing a secret.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_37",
+    "word": "shout",
+    "phonetic": "/ʃaut/",
+    "pos": "verb",
+    "definition": "quát tháo,&nbsp;la hét",
+    "example": "My boss shouted at me because I was late for work.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_38",
+    "word": "smell",
+    "phonetic": "/smel/",
+    "pos": "verb",
+    "definition": "ngửi,&nbsp;đánh hơi",
+    "example": "The two friends smelled the flower.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_39",
+    "word": "terrible",
+    "phonetic": "/'terəbl/",
+    "pos": "adjective",
+    "definition": "tồi tệ, ghê gớm, khủng khiếp",
+    "example": "The way he treated his classmate was terrible.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_40",
+    "word": "worse",
+    "phonetic": "/wɜːs/",
+    "pos": "adjective",
+    "definition": "xấu hơn, tồi hơn",
+    "example": "Business was worse this month than last month.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_41",
+    "word": "alien",
+    "phonetic": "/'eɪlɪən/",
+    "pos": "adjective",
+    "definition": "Người ngoài hành tinh",
+    "example": "The alien came in peace.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_42",
+    "word": "among",
+    "phonetic": "/ə'mʌŋ/",
+    "pos": "noun",
+    "definition": "giữa, ở giữa",
+    "example": "There was a red apple among green ones.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_43",
+    "word": "chart",
+    "phonetic": "/ʧɑːt/",
+    "pos": "verb",
+    "definition": "biểu đồ,&nbsp;đồ thị",
+    "example": "We used a chart to see how we had improved.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_44",
+    "word": "cloud",
+    "phonetic": "/klaud/",
+    "pos": "verb",
+    "definition": "mây, đám mây",
+    "example": "The sky was filled with white clouds.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_45",
+    "word": "comprehend",
+    "phonetic": "/ˌkɔmprɪ'hend/",
+    "pos": "verb",
+    "definition": "hiểu,&nbsp;bao gồm",
+    "example": "Henry could not comprehend the message.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_46",
+    "word": "describe",
+    "phonetic": "/dɪ'skraɪb/",
+    "pos": "verb",
+    "definition": "miêu tả, mô tả",
+    "example": "They described their tree as colorful with gold ribbon and a star.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_47",
+    "word": "ever",
+    "phonetic": "/'evə/",
+    "pos": "adverb",
+    "definition": "Trước đến giờ, có bao giờ",
+    "example": "Going skiing last winter was the most fun I've ever had.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_48",
+    "word": "fail",
+    "phonetic": "/feɪl/",
+    "pos": "verb",
+    "definition": "thất bại",
+    "example": "Since he failed to get the job, he was sad.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_49",
+    "word": "friendly",
+    "phonetic": "/'frendlɪ/",
+    "pos": "adjective",
+    "definition": "thân thiện",
+    "example": "The friendly animals came up to the girl.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_50",
+    "word": "grade",
+    "phonetic": "/greɪd/",
+    "pos": "verb",
+    "definition": "mức độ, cấp độ",
+    "example": "I managed to get good grades on my report card.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_51",
+    "word": "instead",
+    "phonetic": "/ɪn'sted/",
+    "pos": "adverb",
+    "definition": "Thay cho, thay vì",
+    "example": "He ate the carrot instead of the ice cream.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_52",
+    "word": "library",
+    "phonetic": "/'laɪbr(ə)rɪ/",
+    "pos": "noun",
+    "definition": "thư viện",
+    "example": "The library at school is full of books.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_53",
+    "word": "planet",
+    "phonetic": "/'plænɪt/",
+    "pos": "noun",
+    "definition": "hành tinh",
+    "example": "Saturn is the planet with the ring around it.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_54",
+    "word": "report",
+    "phonetic": "/rɪ'pɔːt/",
+    "pos": "verb",
+    "definition": "bản báo cáo, biên bản",
+    "example": "Karen had trouble writing her report.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_55",
+    "word": "several",
+    "phonetic": "/'sev(ə)r(ə)l/",
+    "pos": "adjective",
+    "definition": "vài, riêng",
+    "example": "He had to read several books for class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_56",
+    "word": "solve",
+    "phonetic": "/sɔlv/",
+    "pos": "verb",
+    "definition": "giải quyết",
+    "example": "All the students could easily solve the math problem.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_57",
+    "word": "suddenly",
+    "phonetic": "/'sʌd(ə)nlɪ/",
+    "pos": "adverb",
+    "definition": "thình lình, đột ngột",
+    "example": "I was suddenly surprised by the cake my friends brought me.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_58",
+    "word": "suppose",
+    "phonetic": "/sə'pəuz/",
+    "pos": "verb",
+    "definition": "cho rằng, nghĩ rằng",
+    "example": "I suppose I should go home now.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_59",
+    "word": "universe",
+    "phonetic": "/'juːnɪvɜːs/",
+    "pos": "noun",
+    "definition": "vũ trụ, thiên hà",
+    "example": "The universe is so large that it cannot be measured.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_60",
+    "word": "view",
+    "phonetic": "/vjuː/",
+    "pos": "verb",
+    "definition": "thấy, nhìn",
+    "example": "Michael likes to view himself in the mirror.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_61",
+    "word": "appropriate",
+    "phonetic": "/ə'prəuprɪət/",
+    "pos": "adjective",
+    "definition": "thích hợp, thích đáng",
+    "example": "It's appropriate to wear a suit when you go to the office.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_62",
+    "word": "avoid",
+    "phonetic": "/ə'vɔɪd/",
+    "pos": "verb",
+    "definition": "tránh, tránh xa",
+    "example": "avoid the broken bottle on the floor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_63",
+    "word": "behave",
+    "phonetic": "/bɪ'heɪv/",
+    "pos": "verb",
+    "definition": "đối xử, cư xử",
+    "example": "She always behaves well when her father is around.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_64",
+    "word": "calm",
+    "phonetic": "/kɑːm/",
+    "pos": "adjective",
+    "definition": "bình tĩnh, êm đềm",
+    "example": "A nice warm bath makes me feel so calm.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_65",
+    "word": "concern",
+    "phonetic": "/kən'sɜːn/",
+    "pos": "verb",
+    "definition": "lo lắng, liên quan",
+    "example": "I was filled with concern after reading the newspaper.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_66",
+    "word": "content",
+    "phonetic": "/kən'tent/",
+    "pos": "adjective",
+    "definition": "nội dung (n), hài lòng (adj), mãn nguyện (adj)",
+    "example": "The baby looked very content sitting on the floor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_67",
+    "word": "expect",
+    "phonetic": "/ɪk'spekt/",
+    "pos": "verb",
+    "definition": "trông mong, ngóng chờ",
+    "example": "I expect the bus to be here very soon.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_68",
+    "word": "frequently",
+    "phonetic": "/'friːkwəntlɪ/",
+    "pos": "adverb",
+    "definition": "thường xuyên",
+    "example": "We meet frequently, either at the beginning or ending of the week.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_69",
+    "word": "habit",
+    "phonetic": "/'hæbɪt/",
+    "pos": "verb",
+    "definition": "thói quen, tập quán",
+    "example": "Smoking is a bad habit that can kill you.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_70",
+    "word": "instruct",
+    "phonetic": "/ɪn'strʌkt/",
+    "pos": "verb",
+    "definition": "hướng dẫn, đào tạo",
+    "example": "My teacher instructs us in several subjects.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_71",
+    "word": "issue",
+    "phonetic": "/'ɪʃuː], ['ɪsjuː]&nbsp;/",
+    "pos": "verb",
+    "definition": "vấn đề, phát hành",
+    "example": "The men spoke about issue that were important to the people.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_72",
+    "word": "none",
+    "phonetic": "/nʌn/",
+    "pos": "adverb",
+    "definition": "không ai,&nbsp;không chút nào",
+    "example": "He spent all his money. There is none left.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_73",
+    "word": "patient",
+    "phonetic": "/'peɪʃ(ə)nt/",
+    "pos": "adjective",
+    "definition": "kiên nhẫn, nhẫn nại, bệnh nhân",
+    "example": "I had to be patient and wait until 5 o'clock to leave.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_74",
+    "word": "positive",
+    "phonetic": "/'pɔzətɪv/",
+    "pos": "adjective",
+    "definition": "tích cực, rõ ràng",
+    "example": "She has a positive future ahead of her after finishing college.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_75",
+    "word": "punish",
+    "phonetic": "/'pʌnɪʃ/",
+    "pos": "verb",
+    "definition": "phạt, trừng phạt",
+    "example": "To punish me, my teacher had me stand in the corner.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_76",
+    "word": "represent",
+    "phonetic": "/ˌreprɪ'zent/",
+    "pos": "verb",
+    "definition": "thay mặt, đại diện",
+    "example": "My lawyer will represent me in court.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_77",
+    "word": "shake",
+    "phonetic": "/ʃeɪk/",
+    "pos": "verb",
+    "definition": "rung, lắcto shake hands: bắt tay",
+    "example": "When people shake hands, it usually means they agree.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_78",
+    "word": "spread",
+    "phonetic": "/spred/",
+    "pos": "verb",
+    "definition": "phết, trải ra",
+    "example": "I like to spread butter on my toast.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_79",
+    "word": "stroll",
+    "phonetic": "/strəul/",
+    "pos": "verb",
+    "definition": "đi dạo",
+    "example": "My dog and I strolled through the park today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_80",
+    "word": "village",
+    "phonetic": "/'vɪlɪʤ/",
+    "pos": "noun",
+    "definition": "làng, xã",
+    "example": "There are only a few houses in my village.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_81",
+    "word": "aware",
+    "phonetic": "/ə'weə/",
+    "pos": "adjective",
+    "definition": "nhận thấy, nhận thức",
+    "example": "I was not aware of the ringing phone.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_82",
+    "word": "badly",
+    "phonetic": "/'bædlɪ/",
+    "pos": "adverb",
+    "definition": "xấu, tồi, trầm trọng, khủng khiếp",
+    "example": "He hurt his arm badly playing with friends.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_83",
+    "word": "belong",
+    "phonetic": "/bɪ'lɔŋ/",
+    "pos": "verb",
+    "definition": "thuộc về",
+    "example": "The blue suit belongs to Paul.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_84",
+    "word": "continue",
+    "phonetic": "/kən'tɪnjuː/",
+    "pos": "verb",
+    "definition": "tiếp tục,&nbsp;vẫn cứ",
+    "example": "She stood under her umbrella as the rain continued to fall.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_85",
+    "word": "error",
+    "phonetic": "/'erə/",
+    "pos": "noun",
+    "definition": "sự sai sót, lỗi",
+    "example": "I made an error on my report, so my boss was angry.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_86",
+    "word": "experience",
+    "phonetic": "/ɪk'spɪərɪən(t)s/",
+    "pos": "verb",
+    "definition": "kinh nghiệm",
+    "example": "Rock climbing was a fun experience.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_87",
+    "word": "field",
+    "phonetic": "/fiːld/",
+    "pos": "verb",
+    "definition": "cánh đồng, khu khai thác",
+    "example": "The field of flowers looked so pretty.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_88",
+    "word": "hurt",
+    "phonetic": "/hɜːt/",
+    "pos": "verb",
+    "definition": "bị thương, bị đau",
+    "example": "She hurt her leg falling down the stairs.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_89",
+    "word": "judgment",
+    "phonetic": "/'ʤʌʤmənt/",
+    "pos": "noun",
+    "definition": "sự xét xử, quyết định của tòa án,&nbsp;ý kiến&nbsp;",
+    "example": "It's good judgment to recycle your aluminum cans.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_90",
+    "word": "likely",
+    "phonetic": "/'laɪklɪ/",
+    "pos": "adjective",
+    "definition": "rất có thể, dường như, có lẽ đúng, thích hợp",
+    "example": "I will likely stay at home and watch TV tonight.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_91",
+    "word": "normal",
+    "phonetic": "/'nɔːm(ə)l/",
+    "pos": "adjective",
+    "definition": "bình thường,&nbsp;thông thường",
+    "example": "It is normal for me to bathe every night.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_92",
+    "word": "rare",
+    "phonetic": "/reə/",
+    "pos": "adjective",
+    "definition": "hiếm, ít có",
+    "example": "It is rare for him to miss his flight.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_93",
+    "word": "relax",
+    "phonetic": "/rɪ'læks/",
+    "pos": "verb",
+    "definition": "thư giãn,&nbsp;nghỉ ngơi",
+    "example": "The frog relaxed in the warm sun.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_94",
+    "word": "request",
+    "phonetic": "/rɪ'kwest/",
+    "pos": "verb",
+    "definition": "đề nghị, thỉnh cầu",
+    "example": "The little girl requested a special gift from Santa Claus.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_95",
+    "word": "reside",
+    "phonetic": "/rɪ'zaɪd/",
+    "pos": "verb",
+    "definition": "ở tại, trú ngụ",
+    "example": "My brother and his family reside in a lovely house on the beach.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_96",
+    "word": "result",
+    "phonetic": "/rɪ'zʌlt/",
+    "pos": "verb",
+    "definition": "kết quả",
+    "example": "As a result of all the rain, the man had to climb on the roof.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_97",
+    "word": "roll",
+    "phonetic": "/rəul/",
+    "pos": "verb",
+    "definition": "lăn,&nbsp;cuốn",
+    "example": "You must roll the ball into the pins when you bowl.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_98",
+    "word": "since",
+    "phonetic": "/sɪn(t)s/",
+    "pos": "adverb",
+    "definition": "từ khi, từ lúc",
+    "example": "since 1992, he has been driving that car.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_99",
+    "word": "visible",
+    "phonetic": "/'vɪzəbl/",
+    "pos": "adjective",
+    "definition": "(có thể) thấy được",
+    "example": "The moon and stars were visible in the night sky.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_100",
+    "word": "wild",
+    "phonetic": "/waɪld/",
+    "pos": "adjective",
+    "definition": "hoang dã, chưa thuần",
+    "example": "You should be careful around a fox, because it is a wild animal.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_101",
+    "word": "advantage",
+    "phonetic": "/əd'vɑːntɪʤ/",
+    "pos": "verb",
+    "definition": "lợi thế, ưu điểm",
+    "example": "Being tall is an advantage to a basketball player.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_102",
+    "word": "cause",
+    "phonetic": "/kɔːz/",
+    "pos": "verb",
+    "definition": "gây ra, gây nên",
+    "example": "The cold weather caused her to get sick.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_103",
+    "word": "choice",
+    "phonetic": "/ʧɔɪs/",
+    "pos": "noun",
+    "definition": "sự lựa chọn",
+    "example": "I had my choice of five doors to open.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_104",
+    "word": "community",
+    "phonetic": "/kə'mjuːnətɪ/",
+    "pos": "noun",
+    "definition": "cộng đồng",
+    "example": "The kids from my community usually play together.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_105",
+    "word": "dead",
+    "phonetic": "/ded/",
+    "pos": "adjective",
+    "definition": "chết",
+    "example": "A dead person is usually buried in the ground.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_106",
+    "word": "distance",
+    "phonetic": "/'dɪst(ə)n(t)s/",
+    "pos": "verb",
+    "definition": "khoảng cách,&nbsp;quãng đường",
+    "example": "The distance between the Earth and the Moon is 384,400 kilometers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_107",
+    "word": "escape",
+    "phonetic": "/ɪs'keɪp/",
+    "pos": "verb",
+    "definition": "trốn thoát,&nbsp;thoát ra",
+    "example": "The butterfly could not escape from the cage.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_108",
+    "word": "face",
+    "phonetic": "/feɪs/",
+    "pos": "verb",
+    "definition": "đương đầu,&nbsp;đối mặt",
+    "example": "My sister and I have to find a better way to face our differences.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_109",
+    "word": "follow",
+    "phonetic": "/'fɔləu/",
+    "pos": "verb",
+    "definition": "đi theo, theo đuổi",
+    "example": "The little boy followed his mother home.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_110",
+    "word": "fright",
+    "phonetic": "/fraɪt/",
+    "pos": "verb",
+    "definition": "sự hoảng sợ",
+    "example": "She was filled with fright.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_111",
+    "word": "ghost",
+    "phonetic": "/gəust/",
+    "pos": "verb",
+    "definition": "con ma",
+    "example": "Many people are afraid of ghosts.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_112",
+    "word": "individual",
+    "phonetic": "/ˌɪndɪ'vɪʤuəl/",
+    "pos": "adjective",
+    "definition": "riêng lẻ, riêng biệt",
+    "example": "Only one individual could win the bicycle race.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_113",
+    "word": "pet",
+    "phonetic": "/pet/",
+    "pos": "verb",
+    "definition": "vật nuôi, thú cưng",
+    "example": "Out of all my pets, the dog is my favorite.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_114",
+    "word": "reach",
+    "phonetic": "/riːʧ/",
+    "pos": "verb",
+    "definition": "đạt tới, chạm tới, đến, tới",
+    "example": "I was happy to finally reach my destination.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_115",
+    "word": "return",
+    "phonetic": "/rɪ'tɜːn/",
+    "pos": "verb",
+    "definition": "trở lại, trở về",
+    "example": "I was happy to return home to my mom after school.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_116",
+    "word": "survive",
+    "phonetic": "/sə'vaɪv/",
+    "pos": "verb",
+    "definition": "sống sót, tồn tại",
+    "example": "My dog survived her fall into the water.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_117",
+    "word": "upset",
+    "phonetic": "/ʌp'set/",
+    "pos": "verb",
+    "definition": "thất vọng, buồn",
+    "example": "She was upset because she broke her toy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_118",
+    "word": "voice",
+    "phonetic": "/vɔɪs/",
+    "pos": "verb",
+    "definition": "giọng nói",
+    "example": "He used a microphone, so everyone could hear his voice.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_119",
+    "word": "weather",
+    "phonetic": "/'weðə/",
+    "pos": "verb",
+    "definition": "thời tiết",
+    "example": "The weather can be sunny, rainy, or cold.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_120",
+    "word": "wise",
+    "phonetic": "/waɪz/",
+    "pos": "adjective",
+    "definition": "khôn ngoan, uyên bác",
+    "example": "Many people believe that owls are very wise animals.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_121",
+    "word": "allow",
+    "phonetic": "/ə'lau/",
+    "pos": "verb",
+    "definition": "cho phép",
+    "example": "Having a ticket will allow you to enter the show.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_122",
+    "word": "announce",
+    "phonetic": "/ə'naun(t)s/",
+    "pos": "verb",
+    "definition": "công bố,&nbsp;thông báo",
+    "example": "He announced to everyone his new idea for the company.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_123",
+    "word": "beside",
+    "phonetic": "/bɪ'saɪd/",
+    "pos": "noun",
+    "definition": "bên cạnh",
+    "example": "The two brothers stood beside each other.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_124",
+    "word": "challenge",
+    "phonetic": "/'ʧælɪnʤ/",
+    "pos": "verb",
+    "definition": "thử thách, thách thức",
+    "example": "It was a challenge to climb to the top of the mountain.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_125",
+    "word": "claim",
+    "phonetic": "/kleɪm/",
+    "pos": "verb",
+    "definition": "xác nhận, đòi hỏi",
+    "example": "He claimed to know why the country's laws were weak.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_126",
+    "word": "condition",
+    "phonetic": "/kən'dɪʃ(ə)n/",
+    "pos": "verb",
+    "definition": "điều kiện, hoàn cảnh",
+    "example": "The patient's condition was very good.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_127",
+    "word": "contribute",
+    "phonetic": "/'kɔntrɪbjuːt/",
+    "pos": "verb",
+    "definition": "đóng góp, góp phần",
+    "example": "We decided to contribute money to the new hospital.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_128",
+    "word": "difference",
+    "phonetic": "/'dɪf(ə)r(ə)n(t)s/",
+    "pos": "verb",
+    "definition": "sự khác nhau, sự chênh lệch",
+    "example": "The biggest difference between the birds is the color of their feathers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_129",
+    "word": "divide",
+    "phonetic": "/dɪ'vaɪd/",
+    "pos": "verb",
+    "definition": "chia, chia ra",
+    "example": "We divided the pizza.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_130",
+    "word": "expert",
+    "phonetic": "/'ekspɜːt/",
+    "pos": "adjective",
+    "definition": "chuyên gia",
+    "example": "The wizard was an expert at magic.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_131",
+    "word": "famous",
+    "phonetic": "/'feɪməs/",
+    "pos": "adjective",
+    "definition": "nổi tiếng",
+    "example": "The Eiffel Tower in Paris is very famous.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_132",
+    "word": "force",
+    "phonetic": "/fɔːs/",
+    "pos": "verb",
+    "definition": "lực, sức mạnh",
+    "example": "He used all his force to try and open the door.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_133",
+    "word": "harm",
+    "phonetic": "/hɑːm/",
+    "pos": "verb",
+    "definition": "hại, tổn hại",
+    "example": "A hot iron can cause great harm if you are not careful.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_134",
+    "word": "lay",
+    "phonetic": "/leɪ/",
+    "pos": "verb",
+    "definition": "bày, nằm",
+    "example": "Don't lay your socks on the floor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_135",
+    "word": "peace",
+    "phonetic": "/piːs/",
+    "pos": "noun",
+    "definition": "hoà bình",
+    "example": "A white dove is a symbol for peace.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_136",
+    "word": "prince",
+    "phonetic": "/prɪn(t)s/",
+    "pos": "noun",
+    "definition": "hoàng tử",
+    "example": "The prince and the princess were married.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_137",
+    "word": "protect",
+    "phonetic": "/prə'tekt/",
+    "pos": "verb",
+    "definition": "bảo vệ",
+    "example": "Firemen protect us from fires.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_138",
+    "word": "sense",
+    "phonetic": "/sen(t)s/",
+    "pos": "verb",
+    "definition": "cảm nhận,&nbsp;cảm thấy",
+    "example": "I could sense that he was watching me.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_139",
+    "word": "sudden",
+    "phonetic": "/'sʌd(ə)n/",
+    "pos": "adjective",
+    "definition": "thình lình, đột ngột",
+    "example": "He felt a sudden pain in his chest.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_140",
+    "word": "therefore",
+    "phonetic": "/'ðeəfɔː/",
+    "pos": "adverb",
+    "definition": "vì thế",
+    "example": "He is fat. therefore, he will go on a diet.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_141",
+    "word": "accept",
+    "phonetic": "/ək'sept/",
+    "pos": "verb",
+    "definition": "chấp nhận, chấp thuận",
+    "example": "I accepted the girl's very nice gift.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_142",
+    "word": "arrange",
+    "phonetic": "/ə'reɪnʤ/",
+    "pos": "verb",
+    "definition": "sắp xếp, sắp đặt",
+    "example": "Please arrange the bowling pins in order so we can play.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_143",
+    "word": "attend",
+    "phonetic": "/ə'tend/",
+    "pos": "verb",
+    "definition": "tham dự, có mặt",
+    "example": "My sister and I attend the same school.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_144",
+    "word": "balance",
+    "phonetic": "/'bæləns/",
+    "pos": "verb",
+    "definition": "cân bằng",
+    "example": "We saw an elephant balance itself on a ball.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_145",
+    "word": "contrast",
+    "phonetic": "/'kɔntrɑːst/",
+    "pos": "verb",
+    "definition": "sự tương phản, sự trái ngược",
+    "example": "The contrast between my parents is very noticeable.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_146",
+    "word": "encourage",
+    "phonetic": "/ɪn'kʌrɪʤ/",
+    "pos": "verb",
+    "definition": "khuyến khích, động viên",
+    "example": "My football coach will encourage us when we are losing.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_147",
+    "word": "familiar",
+    "phonetic": "/fə'mɪlɪə/",
+    "pos": "adjective",
+    "definition": "thân thuộc, quen thuộc",
+    "example": "The two friends were very familiar with each other.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_148",
+    "word": "grab",
+    "phonetic": "/græb/",
+    "pos": "verb",
+    "definition": "chộp, tóm, hái",
+    "example": "I grabbed a pear from the tree.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_149",
+    "word": "hang",
+    "phonetic": "/hæŋ/",
+    "pos": "verb",
+    "definition": "treo, mắc",
+    "example": "I drew a picture of my family, and my mother hung it on the wall.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_150",
+    "word": "huge",
+    "phonetic": "/hjuːʤ/",
+    "pos": "adjective",
+    "definition": "đồ sộ, khổng lồ",
+    "example": "At work, my father drives a huge truck.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_151",
+    "word": "necessary",
+    "phonetic": "/'nesəs(ə)rɪ/",
+    "pos": "adjective",
+    "definition": "cần thiết, thiết yếu",
+    "example": "It is necessary to have a passport when you travel to a foreign country.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_152",
+    "word": "pattern",
+    "phonetic": "/'pæt(ə)n/",
+    "pos": "verb",
+    "definition": "mẫu, kiểu",
+    "example": "My pattern of brushing my teeth is the same as most people's.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_153",
+    "word": "propose",
+    "phonetic": "/prə'pəuz/",
+    "pos": "verb",
+    "definition": "đề xuất, đưa ra",
+    "example": "Santa Claus proposed that I try to be a good boy all year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_154",
+    "word": "purpose",
+    "phonetic": "/'pɜːpəs/",
+    "pos": "verb",
+    "definition": "mục đích, ý định",
+    "example": "The purpose of exercising is to get into shape.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_155",
+    "word": "release",
+    "phonetic": "/rɪ'liːs/",
+    "pos": "verb",
+    "definition": "giải thoát, phóng thích",
+    "example": "She released the bird from her hands.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_156",
+    "word": "require",
+    "phonetic": "/rɪ'kwaɪə/",
+    "pos": "verb",
+    "definition": "đòi hỏi, yêu cầu",
+    "example": "We require teachers to have a university degree.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_157",
+    "word": "single",
+    "phonetic": "/'sɪŋgl/",
+    "pos": "adjective",
+    "definition": "s__ __g__ __",
+    "example": "I have a single key in my hand.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_158",
+    "word": "success",
+    "phonetic": "/sək'ses/",
+    "pos": "noun",
+    "definition": "sự thành công, sự thắng lợi",
+    "example": "My daughter was a big success at school.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_159",
+    "word": "tear",
+    "phonetic": "/teə/",
+    "pos": "verb",
+    "definition": "xé, làm rách, nước mắt",
+    "example": "It is easy to tear paper.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_160",
+    "word": "theory",
+    "phonetic": "/'θɪərɪ/",
+    "pos": "noun",
+    "definition": "lý thuyết, học thuyết",
+    "example": "We talked about Einstein's theory of relativity in class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_161",
+    "word": "against",
+    "phonetic": "/ə'gen(t)st/",
+    "pos": "noun",
+    "definition": "chống lại, dựa vào",
+    "example": "They both leaned against the wall.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_162",
+    "word": "beach",
+    "phonetic": "/biːʧ/",
+    "pos": "verb",
+    "definition": "bãi biển",
+    "example": "The little girl built a sand castle on the beach.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_163",
+    "word": "damage",
+    "phonetic": "/'dæmɪʤ/",
+    "pos": "verb",
+    "definition": "phá hủy, làm hư hại",
+    "example": "The car was damaged in the accident.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_164",
+    "word": "discover",
+    "phonetic": "/dɪ'skʌvə/",
+    "pos": "verb",
+    "definition": "khám phá, tìm ra",
+    "example": "I discovered some new information in this book!",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_165",
+    "word": "emotion",
+    "phonetic": "/ɪ'məuʃ(ə)n/",
+    "pos": "noun",
+    "definition": "cảm&nbsp;xúc",
+    "example": "Anger is a common emotion that we all feel.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_166",
+    "word": "fix",
+    "phonetic": "/fɪks/",
+    "pos": "verb",
+    "definition": "đóng, gắn,&nbsp;sửa chữa",
+    "example": "My dad has many tools to help him fix broken things.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_167",
+    "word": "frank",
+    "phonetic": "/fræŋk/",
+    "pos": "adjective",
+    "definition": "thẳng thắn,&nbsp;bộc trực",
+    "example": "The teacher had a frank discussion with her students.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_168",
+    "word": "identify",
+    "phonetic": "/aɪ'dentɪfaɪ/",
+    "pos": "verb",
+    "definition": "nhận biết,nhận ra",
+    "example": "I used the file to identify his name.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_169",
+    "word": "island",
+    "phonetic": "/'aɪlənd/",
+    "pos": "verb",
+    "definition": "hòn đảo",
+    "example": "Japan is a group of islands.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_170",
+    "word": "ocean",
+    "phonetic": "/'əuʃ(ə)n/",
+    "pos": "noun",
+    "definition": "đại dương",
+    "example": "The ocean can make powerful waves.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_171",
+    "word": "perhaps",
+    "phonetic": "/pə'hæps/",
+    "pos": "adverb",
+    "definition": "có lẽ",
+    "example": "perhaps I will eat an apple for lunch.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_172",
+    "word": "pleasant",
+    "phonetic": "/'plez(ə)nt/",
+    "pos": "adjective",
+    "definition": "vui vẻ, dễ thương&nbsp;",
+    "example": "The character had a pleasant look on its face.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_173",
+    "word": "prevent",
+    "phonetic": "/prɪ'vent/",
+    "pos": "verb",
+    "definition": "ngăn chặn",
+    "example": "The handcuffs prevented me from moving my hands.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_174",
+    "word": "rock",
+    "phonetic": "/rɔk/",
+    "pos": "verb",
+    "definition": "hòn đá",
+    "example": "I stacked rocks on top of one another.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_175",
+    "word": "save",
+    "phonetic": "/seɪv/",
+    "pos": "verb",
+    "definition": "cứu, giúp",
+    "example": "I want to help save the world.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_176",
+    "word": "step",
+    "phonetic": "/step/",
+    "pos": "verb",
+    "definition": "bước chân",
+    "example": "Be careful where you step.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_177",
+    "word": "still",
+    "phonetic": "/stɪl/",
+    "pos": "adjective",
+    "definition": "vẫn cứ, vẫn còn",
+    "example": "They are still waiting in line to get tickets.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_178",
+    "word": "taste",
+    "phonetic": "/teɪst/",
+    "pos": "verb",
+    "definition": "vị, nếm",
+    "example": "The taste of the fruit was sweet.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_179",
+    "word": "throw",
+    "phonetic": "/θrəu/",
+    "pos": "verb",
+    "definition": "ném, vứt, quăng",
+    "example": "The pitcher can throw the baseball very fast.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_180",
+    "word": "wave",
+    "phonetic": "/weɪv/",
+    "pos": "verb",
+    "definition": "sóng, làn sóng",
+    "example": "The water was filled with large blue waves.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_181",
+    "word": "benefit",
+    "phonetic": "/'benɪfɪt/",
+    "pos": "verb",
+    "definition": "lợi ích",
+    "example": "Being able to fly is a good benefit to birds.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_182",
+    "word": "certain",
+    "phonetic": "/'sɜːt(ə)n/",
+    "pos": "adjective",
+    "definition": "chắc chắn, tin cậy",
+    "example": "I am certain that zebras have stripes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_183",
+    "word": "chance",
+    "phonetic": "/ʧɑːn(t)s/",
+    "pos": "adjective",
+    "definition": "cơ hội, số phận",
+    "example": "I had a chance to see the Roman Coliseum last summer.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_184",
+    "word": "effect",
+    "phonetic": "/ɪ'fekt/",
+    "pos": "verb",
+    "definition": "hiệu quả, tác dụng",
+    "example": "The medicine had a good effect on the boy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_185",
+    "word": "essential",
+    "phonetic": "/ɪ'sen(t)ʃ(ə)l/",
+    "pos": "adjective",
+    "definition": "thiết yếu,&nbsp;chủ yếu",
+    "example": "It is essential to have oxygen when you scuba dive.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_186",
+    "word": "far",
+    "phonetic": "/fɑː/",
+    "pos": "adjective",
+    "definition": "xa, xa xôi",
+    "example": "It's far going from the east coast to the west coast of America.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_187",
+    "word": "focus",
+    "phonetic": "/'fəukəs/",
+    "pos": "verb",
+    "definition": "tập trung",
+    "example": "My mom always helps me to focus on my school work.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_188",
+    "word": "function",
+    "phonetic": "/'fʌŋkʃ(ə)n/",
+    "pos": "noun",
+    "definition": "hàm số; chức năng",
+    "example": "The function of a flashlight is to help you see in the dark.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_189",
+    "word": "grass",
+    "phonetic": "/grɑːs/",
+    "pos": "verb",
+    "definition": "cỏ, bâi cỏ",
+    "example": "The grass looked so soft and green.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_190",
+    "word": "guard",
+    "phonetic": "/gɑːd/",
+    "pos": "verb",
+    "definition": "bảo vệ, canh gác",
+    "example": "The police officer will guard us from any harm.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_191",
+    "word": "image",
+    "phonetic": "/'ɪmɪʤ/",
+    "pos": "verb",
+    "definition": "hình ảnh",
+    "example": "The image of her eye was very clear.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_192",
+    "word": "immediate",
+    "phonetic": "/ɪ'miːdɪət/",
+    "pos": "adjective",
+    "definition": "lập tức, tức thì",
+    "example": "An immediate response came from the pizza place.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_193",
+    "word": "primary",
+    "phonetic": "/'praɪm(ə)rɪ/",
+    "pos": "adjective",
+    "definition": "gốc, căn bản",
+    "example": "His primary thoughts are about money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_194",
+    "word": "proud",
+    "phonetic": "/praud/",
+    "pos": "adjective",
+    "definition": "tự hào; hãnh diện",
+    "example": "She is proud of the picture she drew of her house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_195",
+    "word": "remain",
+    "phonetic": "/rɪ'meɪn/",
+    "pos": "verb",
+    "definition": "vẫn, còn lại",
+    "example": "My sister had to remain home since she was sick.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_196",
+    "word": "rest",
+    "phonetic": "/rest/",
+    "pos": "verb",
+    "definition": "(n): sự nghỉ ngơi; (v): nghỉ ngơi",
+    "example": "I rested on the couch after work.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_197",
+    "word": "separate",
+    "phonetic": "/'sep(ə)rət/",
+    "pos": "adjective",
+    "definition": "riêng rẽ, riêng biệt",
+    "example": "New York and Los Angeles are in two separate parts of America.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_198",
+    "word": "site",
+    "phonetic": "/saɪt/",
+    "pos": "verb",
+    "definition": "nơi, chỗ, vị trí",
+    "example": "We found the perfect site for our picnic.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_199",
+    "word": "tail",
+    "phonetic": "/teɪl/",
+    "pos": "verb",
+    "definition": "đuôi, đoạn cuối",
+    "example": "Our dog wags its tail when it's happy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_200",
+    "word": "trouble",
+    "phonetic": "/'trʌbl/",
+    "pos": "verb",
+    "definition": "sự trục trặc, sự rắc rối",
+    "example": "I have trouble working with my boss.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_201",
+    "word": "anymore",
+    "phonetic": "/ˌenɪ'mɔː/",
+    "pos": "noun",
+    "definition": "nữa",
+    "example": "Her old pants don't fit her anymore.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_202",
+    "word": "asleep",
+    "phonetic": "/ə'sliːp/",
+    "pos": "adjective",
+    "definition": "ngủ, đang ngủ",
+    "example": "The baby has been asleep for hours.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_203",
+    "word": "berry",
+    "phonetic": "/'berɪ/",
+    "pos": "verb",
+    "definition": "quả dâu tây",
+    "example": "The berry looked delicious.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_204",
+    "word": "collect",
+    "phonetic": "/kə'lekt/",
+    "pos": "verb",
+    "definition": "thu thập, sưu tầm",
+    "example": "I collected shells when I was younger.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_205",
+    "word": "compete",
+    "phonetic": "/kəm'piːt/",
+    "pos": "verb",
+    "definition": "ganh đua, cạnh tranh",
+    "example": "He will compete with very good athletes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_206",
+    "word": "conversation",
+    "phonetic": "/ˌkɔnvə'seɪʃ(ə)n/",
+    "pos": "noun",
+    "definition": "cuộc chuyện trò, đàm luận, đàm thoại",
+    "example": "There were two conversations going on at once.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_207",
+    "word": "creature",
+    "phonetic": "/'kriːʧə/",
+    "pos": "noun",
+    "definition": "sinh vật, loài vật",
+    "example": "The creature we saw today was either a dolphin or a porpoise.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_208",
+    "word": "decision",
+    "phonetic": "/dɪ'sɪʒn/",
+    "pos": "noun",
+    "definition": "sự quyết định",
+    "example": "He made the wrong decision.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_209",
+    "word": "either",
+    "phonetic": "/'aɪðə/",
+    "pos": "adjective",
+    "definition": "một (trong hai)",
+    "example": "You can choose to be either white or black when you play chess.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_210",
+    "word": "forest",
+    "phonetic": "/'fɔrɪst/",
+    "pos": "verb",
+    "definition": "rừng",
+    "example": "I love to go walking in the forest.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_211",
+    "word": "ground",
+    "phonetic": "/graund/",
+    "pos": "adjective",
+    "definition": "mặt đất, đất",
+    "example": "The ground under our feet was dry and brown.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_212",
+    "word": "introduce",
+    "phonetic": "/ˌɪntrə'djuːs/",
+    "pos": "verb",
+    "definition": "giới thiệu",
+    "example": "I introduced myself to our newest co-worker today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_213",
+    "word": "marry",
+    "phonetic": "/'mærɪ/",
+    "pos": "verb",
+    "definition": "cưới (vợ), lấy (chồng)",
+    "example": "Rose and Henry were married, and they lived happily.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_214",
+    "word": "prepare",
+    "phonetic": "/prɪ'peə/",
+    "pos": "verb",
+    "definition": "chuẩn bị,&nbsp;sửa soạn",
+    "example": "I prepared my speech to the class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_215",
+    "word": "sail",
+    "phonetic": "/seɪl/",
+    "pos": "verb",
+    "definition": "điều khiển, lái (thuyền buồm)",
+    "example": "I love to sail my boat on the lake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_216",
+    "word": "serious",
+    "phonetic": "/'sɪərɪəs/",
+    "pos": "adjective",
+    "definition": "nghiêm trọng",
+    "example": "The accident was very serious.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_217",
+    "word": "spend",
+    "phonetic": "/spend/",
+    "pos": "verb",
+    "definition": "tiêu (tiền), dùng (thì giờ)",
+    "example": "I like to spend my free time fishing.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_218",
+    "word": "strange",
+    "phonetic": "/streɪnʤ/",
+    "pos": "adjective",
+    "definition": "xa lạ",
+    "example": "Joe had a strange look on his face after he saw what happened.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_219",
+    "word": "truth",
+    "phonetic": "/truːθ/",
+    "pos": "noun",
+    "definition": "sự thật, lẽ phải",
+    "example": "He was telling the truth about seeing a large green snake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_220",
+    "word": "wake",
+    "phonetic": "/weɪk/",
+    "pos": "verb",
+    "definition": "thức giấc, đánh thức",
+    "example": "He is always full of energy when he wakes in the morning.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_221",
+    "word": "alone",
+    "phonetic": "/ə'ləun/",
+    "pos": "adjective",
+    "definition": "một mình, trơ trọi",
+    "example": "The boy wanted to be alone to think.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_222",
+    "word": "apartment",
+    "phonetic": "/ə'pɑːtmənt/",
+    "pos": "noun",
+    "definition": "căn hộ",
+    "example": "She has a nice apartment in the city.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_223",
+    "word": "article",
+    "phonetic": "/'ɑːtɪkl/",
+    "pos": "verb",
+    "definition": "bài báo, điều khoản",
+    "example": "Did you read the article in the newspaper about the soccer game?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_224",
+    "word": "artist",
+    "phonetic": "/'ɑːtɪst/",
+    "pos": "noun",
+    "definition": "nghệ sĩ, họa sĩ",
+    "example": "He went to Paris to become an artist.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_225",
+    "word": "attitude",
+    "phonetic": "/'ætɪt(j)uːd/",
+    "pos": "noun",
+    "definition": "thái độ, quan điểm",
+    "example": "John has a bad attitude. He's always angry.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_226",
+    "word": "compare",
+    "phonetic": "/kəm'peə/",
+    "pos": "adjective",
+    "definition": "so sánh",
+    "example": "If you compare cats and dogs, you'll see that they're both good pets.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_227",
+    "word": "judge",
+    "phonetic": "/'ʤʌʤ/",
+    "pos": "verb",
+    "definition": "xét xử,&nbsp;phán đoán, đánh giá",
+    "example": "The boy was going to judge how his mother's turkey tasted.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_228",
+    "word": "magazine",
+    "phonetic": "/ˌmægə'ziːn/",
+    "pos": "noun",
+    "definition": "tạp chí",
+    "example": "She likes to read fashion magazines.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_229",
+    "word": "material",
+    "phonetic": "/mə'tɪərɪəl/",
+    "pos": "adjective",
+    "definition": "vật chất, vật liệu",
+    "example": "Brick is a good material for building houses.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_230",
+    "word": "meal",
+    "phonetic": "/miːl/",
+    "pos": "verb",
+    "definition": "bữa ăn",
+    "example": "Breakfast is my favorite meal because I enjoy breakfast foods.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_231",
+    "word": "method",
+    "phonetic": "/'meθəd/",
+    "pos": "noun",
+    "definition": "phương pháp, cách thức",
+    "example": "One method to remember things is to tie a string around your finger.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_232",
+    "word": "neighbor",
+    "phonetic": "/'neɪbə/",
+    "pos": "verb",
+    "definition": "người hàng xóm",
+    "example": "I like my neighbor because he's very friendly.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_233",
+    "word": "professional",
+    "phonetic": "/prə'feʃ(ə)n(ə)l/",
+    "pos": "adjective",
+    "definition": "chuyên nghiệp",
+    "example": "If you want to be a pilot, you must have professional training.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_234",
+    "word": "profit",
+    "phonetic": "/'prɔfɪt/",
+    "pos": "verb",
+    "definition": "tiền lãi, lợi ích",
+    "example": "I made a small profit from selling my old clothes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_235",
+    "word": "quality",
+    "phonetic": "/'kwɔlətɪ/",
+    "pos": "noun",
+    "definition": "chất lượng, phẩm chất",
+    "example": "The quality of his car is very good.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_236",
+    "word": "shape",
+    "phonetic": "/ʃeɪp/",
+    "pos": "verb",
+    "definition": "hình dạng, hình thù",
+    "example": "The triangle is my favorite shape.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_237",
+    "word": "space",
+    "phonetic": "/speɪs/",
+    "pos": "noun",
+    "definition": "không gian",
+    "example": "I don't have much space for things in my small house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_238",
+    "word": "stair",
+    "phonetic": "/steə/",
+    "pos": "noun",
+    "definition": "bậc thang, cầu thang",
+    "example": "You can take the stairs to the second floor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_239",
+    "word": "symbol",
+    "phonetic": "/'sɪmb(ə)l/",
+    "pos": "verb",
+    "definition": "ký hiệu, vật tượng trưng",
+    "example": "This symbol tells us that we cannot smoke in this area.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_240",
+    "word": "thin",
+    "phonetic": "/θɪn/",
+    "pos": "adjective",
+    "definition": "gầy, mảnh khảnh",
+    "example": "The man was thin because he didn't eat much.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_241",
+    "word": "blood",
+    "phonetic": "/blʌd/",
+    "pos": "verb",
+    "definition": "máu,&nbsp;nhựa cậy",
+    "example": "I cut my finger and got blood on my shirt.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_242",
+    "word": "burn",
+    "phonetic": "/bɜːn/",
+    "pos": "verb",
+    "definition": "đốt cháy, nung",
+    "example": "I burned some wood in the camp fire.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_243",
+    "word": "cell",
+    "phonetic": "/sel/",
+    "pos": "noun",
+    "definition": "phòng nhỏ, xà lim, ngăn nhỏ",
+    "example": "The jail cell was very small.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_244",
+    "word": "contain",
+    "phonetic": "/kən'teɪn/",
+    "pos": "verb",
+    "definition": "chứa đựng, gồm có",
+    "example": "The mailbox contained a letter.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_245",
+    "word": "correct",
+    "phonetic": "/kə'rekt/",
+    "pos": "adjective",
+    "definition": "đúng, chính xác",
+    "example": "All of my answers on the test were correct.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_246",
+    "word": "crop",
+    "phonetic": "/krɔp/",
+    "pos": "verb",
+    "definition": "vụ mùa, cây lương thực",
+    "example": "Wheat is a crop that is made into bread.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_247",
+    "word": "demand",
+    "phonetic": "/dɪ'mɑːnd/",
+    "pos": "noun",
+    "definition": "yêu cầu, nhu cầu",
+    "example": "The workers demanded to be paid more money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_248",
+    "word": "equal",
+    "phonetic": "/'iːkwəl/",
+    "pos": "adjective",
+    "definition": "ngang, bằng",
+    "example": "Both students are equal in age.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_249",
+    "word": "feed",
+    "phonetic": "/fiːd/",
+    "pos": "verb",
+    "definition": "cho ăn, nuôi nấng",
+    "example": "Mother feeds my baby brother everyday.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_250",
+    "word": "hole",
+    "phonetic": "/həul/",
+    "pos": "verb",
+    "definition": "hố, lỗ thủng",
+    "example": "The man was going to jump into the hole in the ice.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_251",
+    "word": "increase",
+    "phonetic": "/'ɪnkriːs/",
+    "pos": "verb",
+    "definition": "tăng lên, tăng thêm",
+    "example": "They've increased the price of gas by 15 cents!",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_252",
+    "word": "lord",
+    "phonetic": "/lɔːd/",
+    "pos": "verb",
+    "definition": "chúa tể",
+    "example": "The lord of the town was not kind.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_253",
+    "word": "owe",
+    "phonetic": "/əu/",
+    "pos": "verb",
+    "definition": "nợ, hàm ơn",
+    "example": "I owed him twenty dollars, so I paid him back.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_254",
+    "word": "position",
+    "phonetic": "/pə'zɪʃ(ə)n/",
+    "pos": "verb",
+    "definition": "vị trí, chỗ&nbsp;",
+    "example": "How can you sit in that position?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_255",
+    "word": "raise",
+    "phonetic": "/reɪz/",
+    "pos": "verb",
+    "definition": "nâng lên, đỡ dậy",
+    "example": "We had to work together to raise the last piece.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_256",
+    "word": "responsible",
+    "phonetic": "/rɪ'spɔn(t)səbl/",
+    "pos": "adjective",
+    "definition": "chịu trách nhiệm",
+    "example": "I try to be responsible and save money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_257",
+    "word": "sight",
+    "phonetic": "/saɪt/",
+    "pos": "verb",
+    "definition": "cảnh đẹp",
+    "example": "I saw the pyramids of Egypt. What a sight!",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_258",
+    "word": "spot",
+    "phonetic": "/spɔt/",
+    "pos": "adjective",
+    "definition": "nơi, chốn",
+    "example": "The kitchen is a good spot to eat meals.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_259",
+    "word": "structure",
+    "phonetic": "/'strʌkʧə/",
+    "pos": "noun",
+    "definition": "kết cấu, cấu trúc",
+    "example": "They just built a beautiful new structure downtown.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_260",
+    "word": "whole",
+    "phonetic": "/həul/",
+    "pos": "adjective",
+    "definition": "toàn bộ",
+    "example": "I ate the whole pie. We don't have any more.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_261",
+    "word": "coach",
+    "phonetic": "/kəuʧ/",
+    "pos": "verb",
+    "definition": "huấn luyện viên",
+    "example": "My coach gets very excited during games.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_262",
+    "word": "control",
+    "phonetic": "/kən'trəul/",
+    "pos": "verb",
+    "definition": "điều khiển",
+    "example": "To control the TV, just push the buttons",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_263",
+    "word": "description",
+    "phonetic": "/dɪ'skrɪpʃ(ə)n/",
+    "pos": "noun",
+    "definition": "sự diễn tả, sự mô tả",
+    "example": "I gave a description of the man with the gun and hat to the police.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_264",
+    "word": "direct",
+    "phonetic": "/dɪ'rekt],[daɪ-]&nbsp;/",
+    "pos": "adjective",
+    "definition": "thẳng, trực tiếp",
+    "example": "The green path is a direct route to my house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_265",
+    "word": "exam",
+    "phonetic": "/ɪg'zæm/",
+    "pos": "noun",
+    "definition": "sự thi cử; kỳ thi",
+    "example": "I did some practice questions for the math exam on the board.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_266",
+    "word": "example",
+    "phonetic": "/ɪg'zɑːmpl/",
+    "pos": "verb",
+    "definition": "thí dụ, ví dụ",
+    "example": "Cola is an example of a soft drink.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_267",
+    "word": "limit",
+    "phonetic": "/'lɪmɪt/",
+    "pos": "verb",
+    "definition": "giới hạn, hạn chế",
+    "example": "My mother put a limit on how much I could use the phone.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_268",
+    "word": "local",
+    "phonetic": "/'ləuk(ə)l/",
+    "pos": "adjective",
+    "definition": "địa phương",
+    "example": "The local market in my neighborhood sells all the food we need.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_269",
+    "word": "magical",
+    "phonetic": "/'mæʤɪk(ə)l/",
+    "pos": "adjective",
+    "definition": "ma thuật, kỳ diệu",
+    "example": "The fireworks made the night sky look so magical.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_270",
+    "word": "mail",
+    "phonetic": "/meil/",
+    "pos": "verb",
+    "definition": "thư từ, bưu phẩm",
+    "example": "I get a lot of mail because I have friends all over the world.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_271",
+    "word": "novel",
+    "phonetic": "/'nɔv(ə)l/",
+    "pos": "adjective",
+    "definition": "tiểu thuyết",
+    "example": "He wrote a great novel about ancient China.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_272",
+    "word": "outline",
+    "phonetic": "/'autlaɪn/",
+    "pos": "verb",
+    "definition": "phác thảo",
+    "example": "Before I wrote my essay, I made an outline.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_273",
+    "word": "poet",
+    "phonetic": "/'pəuɪt/",
+    "pos": "noun",
+    "definition": "nhà thơ, thi sĩ",
+    "example": "William Shakespeare was one of the greatest poets.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_274",
+    "word": "print",
+    "phonetic": "/prɪnt/",
+    "pos": "verb",
+    "definition": "in, viết",
+    "example": "Make sure that you print your name clearly.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_275",
+    "word": "scene",
+    "phonetic": "/siːn/",
+    "pos": "noun",
+    "definition": "phân cảnh",
+    "example": "A movie is made up of many short pieces or scenes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_276",
+    "word": "sheet",
+    "phonetic": "/ʃiːt/",
+    "pos": "verb",
+    "definition": "lá, tấm, phiến, tờ",
+    "example": "I only needed a single sheet of paper to do my homework.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_277",
+    "word": "silly",
+    "phonetic": "/'sɪlɪ/",
+    "pos": "adjective",
+    "definition": "ngớ ngẩn, khờ dại",
+    "example": "I made a silly mistake of dropping mom's vase.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_278",
+    "word": "store",
+    "phonetic": "/stɔː/",
+    "pos": "verb",
+    "definition": "cửa hàng, tiệm tạp hóa",
+    "example": "I picked up a few things at the grocery store.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_279",
+    "word": "suffer",
+    "phonetic": "/'sʌfə/",
+    "pos": "verb",
+    "definition": "chịu đựng, lướt sóng",
+    "example": "Her headache made her suffer all day.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_280",
+    "word": "technology",
+    "phonetic": "/tek'nɔləʤɪ/",
+    "pos": "noun",
+    "definition": "công nghệ",
+    "example": "He loves technology such as laptop computers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_281",
+    "word": "across",
+    "phonetic": "/ə'krɔs/",
+    "pos": "adverb",
+    "definition": "qua, ngang qua",
+    "example": "He walked across the board to the other side.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_282",
+    "word": "breathe",
+    "phonetic": "/briːð/",
+    "pos": "verb",
+    "definition": "hít, thở",
+    "example": "We need strong healthy lungs to help us breathe well.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_283",
+    "word": "characteristic",
+    "phonetic": "/ˌkærəktə'rɪstɪk/",
+    "pos": "adjective",
+    "definition": "đặc tính, đặc điểm",
+    "example": "One characteristic of tigers is their black stripes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_284",
+    "word": "consume",
+    "phonetic": "/kən'sjuːm/",
+    "pos": "adjective",
+    "definition": "tiêu thụ",
+    "example": "Jack consumed a whole plate of spaghetti.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_285",
+    "word": "excite",
+    "phonetic": "/ɪk'saɪt/",
+    "pos": "verb",
+    "definition": "phấn khích",
+    "example": "I heard about the school dance on Friday. This excited me.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_286",
+    "word": "extreme",
+    "phonetic": "/ɪks'triːm], [ek-]&nbsp;/",
+    "pos": "adjective",
+    "definition": "vô cùng, khắc nghiệt",
+    "example": "His workout was so extreme that he was sweating heavily.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_287",
+    "word": "fear",
+    "phonetic": "/fɪə/",
+    "pos": "verb",
+    "definition": "sự sợ hãi",
+    "example": "I have a great fear of skateboarding.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_288",
+    "word": "fortunate",
+    "phonetic": "/'fɔːʧ(ə)nət/",
+    "pos": "adjective",
+    "definition": "may mắn",
+    "example": "I was fortunate to get a seat.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_289",
+    "word": "happen",
+    "phonetic": "/'hæp(ə)n/",
+    "pos": "verb",
+    "definition": "tình cờ, xảy ra",
+    "example": "I happen to meet some new friends at school today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_290",
+    "word": "length",
+    "phonetic": "/leŋ(k)θ/",
+    "pos": "noun",
+    "definition": "chiều dài, độ dài",
+    "example": "The length of the floor is three meters.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_291",
+    "word": "mistake",
+    "phonetic": "/mɪ'steɪk/",
+    "pos": "verb",
+    "definition": "lỗi, sai lầm",
+    "example": "My boss always yells at me when I make a mistake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_292",
+    "word": "observe",
+    "phonetic": "/əb'zɜːv/",
+    "pos": "verb",
+    "definition": "quan sát, nhận xét",
+    "example": "Brian observed the sun rising over the mountains.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_293",
+    "word": "opportunity",
+    "phonetic": "/ˌɔpə'tjuːnətɪ/",
+    "pos": "noun",
+    "definition": "cơ hội, thời cơ",
+    "example": "I had an opportunity to take pictures in the jungle.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_294",
+    "word": "prize",
+    "phonetic": "/praɪz/",
+    "pos": "verb",
+    "definition": "giải thưởng, phần thưởng",
+    "example": "I won a prize for getting the best grade on my science test.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_295",
+    "word": "race",
+    "phonetic": "/reɪs/",
+    "pos": "verb",
+    "definition": "cuộc đua",
+    "example": "Paul is a fast runner, so he easily won the race.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_296",
+    "word": "realize",
+    "phonetic": "/'rɪəlaɪz/",
+    "pos": "verb",
+    "definition": "nhận ra, nhận thức",
+    "example": "After I left my house, I realized that I left the light on.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_297",
+    "word": "respond",
+    "phonetic": "/rɪ'spɔnd/",
+    "pos": "verb",
+    "definition": "đáp lại, hưởng ứng",
+    "example": "When the teacher asked the question, we all responded.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_298",
+    "word": "risk",
+    "phonetic": "/rɪsk/",
+    "pos": "noun",
+    "definition": "mạo hiểm,&nbsp;rủi ro",
+    "example": "I took a risk and climbed the snowy mountain.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_299",
+    "word": "wonder",
+    "phonetic": "/'wʌndə/",
+    "pos": "verb",
+    "definition": "muốn biết, tự hỏi",
+    "example": "The young mother wondered if she'd have a boy or a girl.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_300",
+    "word": "yet",
+    "phonetic": "/jet/",
+    "pos": "adverb",
+    "definition": "chưa",
+    "example": "We can't go out yet; we're still eating.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_301",
+    "word": "academy",
+    "phonetic": "/ə'kædəmɪ/",
+    "pos": "noun",
+    "definition": "học viện",
+    "example": "There are many courses taught at the academy that I go to.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_302",
+    "word": "ancient",
+    "phonetic": "/'eɪn(t)ʃ(ə)nt/",
+    "pos": "noun",
+    "definition": "cổ xưa",
+    "example": "I want to see the ancient buildings in Rome.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_303",
+    "word": "board",
+    "phonetic": "/bɔːd/",
+    "pos": "verb",
+    "definition": "bảng",
+    "example": "The sign was made of a few wooden boards.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_304",
+    "word": "century",
+    "phonetic": "/'senʧ(ə)rɪ/",
+    "pos": "noun",
+    "definition": "thế kỷ",
+    "example": "Our company is celebrating a century of business in London.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_305",
+    "word": "clue",
+    "phonetic": "/kluː/",
+    "pos": "noun",
+    "definition": "manh mối, đầu mối",
+    "example": "The detective found some clues on the sidewalk.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_306",
+    "word": "concert",
+    "phonetic": "/'kɔnsət/",
+    "pos": "verb",
+    "definition": "buổi hoà nhạc (n),&nbsp;phối hợp/sắp đặt (v)",
+    "example": "I enjoyed the concert last night. The band was very good.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_307",
+    "word": "county",
+    "phonetic": "/'kauntɪ/",
+    "pos": "noun",
+    "definition": "hạt, tỉnh (đơn vị hành chính)",
+    "example": "He wanted to represent the citizens of his county.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_308",
+    "word": "dictionary",
+    "phonetic": "/'dɪkʃ(ə)n(ə)rɪ/",
+    "pos": "noun",
+    "definition": "từ điển",
+    "example": "I use the dictionary to learn new words.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_309",
+    "word": "exist",
+    "phonetic": "/ɪg'zɪst/",
+    "pos": "verb",
+    "definition": "tồn tại, sống",
+    "example": "Do you really think that unicorns ever existed?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_310",
+    "word": "flat",
+    "phonetic": "/flæt/",
+    "pos": "adjective",
+    "definition": "phẳng, căn hộ",
+    "example": "My parents bought a new flat screen TV over the weekend.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_311",
+    "word": "gentleman",
+    "phonetic": "/'ʤentlmən/",
+    "pos": "noun",
+    "definition": "quý ông",
+    "example": "My grandfather is a kind and helpful gentleman.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_312",
+    "word": "hidden",
+    "phonetic": "/'hɪd(ə)n/",
+    "pos": "verb",
+    "definition": "ẩn, trốn, nấp, che giấu",
+    "example": "The hidden camera recorded everything in the parking lot.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_313",
+    "word": "maybe",
+    "phonetic": "/'meɪbɪ/",
+    "pos": "adverb",
+    "definition": "có lẽ",
+    "example": "If I focus hard enough, maybe I can come up with the right answer.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_314",
+    "word": "officer",
+    "phonetic": "/'ɔfɪsə/",
+    "pos": "adjective",
+    "definition": "sĩ quan",
+    "example": "The soldiers followed the orders of the officer.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_315",
+    "word": "original",
+    "phonetic": "/ə'rɪʤ(ə)n(ə)l/",
+    "pos": "adjective",
+    "definition": "nguyên bản, nguyên gốc",
+    "example": "This is the original painting of the Mona Lisa.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_316",
+    "word": "pound",
+    "phonetic": "/paund/",
+    "pos": "verb",
+    "definition": "đánh đập, đóng (đinh),&nbsp;Pao (khoảng 450 gam)",
+    "example": "He pounded the nail with the hammer.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_317",
+    "word": "process",
+    "phonetic": "/'prəuses/",
+    "pos": "noun",
+    "definition": "quá trình",
+    "example": "Making a cake is a long process.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_318",
+    "word": "publish",
+    "phonetic": "/'pʌblɪʃ/",
+    "pos": "verb",
+    "definition": "xuất bản, công bố, ban hành",
+    "example": "That company publishes daily newspapers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_319",
+    "word": "theater",
+    "phonetic": "/'θɪətə/",
+    "pos": "noun",
+    "definition": "nhà hát, rạp hát",
+    "example": "We went to the theater to see a play.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_320",
+    "word": "wealth",
+    "phonetic": "/welθ/",
+    "pos": "noun",
+    "definition": "sự giàu có, sự giàu sang",
+    "example": "One of the most important things to some people is wealth.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_321",
+    "word": "appreciate",
+    "phonetic": "/ə'priːʃɪeɪt/",
+    "pos": "verb",
+    "definition": "đánh giá,&nbsp;nâng giá, tăng giá",
+    "example": "I can appreciate the lovely scenery.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_322",
+    "word": "available",
+    "phonetic": "/ə'veɪləbl/",
+    "pos": "adjective",
+    "definition": "sẵn sàng để dùng, sẵn có",
+    "example": "There were many seats available in the room.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_323",
+    "word": "beat",
+    "phonetic": "/biːt/",
+    "pos": "verb",
+    "definition": "đánh bại",
+    "example": "I managed to beat everyone in the race.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_324",
+    "word": "bright",
+    "phonetic": "/braɪt/",
+    "pos": "adjective",
+    "definition": "sáng chói",
+    "example": "The bright light from the explosion hurt my eyes.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_325",
+    "word": "celebrate",
+    "phonetic": "/'seləbreɪt/",
+    "pos": "verb",
+    "definition": "làm lễ kỷ niệm,&nbsp;tán dương, ca tụng",
+    "example": "We all celebrated when we heard the great news.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_326",
+    "word": "determine",
+    "phonetic": "/dɪ'tɜːmɪn/",
+    "pos": "verb",
+    "definition": "xác định, định rõ, quyết định",
+    "example": "He tried to determine which one to eat first.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_327",
+    "word": "disappear",
+    "phonetic": "/ˌdɪsə'pɪə/",
+    "pos": "verb",
+    "definition": "biến mất",
+    "example": "The top of the building is disappearing in the clouds.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_328",
+    "word": "else",
+    "phonetic": "/els/",
+    "pos": "adverb",
+    "definition": "khác",
+    "example": "I wanted a bike for my birthday, but I got something else.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_329",
+    "word": "fair",
+    "phonetic": "/feə/",
+    "pos": "adjective",
+    "definition": "công bằng, hợp lý",
+    "example": "He sold me his car for a fair price.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_330",
+    "word": "flow",
+    "phonetic": "/fləu/",
+    "pos": "noun",
+    "definition": "chảy, dòng chảy,&nbsp;lưu lượng",
+    "example": "The water flowed over the rocks and into the lake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_331",
+    "word": "forward",
+    "phonetic": "/'fɔːwəd/",
+    "pos": "adjective",
+    "definition": "phía trước",
+    "example": "When he saw his mother, the baby crawled forward to her.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_332",
+    "word": "hill",
+    "phonetic": "/hɪl/",
+    "pos": "verb",
+    "definition": "ngọn đồi",
+    "example": "The sun was rising above the green hills.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_333",
+    "word": "level",
+    "phonetic": "/'lev(ə)l/",
+    "pos": "adjective",
+    "definition": "mức, mức độ (n); phẳng, bằng (adj); làm phẳng, san bằng (v)",
+    "example": "Please check the level of the temperature.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_334",
+    "word": "lone",
+    "phonetic": "/ləun/",
+    "pos": "adjective",
+    "definition": "cô độc, bơ vơ, hiu quạnh",
+    "example": "A lone man walked along the street.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_335",
+    "word": "puddle",
+    "phonetic": "/'pʌdl/",
+    "pos": "verb",
+    "definition": "vũng nước",
+    "example": "When the ice melted, it formed a puddle.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_336",
+    "word": "response",
+    "phonetic": "/rɪ'spɔn(t)s/",
+    "pos": "verb",
+    "definition": "trả lời, đáp lại",
+    "example": "He asked if I was sad. My response was \"No\".",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_337",
+    "word": "season",
+    "phonetic": "/'siːz(ə)n/",
+    "pos": "verb",
+    "definition": "mùa trong năm",
+    "example": "Fall is a warm season while winter is very cold.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_338",
+    "word": "solution",
+    "phonetic": "/sə'luːʃ(ə)n/",
+    "pos": "verb",
+    "definition": "giải pháp, cách giải quyết",
+    "example": "There are many problems. We need solutions.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_339",
+    "word": "waste",
+    "phonetic": "/weɪst/",
+    "pos": "adjective",
+    "definition": "lãng phí",
+    "example": "Turn off the water so you don't waste it.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_340",
+    "word": "whether",
+    "phonetic": "/'(h)weðə/",
+    "pos": "noun",
+    "definition": "không biết có không, giữa (cái này cái kia)...",
+    "example": "I could not decide whether to go left or right.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_341",
+    "word": "argue",
+    "phonetic": "/'ɑːgjuː/",
+    "pos": "verb",
+    "definition": "tranh cãi",
+    "example": "We argued about where to go for dinner.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_342",
+    "word": "communicate",
+    "phonetic": "/kə'mjuːnɪkeɪt/",
+    "pos": "verb",
+    "definition": "liên lạc, giao tiếp",
+    "example": "I communicated with Paul about his new ideas.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_343",
+    "word": "crowd",
+    "phonetic": "/kraud/",
+    "pos": "verb",
+    "definition": "đám đông",
+    "example": "A large crowd had gathered on the street to see the accident.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_344",
+    "word": "depend",
+    "phonetic": "/dɪ'pend/",
+    "pos": "verb",
+    "definition": "phụ thuộc, tuỳ thuộc",
+    "example": "Children depend on their parents for many things.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_345",
+    "word": "dish",
+    "phonetic": "/dɪʃ/",
+    "pos": "verb",
+    "definition": "đĩa (đựng thức ăn)",
+    "example": "She put a clean white dish on the table.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_346",
+    "word": "empty",
+    "phonetic": "/'emptɪ/",
+    "pos": "adjective",
+    "definition": "rỗng, trống không",
+    "example": "My gas tank was almost empty, so I couldn't drive my car very long.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_347",
+    "word": "exact",
+    "phonetic": "/ɪg'zækt/",
+    "pos": "adjective",
+    "definition": "chính xác, đúng đắn",
+    "example": "Please use the exact amount of sugar for the cake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_348",
+    "word": "fresh",
+    "phonetic": "/freʃ/",
+    "pos": "adjective",
+    "definition": "tươi (hoa, rau, cá, thịt...), trong lành (không khí)",
+    "example": "I just bought these oranges. They are very fresh.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_349",
+    "word": "gather",
+    "phonetic": "/'gæðə/",
+    "pos": "verb",
+    "definition": "thu thập, tập hợp",
+    "example": "Sam gathered some flowers for his mother.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_350",
+    "word": "indicate",
+    "phonetic": "/'ɪndɪkeɪt/",
+    "pos": "verb",
+    "definition": "cho biết, ra dấu,&nbsp;tỏ ra,&nbsp;biểu lộ",
+    "example": "He pointed to his eyes to indicate where he had hurt himself.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_351",
+    "word": "item",
+    "phonetic": "/'aɪtəm/",
+    "pos": "noun",
+    "definition": "món (ghi trong đơn hàng...), khoản, tiết mục",
+    "example": "I have many items for school in my bag.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_352",
+    "word": "offer",
+    "phonetic": "/'ɔfə/",
+    "pos": "verb",
+    "definition": "đưa ra đề nghị,&nbsp;đưa ra, chìa ra, biếu tặng",
+    "example": "He offered me the keys to his car.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_353",
+    "word": "price",
+    "phonetic": "/praɪs/",
+    "pos": "verb",
+    "definition": "giá ((nghĩa đen) &amp; (nghĩa bóng))",
+    "example": "What is the price of this item?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_354",
+    "word": "product",
+    "phonetic": "/'prɔdʌkt/",
+    "pos": "noun",
+    "definition": "sản phẩm, vật phẩm",
+    "example": "My sister has many beauty products in her room.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_355",
+    "word": "property",
+    "phonetic": "/'prɔpətɪ/",
+    "pos": "noun",
+    "definition": "tài sản, của cải",
+    "example": "The house is now my property.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_356",
+    "word": "purchase",
+    "phonetic": "/'pɜːʧəs/",
+    "pos": "verb",
+    "definition": "mua, tậu",
+    "example": "I recently purchased a new car.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_357",
+    "word": "recommend",
+    "phonetic": "/ˌrekə'mend/",
+    "pos": "verb",
+    "definition": "giới thiệu,&nbsp;khuyên bảo, khuyên dùng",
+    "example": "My doctor recommended that I get some exercise.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_358",
+    "word": "select",
+    "phonetic": "/sɪ'lekt/",
+    "pos": "adjective",
+    "definition": "lựa chọn, chọn lọc, tuyển lựa",
+    "example": "I hope that I selected the right answers on the test.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_359",
+    "word": "tool",
+    "phonetic": "/tuːl/",
+    "pos": "verb",
+    "definition": "dụng cụ, đồ nghề",
+    "example": "We used a tool to fix the window.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_360",
+    "word": "treat",
+    "phonetic": "/triːt/",
+    "pos": "verb",
+    "definition": "đối xử, đối đãi, cư xử, ăn ở",
+    "example": "The cats treated the mouse very nicely.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_361",
+    "word": "alive",
+    "phonetic": "/ə'laɪv/",
+    "pos": "adjective",
+    "definition": "còn sống, đang sống,&nbsp;còn tồn tại",
+    "example": "My grandparents are still alive even though they are over 90.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_362",
+    "word": "bone",
+    "phonetic": "/bəun/",
+    "pos": "verb",
+    "definition": "xương",
+    "example": "I brought home a nice bone for my dog.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_363",
+    "word": "bother",
+    "phonetic": "/'bɔðə/",
+    "pos": "verb",
+    "definition": "làm phiền",
+    "example": "No one bothered to wash the dishes today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_364",
+    "word": "captain",
+    "phonetic": "/'kæptɪn/",
+    "pos": "noun",
+    "definition": "thuyền trưởng, cơ trưởng",
+    "example": "The captain sailed his ship to Australia.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_365",
+    "word": "conclusion",
+    "phonetic": "/kən'kluːʒ(ə)n/",
+    "pos": "noun",
+    "definition": "sự kết luận, sự kết thúc, phần cuối",
+    "example": "At the conclusion of the race, the spectators cheered for the winner.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_366",
+    "word": "doubt",
+    "phonetic": "/daut/",
+    "pos": "verb",
+    "definition": "sự nghi ngờ, sự ngờ vực",
+    "example": "I have doubt that the story is true.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_367",
+    "word": "explore",
+    "phonetic": "/ɪk'splɔː/",
+    "pos": "verb",
+    "definition": "khám phá, thăm dò, thám hiểm",
+    "example": "He wants to explore the world and see new things.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_368",
+    "word": "foreign",
+    "phonetic": "/'fɔrɪn/",
+    "pos": "adjective",
+    "definition": "(thuộc) nước ngoài",
+    "example": "Mexican food is a popular foreign food.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_369",
+    "word": "glad",
+    "phonetic": "/glæd/",
+    "pos": "adjective",
+    "definition": "vui mừng,&nbsp;sung sướng",
+    "example": "I am glad you came to my party.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_370",
+    "word": "however",
+    "phonetic": "/hau'evə/",
+    "pos": "adverb",
+    "definition": "tuy nhiên",
+    "example": "She is a great cook. however, she never had professional lessons.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_371",
+    "word": "injustice",
+    "phonetic": "/ɪn'ʤʌstɪs/",
+    "pos": "noun",
+    "definition": "sự bất công",
+    "example": "Putting an innocent person in jail is an act of injustice.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_372",
+    "word": "international",
+    "phonetic": "/ˌɪntə'næʃ(ə)n(ə)l/",
+    "pos": "adjective",
+    "definition": "(thuộc) quốc tế",
+    "example": "The United Nations is a powerful international organization.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_373",
+    "word": "lawyer",
+    "phonetic": "/'lɔɪə], ['lɔːjə]&nbsp;/",
+    "pos": "noun",
+    "definition": "luật sư",
+    "example": "The lawyer left the courthouse after the judge made her decision.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_374",
+    "word": "mention",
+    "phonetic": "/'menʃ(ə)n/",
+    "pos": "verb",
+    "definition": "đề cập, nói đến, kể ra",
+    "example": "The doctors mentioned the problems that the patient was having.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_375",
+    "word": "policy",
+    "phonetic": "/'pɔləsɪ/",
+    "pos": "noun",
+    "definition": "chính sách",
+    "example": "He told us that his policy was to put customers first.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_376",
+    "word": "social",
+    "phonetic": "/'səuʃ(ə)l/",
+    "pos": "adjective",
+    "definition": "có tính chất xã hội",
+    "example": "People should come together and fix the world's social problems.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_377",
+    "word": "speech",
+    "phonetic": "/spiːʧ/",
+    "pos": "noun",
+    "definition": "bài nói chuyện, bài diễn văn",
+    "example": "She gave a speech to the class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_378",
+    "word": "staff",
+    "phonetic": "/stɑːf/",
+    "pos": "verb",
+    "definition": "nhân viên, nhóm nhân viên",
+    "example": "My dad has a staff of four people to help him at the office.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_379",
+    "word": "toward",
+    "phonetic": "/'təuəd/",
+    "pos": "adjective",
+    "definition": "về phía, hướng về",
+    "example": "Santa walked toward my house with a special tree.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_380",
+    "word": "wood",
+    "phonetic": "/wud/",
+    "pos": "adjective",
+    "definition": "gỗ",
+    "example": "I put the pieces of wood in a pile.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_381",
+    "word": "achieve",
+    "phonetic": "/ə'ʧiːv/",
+    "pos": "verb",
+    "definition": "đạt được, giành được",
+    "example": "I was happy that I could achieve my goal",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_382",
+    "word": "advise",
+    "phonetic": "/əd'vaɪz/",
+    "pos": "verb",
+    "definition": "khuyên, khuyên bảo",
+    "example": "My mother often advises people about their money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_383",
+    "word": "already",
+    "phonetic": "/ɔːl'redɪ/",
+    "pos": "adverb",
+    "definition": "rồi; đã... rồi",
+    "example": "It is already time for the movie to start. Let's go in.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_384",
+    "word": "basic",
+    "phonetic": "/'beɪsɪk/",
+    "pos": "adjective",
+    "definition": "cơ bản, cơ sở",
+    "example": "I learned some basic English skills in school today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_385",
+    "word": "bit",
+    "phonetic": "/bɪt/",
+    "pos": "adjective",
+    "definition": "mẩu, miếng",
+    "example": "I ate a bit of chocolate before I went to bed.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_386",
+    "word": "consider",
+    "phonetic": "/kən'sɪdə/",
+    "pos": "verb",
+    "definition": "cân nhắc, xem xét, suy xét",
+    "example": "Pete didn't like his job. He considered getting a new one.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_387",
+    "word": "destroy",
+    "phonetic": "/dɪ'strɔɪ/",
+    "pos": "verb",
+    "definition": "phá huỷ, tàn phá",
+    "example": "The glass was destroyed.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_388",
+    "word": "entertain",
+    "phonetic": "/ˌentə'teɪn/",
+    "pos": "verb",
+    "definition": "giải trí, tiêu khiển",
+    "example": "The clown entertained the kids at the party.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_389",
+    "word": "extra",
+    "phonetic": "/'ekstrə/",
+    "pos": "adjective",
+    "definition": "thừa,&nbsp;thượng hạng, đặc biệt",
+    "example": "The squirrel had extra  nuts for the winter.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_390",
+    "word": "goal",
+    "phonetic": "/gəul/",
+    "pos": "noun",
+    "definition": "bàn thắng, mục đích, mục tiêu",
+    "example": "Her goal was to become a doctor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_391",
+    "word": "lie",
+    "phonetic": "/laɪ/",
+    "pos": "verb",
+    "definition": "nói dối, lừa dối",
+    "example": "Whenever Pinocchio lied to his father, his nose grew.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_392",
+    "word": "meat",
+    "phonetic": "/miːt/",
+    "pos": "noun",
+    "definition": "thịt",
+    "example": "This piece of meat I'm eating tastes very good.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_393",
+    "word": "opinion",
+    "phonetic": "/ə'pɪnjən/",
+    "pos": "noun",
+    "definition": "quan điểm, ý kiến, sự đánh giá",
+    "example": "Meg told me her opinion of my story. She said it was not funny.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_394",
+    "word": "real",
+    "phonetic": "/rɪəl/",
+    "pos": "adjective",
+    "definition": "thực tế, có thực,&nbsp;thật (không phải giả)",
+    "example": "The handbag has a stamp on it, so it's real.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_395",
+    "word": "reflect",
+    "phonetic": "/rɪ'flekt/",
+    "pos": "verb",
+    "definition": "phản chiếu, phản xạ, phản ánh",
+    "example": "Her face was reflected on the smooth glass.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_396",
+    "word": "regard",
+    "phonetic": "/rɪ'gɑːd/",
+    "pos": "verb",
+    "definition": "coi như, xem như",
+    "example": "The boy regarded the girl as a good friend.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_397",
+    "word": "serve",
+    "phonetic": "/sɜːv/",
+    "pos": "verb",
+    "definition": "phục vụ, phụng sự",
+    "example": "He served us our drinks quickly.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_398",
+    "word": "vegetable",
+    "phonetic": "/'veʤ(ə)təbl/",
+    "pos": "adjective",
+    "definition": "rau cỏ (noun &amp; adj)",
+    "example": "Carrots are my favorite vegetable.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_399",
+    "word": "war",
+    "phonetic": "/wɔː/",
+    "pos": "verb",
+    "definition": "chiến tranh",
+    "example": "Many young men died in the war.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_400",
+    "word": "worth",
+    "phonetic": "/wɜːθ/",
+    "pos": "adjective",
+    "definition": "đáng giá,&nbsp;giá trị",
+    "example": "Our house is worth a lot of money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_401",
+    "word": "appear",
+    "phonetic": "/ə'pɪə/",
+    "pos": "verb",
+    "definition": "biểu lộ,&nbsp;hình như, có vẻ",
+    "example": "She appeared to be sad. She was crying.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_402",
+    "word": "base",
+    "phonetic": "/beɪs/",
+    "pos": "adjective",
+    "definition": "nền tảng, chân đế",
+    "example": "The base of the table has three legs.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_403",
+    "word": "brain",
+    "phonetic": "/breɪn/",
+    "pos": "verb",
+    "definition": "não",
+    "example": "You must use your brain to solve the problem.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_404",
+    "word": "career",
+    "phonetic": "/kə'rɪə/",
+    "pos": "verb",
+    "definition": "sự nghiệp",
+    "example": "He was in the hospitality business for most of his career.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_405",
+    "word": "clerk",
+    "phonetic": "/klɜ͟:rk/",
+    "pos": "verb",
+    "definition": "giao dịch viên, thư ký, nhân viên",
+    "example": "The clerk added up her bill for the groceries.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_406",
+    "word": "effort",
+    "phonetic": "/'efət/",
+    "pos": "noun",
+    "definition": "nỗ lực",
+    "example": "He always puts a lot of effort into his studies.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_407",
+    "word": "enter",
+    "phonetic": "/'entə/",
+    "pos": "verb",
+    "definition": "đi vào",
+    "example": "Two guards greeted me as I entered the front door.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_408",
+    "word": "excellent",
+    "phonetic": "/'eks(ə)l(ə)nt/",
+    "pos": "adjective",
+    "definition": "xuất sắc",
+    "example": "I got an excellent score on my school test.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_409",
+    "word": "hero",
+    "phonetic": "/'hɪərəu/",
+    "pos": "noun",
+    "definition": "anh hùng, người hùng",
+    "example": "To children, the man in the blue and red costume was a real hero.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_410",
+    "word": "hurry",
+    "phonetic": "/'hʌrɪ/",
+    "pos": "verb",
+    "definition": "vội vàng",
+    "example": "I hurried home on my bike.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_411",
+    "word": "inform",
+    "phonetic": "/ɪn'fɔːm/",
+    "pos": "verb",
+    "definition": "thông báo, báo tin, cho biết",
+    "example": "I called and informed her about my idea.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_412",
+    "word": "later",
+    "phonetic": "/'leɪtə/",
+    "pos": "noun",
+    "definition": "muộn hơn, sau này",
+    "example": "She missed the train, so she'll arrive a little later than expected.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_413",
+    "word": "leave",
+    "phonetic": "/liːv/",
+    "pos": "verb",
+    "definition": "rời đi, bỏ đi",
+    "example": "He packed his bag and was ready to leave for home.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_414",
+    "word": "locate",
+    "phonetic": "/l'əukeɪt/",
+    "pos": "verb",
+    "definition": "xác định vị trí",
+    "example": "I could not locate my keys in the house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_415",
+    "word": "nurse",
+    "phonetic": "/nɜːs/",
+    "pos": "verb",
+    "definition": "y tá, nữ y tá",
+    "example": "A nurse helped me get better.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_416",
+    "word": "operation",
+    "phonetic": "/ˌɔp(ə)'reɪʃ(ə)n/",
+    "pos": "noun",
+    "definition": "sự phẩu thuật, ca mổ",
+    "example": "The operation on my arm was a success.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_417",
+    "word": "pain",
+    "phonetic": "/peɪn/",
+    "pos": "verb",
+    "definition": "sự đau,&nbsp;làm đau đớn,&nbsp;đau nhức",
+    "example": "His head was full of pain.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_418",
+    "word": "refuse",
+    "phonetic": "/rɪ'fjuːz/",
+    "pos": "verb",
+    "definition": "từ chối, khước từ, cự tuyệt",
+    "example": "The dog refused to play with the cat.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_419",
+    "word": "though",
+    "phonetic": "/ðəu/",
+    "pos": "adverb",
+    "definition": "cho dù, mặc dù, dẫu cho",
+    "example": "though he was overweight, he liked to be active.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_420",
+    "word": "various",
+    "phonetic": "/'veərɪəs/",
+    "pos": "adjective",
+    "definition": "khác nhau; nhiều thứ khác nhau",
+    "example": "She owned shoes of various styles.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_421",
+    "word": "actual",
+    "phonetic": "/'ækʧuəl/",
+    "pos": "adjective",
+    "definition": "thực tế, có thật,&nbsp;hiện thời; hiện nay",
+    "example": "This is the actual sword that the King owned, not a fake one.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_422",
+    "word": "amaze",
+    "phonetic": "/ə'meɪz/",
+    "pos": "verb",
+    "definition": "làm kinh ngạc, làm sửng sốt",
+    "example": "The news in the paper amazed Jack.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_423",
+    "word": "charge",
+    "phonetic": "/ʧɑːʤ/",
+    "pos": "verb",
+    "definition": "tiền phải trả, giá tiền",
+    "example": "The charge for the shirts was $15.00.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_424",
+    "word": "comfort",
+    "phonetic": "/'kʌmfət/",
+    "pos": "verb",
+    "definition": "an ủi, dỗ dành, làm khuây khoả",
+    "example": "I wanted to comfort my friend after I heard the bad news.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_425",
+    "word": "contact",
+    "phonetic": "/'kɔntækt/",
+    "pos": "verb",
+    "definition": "tiếp xúc, liên lạc",
+    "example": "I contacted Sue about my party.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_426",
+    "word": "customer",
+    "phonetic": "/'kʌstəmə/",
+    "pos": "noun",
+    "definition": "khách hàng",
+    "example": "The customer put a few items in a bag.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_427",
+    "word": "deliver",
+    "phonetic": "/dɪ'lɪvə/",
+    "pos": "verb",
+    "definition": "giao (hàng),&nbsp;phân phát (thư)",
+    "example": "The man delivered Chinese food to my house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_428",
+    "word": "earn",
+    "phonetic": "/ɜːn/",
+    "pos": "verb",
+    "definition": "kiếm tiền",
+    "example": "He earns his living as a chef in a great restaurant.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_429",
+    "word": "gate",
+    "phonetic": "/geɪt/",
+    "pos": "verb",
+    "definition": "cổng, cửa ra vào",
+    "example": "We want to put up a wooden gate around our house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_430",
+    "word": "include",
+    "phonetic": "/ɪn'kluːd/",
+    "pos": "verb",
+    "definition": "bao gồm, gồm có",
+    "example": "Does this meal include a soft drink?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_431",
+    "word": "manage",
+    "phonetic": "/'mænɪʤ/",
+    "pos": "verb",
+    "definition": "quản lý, trông nom,&nbsp;xoay xở",
+    "example": "I had to manage the meeting myself.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_432",
+    "word": "mystery",
+    "phonetic": "/'mɪst(ə)rɪ/",
+    "pos": "noun",
+    "definition": "điều huyền bí,&nbsp;điều bí ẩn",
+    "example": "The path on the map was a complete mystery to me.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_433",
+    "word": "occur",
+    "phonetic": "/ə'kɜː/",
+    "pos": "verb",
+    "definition": "xảy ra, xảy đến",
+    "example": "When did the thunderstorm occur?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_434",
+    "word": "opposite",
+    "phonetic": "/'ɔpəzɪt/",
+    "pos": "adjective",
+    "definition": "đối diện, đối nhau, ngược nhau",
+    "example": "The opposite of black is white.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_435",
+    "word": "plate",
+    "phonetic": "/pleɪt/",
+    "pos": "verb",
+    "definition": "đĩa (để đựng thức ăn)",
+    "example": "I put my plate down so I could put some food on it.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_436",
+    "word": "receive",
+    "phonetic": "/rɪ'siːv/",
+    "pos": "verb",
+    "definition": "nhận, lĩnh, thu",
+    "example": "I received a present on my birthday.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_437",
+    "word": "reward",
+    "phonetic": "/rɪ'wɔːd/",
+    "pos": "verb",
+    "definition": "sự thưởng",
+    "example": "He was given a reward for his excellent performance.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_438",
+    "word": "set",
+    "phonetic": "/set/",
+    "pos": "adjective",
+    "definition": "thiết lập, để, đặt, bố trí",
+    "example": "Please set the dice down on the table.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_439",
+    "word": "steal",
+    "phonetic": "/stiːl/",
+    "pos": "verb",
+    "definition": "ăn cắp, ăn trộm",
+    "example": "The men tried to steal money from the bank.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_440",
+    "word": "thief",
+    "phonetic": "/θiːf/",
+    "pos": "noun",
+    "definition": "kẻ trộm, kẻ cắp",
+    "example": "A thief broke into our home and took my mother's jewelry.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_441",
+    "word": "advance",
+    "phonetic": "/əd'vɑːn(t)s/",
+    "pos": "verb",
+    "definition": "tiến lên, tiến tới, tiến bộ",
+    "example": "He advanced up the ladder slowly.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_442",
+    "word": "athlete",
+    "phonetic": "/'æθliːt/",
+    "pos": "noun",
+    "definition": "vận động viên",
+    "example": "Some athletes can play many sports very well.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_443",
+    "word": "average",
+    "phonetic": "/'æv(ə)rɪʤ/",
+    "pos": "noun",
+    "definition": "trung bình",
+    "example": "I'm not rich or poor; I'm average.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_444",
+    "word": "behavior",
+    "phonetic": "/bɪ'heɪvjər/",
+    "pos": "noun",
+    "definition": "cách cư xử",
+    "example": "Their behavior was good this semester. They didn't cause trouble.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_445",
+    "word": "behind",
+    "phonetic": "/bɪ'haɪnd/",
+    "pos": "adverb",
+    "definition": "đằng sau",
+    "example": "The little girl was hiding behind a tree.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_446",
+    "word": "course",
+    "phonetic": "/kɔːs/",
+    "pos": "verb",
+    "definition": "khoá học",
+    "example": "I took a P.E. course in school this year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_447",
+    "word": "lower",
+    "phonetic": "/'ləuə/",
+    "pos": "adjective",
+    "definition": "thấp hơn",
+    "example": "The chart shows how his production has lowered over the year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_448",
+    "word": "match",
+    "phonetic": "/mæʧ/",
+    "pos": "verb",
+    "definition": "hợp, xứng, trận đấu",
+    "example": "The two shoes matched. They looked the same.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_449",
+    "word": "member",
+    "phonetic": "/'membə/",
+    "pos": "noun",
+    "definition": "thành viên, hội viên",
+    "example": "Julie is the newest member of our team.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_450",
+    "word": "mental",
+    "phonetic": "/'ment(ə)l/",
+    "pos": "adjective",
+    "definition": "(thuộc) trí tuệ, tinh thần, tâm thần, thần kinh",
+    "example": "I made a mental picture of the room.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_451",
+    "word": "passenger",
+    "phonetic": "/'pæs(ə)nʤə/",
+    "pos": "noun",
+    "definition": "hành khách (đi tàu xe...)",
+    "example": "One passenger was standing in the subway train.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_452",
+    "word": "personality",
+    "phonetic": "/ˌpɜːs(ə)'nælətɪ/",
+    "pos": "noun",
+    "definition": "tính cách, nhân cách",
+    "example": "John has a bad personality.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_453",
+    "word": "poem",
+    "phonetic": "/'pəuɪm/",
+    "pos": "noun",
+    "definition": "thơ, bài thơ",
+    "example": "William Shakespeare wrote many poems.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_454",
+    "word": "pole",
+    "phonetic": "/pəul/",
+    "pos": "noun",
+    "definition": "cực, cái sào, cột",
+    "example": "The flag was hanging from the flag pole.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_455",
+    "word": "remove",
+    "phonetic": "/rɪ'muːv/",
+    "pos": "verb",
+    "definition": "bỏ ra, tháo ra, lấy ra, dời đi",
+    "example": "I removed the nail from the board.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_456",
+    "word": "safety",
+    "phonetic": "/'seɪftɪ/",
+    "pos": "noun",
+    "definition": "sự an toàn, sự chắc chắn",
+    "example": "For his own safety, he was placed in a car seat.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_457",
+    "word": "shoot",
+    "phonetic": "/ʃuːt/",
+    "pos": "adjective",
+    "definition": "bắn",
+    "example": "The hunter raised his gun to shoot at the target.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_458",
+    "word": "sound",
+    "phonetic": "/saund/",
+    "pos": "adjective",
+    "definition": "kêu, vang tiếng, nghe như, nghe có vẻ, âm thanh",
+    "example": "The alarm clock sounded and woke us all up.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_459",
+    "word": "swim",
+    "phonetic": "/swɪm/",
+    "pos": "verb",
+    "definition": "bơi",
+    "example": "I love to swim in the ocean.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_460",
+    "word": "web",
+    "phonetic": "/web/",
+    "pos": "noun",
+    "definition": "mạng (nhện),&nbsp;tơ (lông chim)",
+    "example": "Mom cleaned the spider webs out of the garage.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_461",
+    "word": "block",
+    "phonetic": "/blɔk/",
+    "pos": "verb",
+    "definition": "khối, tảng, súc (đá, gỗ...)",
+    "example": "I saw a block of ice on the floor.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_462",
+    "word": "cheer",
+    "phonetic": "/ʧɪə/",
+    "pos": "verb",
+    "definition": "cổ vũ,&nbsp;tung hô&nbsp;",
+    "example": "The crowd all cheered when the home team won.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_463",
+    "word": "complex",
+    "phonetic": "/'kɔmpleks/",
+    "pos": "adjective",
+    "definition": "phức tạp, rắc rối &nbsp; &nbsp;",
+    "example": "A jig-saw puzzle can be complex because it has so many pieces.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_464",
+    "word": "critic",
+    "phonetic": "/'krɪtɪk/",
+    "pos": "noun",
+    "definition": "nhà phê bình",
+    "example": "The wine critic tasted the wine so he could give his opinion.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_465",
+    "word": "event",
+    "phonetic": "/ɪ'vent/",
+    "pos": "noun",
+    "definition": "sự kiện, sự việc",
+    "example": "Finishing high school was a major event in his life.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_466",
+    "word": "exercise",
+    "phonetic": "/'eksəsaɪz/",
+    "pos": "verb",
+    "definition": "tập luyện, rèn luyện (thể dục thể thao)",
+    "example": "You should exercise every day.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_467",
+    "word": "fit",
+    "phonetic": "/fɪt/",
+    "pos": "adjective",
+    "definition": "vừa, thích hợp, phù hợp",
+    "example": "The colorful eggs fit into the box.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_468",
+    "word": "friendship",
+    "phonetic": "/'frendʃɪp/",
+    "pos": "noun",
+    "definition": "tình bạn",
+    "example": "Michael and Lisa have a very strong friendship with each other.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_469",
+    "word": "guide",
+    "phonetic": "/gaɪd/",
+    "pos": "verb",
+    "definition": "hướng dẫn viên,&nbsp;người chỉ dẫn",
+    "example": "We followed a guide at the park.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_470",
+    "word": "lack",
+    "phonetic": "/læk/",
+    "pos": "adjective",
+    "definition": "thiếu, không có",
+    "example": "His only problem is a lack of money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_471",
+    "word": "passage",
+    "phonetic": "/'pæsɪʤ/",
+    "pos": "verb",
+    "definition": "lối đi, sự đi qua,&nbsp;đoạn (bài văn, sách...)",
+    "example": "The long passage led us to the other side of the field.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_472",
+    "word": "perform",
+    "phonetic": "/pə'fɔːm/",
+    "pos": "verb",
+    "definition": "biểu diễn, trình bày, thực hiện",
+    "example": "He will perform a song for the class.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_473",
+    "word": "pressure",
+    "phonetic": "/'preʃə/",
+    "pos": "noun",
+    "definition": "áp lực",
+    "example": "They put pressure on him to change his mind.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_474",
+    "word": "probable",
+    "phonetic": "/'prɔbəbl/",
+    "pos": "adjective",
+    "definition": "chắc hẳn,&nbsp;có lễ đúng",
+    "example": "It is probable that you will get a good grade if you study for the test.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_475",
+    "word": "public",
+    "phonetic": "/'pʌblɪk/",
+    "pos": "adjective",
+    "definition": "công cộng,&nbsp;công khai, công chúng",
+    "example": "I went to the public park to play with my friends.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_476",
+    "word": "strike",
+    "phonetic": "/straɪk/",
+    "pos": "verb",
+    "definition": "đánh, tấn công,&nbsp;",
+    "example": "She struck the other girl in the face.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_477",
+    "word": "support",
+    "phonetic": "/sə'pɔːt/",
+    "pos": "verb",
+    "definition": "hỗ trợ, ủng hộ",
+    "example": "Everyone at work supports the new plan.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_478",
+    "word": "task",
+    "phonetic": "/tɑːsk/",
+    "pos": "verb",
+    "definition": "nhiệm vụ, công việc,&nbsp;bài tập,&nbsp;phận sự",
+    "example": "Who has the task of building the brick wall?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_479",
+    "word": "term",
+    "phonetic": "/tɜːm/",
+    "pos": "verb",
+    "definition": "thời hạn, kỳ hạn, lời lẽ",
+    "example": "I often use the term \"oops\" when I make a mistake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_480",
+    "word": "unite",
+    "phonetic": "/juː'naɪt/",
+    "pos": "verb",
+    "definition": "đoàn kết,&nbsp;liên kết",
+    "example": "If we unite, we can finish our project faster.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_481",
+    "word": "associate",
+    "phonetic": "/ə'səusɪeɪt/",
+    "pos": "adjective",
+    "definition": "kết hợp,&nbsp;kết giao, liên hợp lại",
+    "example": "Most people associate birthday parties with having fun.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_482",
+    "word": "environment",
+    "phonetic": "/ɪn'vaɪər(ə)nmənt/",
+    "pos": "noun",
+    "definition": "môi trường",
+    "example": "Keeping our environment clean is important to our health.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_483",
+    "word": "factory",
+    "phonetic": "/'fækt(ə)rɪ/",
+    "pos": "noun",
+    "definition": "nhà máy, xí nghiệp",
+    "example": "We have only one factory in our town.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_484",
+    "word": "feature",
+    "phonetic": "/'fiːʧə/",
+    "pos": "verb",
+    "definition": "điểm đặc trưng,&nbsp;nét đặc biệt",
+    "example": "The cell phone has many features.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_485",
+    "word": "instance",
+    "phonetic": "/'ɪn(t)stən(t)s/",
+    "pos": "verb",
+    "definition": "thí dụ, ví dụ &nbsp; &nbsp; &nbsp;",
+    "example": "I have never experienced an instance of hate. Have you?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_486",
+    "word": "involve",
+    "phonetic": "/ɪn'vɔlv/",
+    "pos": "verb",
+    "definition": "dính líu, dính dáng(dạng bị động)&nbsp;để hết tâm trí vào (cái gì)",
+    "example": "The whole family was involved in playing the game.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_487",
+    "word": "medicine",
+    "phonetic": "/'medɪsɪn/",
+    "pos": "noun",
+    "definition": "thuốc",
+    "example": "The doctor gave me medicine for my cold.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_488",
+    "word": "mix",
+    "phonetic": "/mɪks/",
+    "pos": "verb",
+    "definition": "hỗn hợp, trộn lẫn",
+    "example": "The green mix we made in science class spilled onto the table.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_489",
+    "word": "organize",
+    "phonetic": "/'ɔːg(ə)naɪz/",
+    "pos": "verb",
+    "definition": "tổ chức",
+    "example": "Make a list to help you organize the things you need.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_490",
+    "word": "period",
+    "phonetic": "/'pɪərɪəd/",
+    "pos": "adjective",
+    "definition": "thời kỳ, giai đoạn",
+    "example": "In one period in Europe, there were many knights.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_491",
+    "word": "populate",
+    "phonetic": "/'pɔpjəleɪt/",
+    "pos": "verb",
+    "definition": "ở, cư trú &nbsp; &nbsp;",
+    "example": "Billions of people populate the Earth.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_492",
+    "word": "produce",
+    "phonetic": "/'prɔdjuːs/",
+    "pos": "verb",
+    "definition": "sản xuất, ra quả",
+    "example": "This tree produces apples every year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_493",
+    "word": "range",
+    "phonetic": "/reɪnʤ/",
+    "pos": "noun",
+    "definition": "dải, phạm vi, khoảng",
+    "example": "I saw a range of cars to choose from.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_494",
+    "word": "recognize",
+    "phonetic": "/'rekəgnaɪz/",
+    "pos": "verb",
+    "definition": "nhận ra",
+    "example": "I recognized an old friend from many years ago.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_495",
+    "word": "regular",
+    "phonetic": "/'regjələ/",
+    "pos": "adjective",
+    "definition": "thường lệ, đều đặn",
+    "example": "Our regular lunch time is around noon.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_496",
+    "word": "sign",
+    "phonetic": "/saɪn/",
+    "pos": "verb",
+    "definition": "dấu hiệu, ký hiệu;&nbsp;ký tên, ra hiệu",
+    "example": "The sign indicated that today would be a bad day.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_497",
+    "word": "tip",
+    "phonetic": "/tɪp/",
+    "pos": "verb",
+    "definition": "đầu mút, tiền thưởng phục vụ",
+    "example": "The tip of his pen was very sharp.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_498",
+    "word": "tradition",
+    "phonetic": "/trə'dɪʃ(ə)n/",
+    "pos": "noun",
+    "definition": "truyền thống",
+    "example": "Marriage is a tradition all over the world.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_499",
+    "word": "trash",
+    "phonetic": "/træʃ/",
+    "pos": "verb",
+    "definition": "rác",
+    "example": "Please take out the trash; it smells bad",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_500",
+    "word": "wide",
+    "phonetic": "/waɪd/",
+    "pos": "adjective",
+    "definition": "rộng, rộng lớn",
+    "example": "The door was as wide as my arms.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_501",
+    "word": "advice",
+    "phonetic": "/əd'vaɪs/",
+    "pos": "noun",
+    "definition": "lời khuyên",
+    "example": "I don't know how to study for my exams. Can you give me some advice?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_502",
+    "word": "along",
+    "phonetic": "/ə'lɔŋ/",
+    "pos": "adverb",
+    "definition": "dọc theo",
+    "example": "Walk along this tunnel for ten minutes, and you'll see a door on the left.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_503",
+    "word": "attention",
+    "phonetic": "/ə'ten(t)ʃ(ə)n/",
+    "pos": "noun",
+    "definition": "sự chú ý",
+    "example": "His work got the attention of two of his co-workers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_504",
+    "word": "attract",
+    "phonetic": "/ə'trækt/",
+    "pos": "verb",
+    "definition": "hấp dẫn, thu hút",
+    "example": "The magnet attracted the metal.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_505",
+    "word": "climb",
+    "phonetic": "/klaɪm/",
+    "pos": "verb",
+    "definition": "trèo, leo",
+    "example": "The girls climbed to the top of the mountain.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_506",
+    "word": "drop",
+    "phonetic": "/drɔp/",
+    "pos": "verb",
+    "definition": "rơi, sụt giảm",
+    "example": "A small amount of water dropped from the bottle.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_507",
+    "word": "final",
+    "phonetic": "/'faɪn(ə)l/",
+    "pos": "adjective",
+    "definition": "cuối cùng, chung kết",
+    "example": "In the final part of the film, the man and the woman got married.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_508",
+    "word": "further",
+    "phonetic": "/'fɜːðə/",
+    "pos": "adjective",
+    "definition": "xa hơn, bên kia",
+    "example": "The escalator is further along than I thought.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_509",
+    "word": "imply",
+    "phonetic": "/ɪm'plaɪ/",
+    "pos": "verb",
+    "definition": "ý nói; ngụ ý",
+    "example": "The man implied  that he wanted the job, but he didn't say so.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_510",
+    "word": "maintain",
+    "phonetic": "/meɪn'teɪn/",
+    "pos": "verb",
+    "definition": "duy trì",
+    "example": "The balls maintain constant movement.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_511",
+    "word": "neither",
+    "phonetic": "/'naɪðə/",
+    "pos": "adjective",
+    "definition": "...... &nbsp;nor &nbsp;&nbsp;không &nbsp;... mà cũng không",
+    "example": "neither the pass on the left nor the pass on the right will lead us home.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_512",
+    "word": "otherwise",
+    "phonetic": "/'ʌðəwaɪz/",
+    "pos": "adverb",
+    "definition": "nếu không thì, mặt khác, cách khác",
+    "example": "It's good to stay active; otherwise, you'll gain weight.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_513",
+    "word": "physical",
+    "phonetic": "/'fɪzɪk(ə)l/",
+    "pos": "adjective",
+    "definition": "(thuộc) vật lý,&nbsp;(thuộc) vật chất",
+    "example": "Biking is good for your physical health.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_514",
+    "word": "prove",
+    "phonetic": "/pruːv/",
+    "pos": "adjective",
+    "definition": "chứng minh",
+    "example": "My teacher proved the answer on the board.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_515",
+    "word": "react",
+    "phonetic": "/rɪ'ækt/",
+    "pos": "verb",
+    "definition": "phản ứng, đối phó",
+    "example": "James reacted badly to the news.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_516",
+    "word": "ride",
+    "phonetic": "/raɪd/",
+    "pos": "verb",
+    "definition": "cưỡi",
+    "example": "I will ride a roller-coaster for the first time today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_517",
+    "word": "situated",
+    "phonetic": "/'sɪtjueɪtɪd/",
+    "pos": "adjective",
+    "definition": "ở (một nơi, một tình thế, một hoàn cảnh)",
+    "example": "The white board is situated between the two men.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_518",
+    "word": "society",
+    "phonetic": "/sə'saɪətɪ/",
+    "pos": "noun",
+    "definition": "xã hội",
+    "example": "society expects people to be good and honest.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_519",
+    "word": "standard",
+    "phonetic": "/'stændəd/",
+    "pos": "noun",
+    "definition": "tiêu chuẩn",
+    "example": "This older model TV is below our store's standards.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_520",
+    "word": "suggest",
+    "phonetic": "/sə'ʤest/",
+    "pos": "verb",
+    "definition": "gợi ý, đề nghị",
+    "example": "He suggested that we go to see his boss.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_521",
+    "word": "actually",
+    "phonetic": "/'ækʧuəlɪ/",
+    "pos": "adverb",
+    "definition": "thực sự, quả thật",
+    "example": "My dad looks a little mean, but actually he's very kind.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_522",
+    "word": "bite",
+    "phonetic": "/baɪt/",
+    "pos": "verb",
+    "definition": "cắn, ngoạm",
+    "example": "The boy took a big bite out of his hamburger.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_523",
+    "word": "coast",
+    "phonetic": "/kəust/",
+    "pos": "verb",
+    "definition": "bờ biển",
+    "example": "I stayed on the southern coast of Australia.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_524",
+    "word": "deal",
+    "phonetic": "/diːl/",
+    "pos": "verb",
+    "definition": "giải quyết; đối phó; sự giao dịch",
+    "example": "I made a deal with the other company to give us some money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_525",
+    "word": "desert",
+    "phonetic": "/'dezət/",
+    "pos": "adjective",
+    "definition": "sa mạc",
+    "example": "Not many plants grow in the desert.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_526",
+    "word": "earthquake",
+    "phonetic": "/'ɜːθkweɪk/",
+    "pos": "noun",
+    "definition": "trận động đất",
+    "example": "The building shook during the earthquake.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_527",
+    "word": "effective",
+    "phonetic": "/ɪ'fektɪv/",
+    "pos": "noun",
+    "definition": "có hiệu quả",
+    "example": "Swimming is an effective way to stay healthy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_528",
+    "word": "examine",
+    "phonetic": "/ɪg'zæmɪn/",
+    "pos": "verb",
+    "definition": "kiểm tra",
+    "example": "The doctor examined my eyes today.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_529",
+    "word": "false",
+    "phonetic": "/fɔːls/",
+    "pos": "adjective",
+    "definition": "sai, nhầm",
+    "example": "If you think the answer is false, press the red button.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_530",
+    "word": "gift",
+    "phonetic": "/gɪft/",
+    "pos": "verb",
+    "definition": "quà tặng; tặng, biếu, cho",
+    "example": "Dave received many gifts for Christmas.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_531",
+    "word": "hunger",
+    "phonetic": "/'hʌŋgə/",
+    "pos": "verb",
+    "definition": "sự đói, tình trạng đói",
+    "example": "After playing all day long, he was filled with hunger.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_532",
+    "word": "imagine",
+    "phonetic": "/ɪ'mæʤɪn/",
+    "pos": "verb",
+    "definition": "tưởng tượng, hình dung",
+    "example": "Sally imagined herself winning lots of money.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_533",
+    "word": "journey",
+    "phonetic": "/'ʤɜːnɪ/",
+    "pos": "verb",
+    "definition": "cuộc hành trình, chuyến đi",
+    "example": "I went on a journey across the country with my parents.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_534",
+    "word": "puzzle",
+    "phonetic": "/'pʌzl/",
+    "pos": "verb",
+    "definition": "trò chơi đố; câu đố, vấn đề khó",
+    "example": "The question was a puzzle to him.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_535",
+    "word": "quite",
+    "phonetic": "/kwaɪt/",
+    "pos": "adverb",
+    "definition": "khá,&nbsp;hoàn toàn, hầu hết",
+    "example": "I think typing on a keyboard is quite easy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_536",
+    "word": "rather",
+    "phonetic": "/'rɑːðə/",
+    "pos": "adverb",
+    "definition": "thích... hơn&nbsp;",
+    "example": "I would rather have the red one than the blue one.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_537",
+    "word": "specific",
+    "phonetic": "/spə'sɪfɪk/",
+    "pos": "adjective",
+    "definition": "rành mạch, rõ ràng",
+    "example": "Please choose a specific place on the map.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_538",
+    "word": "tour",
+    "phonetic": "/tuə/",
+    "pos": "verb",
+    "definition": "cuộc đi du lịch",
+    "example": "I took a tour of Asia and Europe.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_539",
+    "word": "trip",
+    "phonetic": "/trɪp/",
+    "pos": "verb",
+    "definition": "chuyến đi",
+    "example": "Ken took a trip to the city yesterday.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_540",
+    "word": "value",
+    "phonetic": "/'væljuː/",
+    "pos": "verb",
+    "definition": "giá trị",
+    "example": "Matthew found a treasure of very high value.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_541",
+    "word": "band",
+    "phonetic": "/bænd/",
+    "pos": "verb",
+    "definition": "ban nhạc, dải, băng, đai, nẹp",
+    "example": "My brother is in a rock band.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_542",
+    "word": "barely",
+    "phonetic": "/'beəlɪ/",
+    "pos": "adverb",
+    "definition": "vừa đủ,&nbsp;rỗng không, nghèo nàn",
+    "example": "I barely had enough money to pay for my bus ticket.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_543",
+    "word": "boring",
+    "phonetic": "/'bɔːrɪŋ/",
+    "pos": "adjective",
+    "definition": "chán ngắt, buồn tẻ,&nbsp;sự khoan, sự đào",
+    "example": "&nbspI think the Internet is boring.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_544",
+    "word": "cancel",
+    "phonetic": "/'kæn(t)s(ə)l/",
+    "pos": "verb",
+    "definition": "huỷ bỏ, bãi bỏ",
+    "example": "She canceled the rest of her plans because of the rain.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_545",
+    "word": "driveway",
+    "phonetic": "/'draɪvweɪ/",
+    "pos": "noun",
+    "definition": "đường lái xe vào nhà",
+    "example": "The long driveway led us to their new house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_546",
+    "word": "garbage",
+    "phonetic": "/'gɑːbɪʤ/",
+    "pos": "noun",
+    "definition": "rác&nbsp;",
+    "example": "The boy cleaned up the garbage around his house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_547",
+    "word": "instrument",
+    "phonetic": "/'ɪn(t)strəmənt/",
+    "pos": "verb",
+    "definition": "dụng cụ, nhạc cụ",
+    "example": "My favorite musical instrument is the piano.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_548",
+    "word": "list",
+    "phonetic": "/lɪst/",
+    "pos": "verb",
+    "definition": "danh sách; liệt kê, lập danh sách",
+    "example": "My mom makes a list of groceries to buy.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_549",
+    "word": "magic",
+    "phonetic": "/'mæʤɪk/",
+    "pos": "adjective",
+    "definition": "phép thuật, ma thuật",
+    "example": "The magician used magic to pull a rabbit out of his hat.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_550",
+    "word": "message",
+    "phonetic": "/'mesɪʤ/",
+    "pos": "verb",
+    "definition": "thông điệp; đưa tin",
+    "example": "I left a message for you in the envelope.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_551",
+    "word": "notice",
+    "phonetic": "/'nəutɪs/",
+    "pos": "verb",
+    "definition": "chú ý, để ý,&nbsp;báo trước",
+    "example": "Did you notice the view?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_552",
+    "word": "own",
+    "phonetic": "/əun/",
+    "pos": "adjective",
+    "definition": "sở hữu",
+    "example": "My grandfather owns that house.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_553",
+    "word": "predict",
+    "phonetic": "/prɪ'dɪkt/",
+    "pos": "verb",
+    "definition": "đoán trước, dự đoán",
+    "example": "She predicted that I would get married next year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_554",
+    "word": "professor",
+    "phonetic": "/prə'fesə/",
+    "pos": "noun",
+    "definition": "giáo sư",
+    "example": "Mike's science professor knows a lot about physics.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_555",
+    "word": "rush",
+    "phonetic": "/rʌʃ/",
+    "pos": "verb",
+    "definition": "vội vã, đi gấp",
+    "example": "Nancy rushed to finish her homework.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_556",
+    "word": "schedule",
+    "phonetic": "/'ʃedjuːl], ['skeʤuːl/",
+    "pos": "verb",
+    "definition": "thời gian biểu, thời khóa biểu&nbsp;(bản kế hoạch có thời gian)",
+    "example": "What is your class schedule for today?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_557",
+    "word": "share",
+    "phonetic": "/ʃeə/",
+    "pos": "noun",
+    "definition": "chia sẻ, cổ phần",
+    "example": "Jimmy shared his apple with me.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_558",
+    "word": "stage",
+    "phonetic": "/steɪʤ/",
+    "pos": "verb",
+    "definition": "sân khấu, giai đoạn",
+    "example": "A large screen was on the stage.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_559",
+    "word": "storm",
+    "phonetic": "/stɔːm/",
+    "pos": "verb",
+    "definition": "dông tố, cơn bão",
+    "example": "Did that storm wake you up last night?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_560",
+    "word": "within",
+    "phonetic": "/wɪ'ðɪn/",
+    "pos": "adverb",
+    "definition": "trong vòng,&nbsp;trong phạm vi, bên trong, phía trong",
+    "example": "within the box, there was a pizza.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_561",
+    "word": "advertise",
+    "phonetic": "/'ædvətaɪz/",
+    "pos": "verb",
+    "definition": "quảng cáo",
+    "example": "They used a rabbit to help them advertise their product.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_562",
+    "word": "assign",
+    "phonetic": "/ə'saɪn/",
+    "pos": "verb",
+    "definition": "phân việc, phân công",
+    "example": "I assigned the worker an important task.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_563",
+    "word": "audience",
+    "phonetic": "/'ɔːdɪən(t)s/",
+    "pos": "noun",
+    "definition": "thính giả, khán giả, bạn đọc",
+    "example": "There was a large audience at the game.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_564",
+    "word": "breakfast",
+    "phonetic": "/'brekfəst/",
+    "pos": "verb",
+    "definition": "bữa ăn sáng",
+    "example": "I eat breakfast at 8:00 every morning.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_565",
+    "word": "competition",
+    "phonetic": "/ˌkɔmpə'tɪʃ(ə)n/",
+    "pos": "noun",
+    "definition": "sự cạnh tranh, cuộc thi",
+    "example": "He won the running competition over the weekend.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_566",
+    "word": "cool",
+    "phonetic": "/kuːl/",
+    "pos": "adjective",
+    "definition": "mát mẻ,&nbsp;trầm tĩnh",
+    "example": "The weather is cool in the fall.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_567",
+    "word": "gain",
+    "phonetic": "/geɪn/",
+    "pos": "verb",
+    "definition": "tăng tốc (tốc độ...); lên (cân...)",
+    "example": "I gained some weight over the summer.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_568",
+    "word": "importance",
+    "phonetic": "/ɪm'pɔːt(ə)n(t)s/",
+    "pos": "noun",
+    "definition": "sự quan trọng, tầm quan trọng",
+    "example": "VIPs are people of great importance.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_569",
+    "word": "knowledge",
+    "phonetic": "/'nɔlɪʤ/",
+    "pos": "noun",
+    "definition": "kiến thức, tri thức",
+    "example": "A music teacher should have good knowledge of music.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_570",
+    "word": "major",
+    "phonetic": "/'meɪʤə/",
+    "pos": "adjective",
+    "definition": "chính, chủ yếu, trọng đại",
+    "example": "I have a major problem. My boss wants me to redo my project!",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_571",
+    "word": "mean",
+    "phonetic": "/miːn/",
+    "pos": "adjective",
+    "definition": "verb&nbsp;: nghĩa là, có nghĩa làadj&nbsp;: hèn hạ, bần tiện,&nbsp;kém cỏi,&nbsp;nóng tính ???",
+    "example": "My co-worker is a very mean person. He gets angry very quickly.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_572",
+    "word": "prefer",
+    "phonetic": "/prɪ'fɜː/",
+    "pos": "verb",
+    "definition": "thích hơn, ưa hơn, đề bạt,&nbsp;đưa ra",
+    "example": "I prefer to take the path that will lead me to a bright future.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_573",
+    "word": "president",
+    "phonetic": "/'prezɪd(ə)nt/",
+    "pos": "noun",
+    "definition": "tổng thống, chủ tịch",
+    "example": "The president of our country made an important announcement.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_574",
+    "word": "progress",
+    "phonetic": "/'prəugres/",
+    "pos": "verb",
+    "definition": "noun&amp;verb :&nbsp;tiến triển, tiến bộ, tiến hành",
+    "example": "Our company made financial progress this year.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_575",
+    "word": "respect",
+    "phonetic": "/rɪ'spekt/",
+    "pos": "verb",
+    "definition": "noun&amp;verb :&nbsp;tôn trọng, kính trọng,&nbsp;lưu tâm, chú ý",
+    "example": "I have great respect for firemen.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_576",
+    "word": "rich",
+    "phonetic": "/rɪʧ/",
+    "pos": "adjective",
+    "definition": "giàu, giàu có",
+    "example": "He's rich. He can buy anything he wants.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_577",
+    "word": "skill",
+    "phonetic": "/skɪl/",
+    "pos": "verb",
+    "definition": "kỹ năng",
+    "example": "A snowboarder must have the right skills to do well.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_578",
+    "word": "somehow",
+    "phonetic": "/'sʌmhau/",
+    "pos": "adverb",
+    "definition": "vì lý do này khác, không biết làm sao",
+    "example": "He somehow had to find a way to reach the life preserver.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_579",
+    "word": "strength",
+    "phonetic": "/streŋθ/",
+    "pos": "noun",
+    "definition": "sức mạnh, sức lực, sức khoẻ",
+    "example": "Exercising will increase your strength and give you more power.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_580",
+    "word": "vote",
+    "phonetic": "/vəut/",
+    "pos": "verb",
+    "definition": "bỏ phiếu, bầu cử",
+    "example": "I voted for Billy to be our class president.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_581",
+    "word": "above",
+    "phonetic": "/ə'bʌv/",
+    "pos": "adjective",
+    "definition": "ở trên,&nbsp;trên đầu",
+    "example": "He straightened the sign that was above the crowd.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_582",
+    "word": "ahead",
+    "phonetic": "/ə'hed/",
+    "pos": "adjective",
+    "definition": "adv :&nbsp;thẳng phía trướcadj :&nbsp;hơn, vượt",
+    "example": "The blue car drove an ahead of us.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_583",
+    "word": "amount",
+    "phonetic": "/ə'maunt/",
+    "pos": "verb",
+    "definition": "tổng giá trị (hợp đồng),&nbsp;tổng số (tiền)",
+    "example": "Can I use my card to pay for the entire amount?",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_584",
+    "word": "belief",
+    "phonetic": "/bɪ'liːf/",
+    "pos": "noun",
+    "definition": "niềm tin, lòng tin, đức tin",
+    "example": "A preacher or priest should have a strong belief in God.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_585",
+    "word": "center",
+    "phonetic": "/'sentə/",
+    "pos": "verb",
+    "definition": "trung tâm",
+    "example": "The center of a dart board is the most important spot.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_586",
+    "word": "common",
+    "phonetic": "/'kɔmən/",
+    "pos": "adjective",
+    "definition": "thông thường, chung,&nbsp;phổ thông",
+    "example": "It is common for snow to fall in the winter.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_587",
+    "word": "cost",
+    "phonetic": "/kɔst/",
+    "pos": "noun",
+    "definition": "chi phí,&nbsp;giá thành, phí tổn",
+    "example": "These designer shoes cost more than the regular ones.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_588",
+    "word": "demonstrate",
+    "phonetic": "/'demənstreɪt/",
+    "pos": "verb",
+    "definition": "chứng minh, giải thích, biểu lộ, biểu tình",
+    "example": "She demonstrated her plan to her co-workers.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_589",
+    "word": "different",
+    "phonetic": "/'dɪf(ə)r(ə)nt/",
+    "pos": "adjective",
+    "definition": "khác biệt, khác nhau",
+    "example": "Each of my sisters has a different hair style from one another.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_590",
+    "word": "evidence",
+    "phonetic": "/'evɪd(ə)n(t)s/",
+    "pos": "verb",
+    "definition": "chứng cớ, bằng chứng",
+    "example": "He used the pictures as evidence that UFOs are real.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_591",
+    "word": "honesty",
+    "phonetic": "/'ɔnɪstɪ/",
+    "pos": "noun",
+    "definition": "tính trung thực,&nbsp;tính lương thiện",
+    "example": "A courtroom should be a place of honesty.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_592",
+    "word": "idiom",
+    "phonetic": "/'ɪdɪəm/",
+    "pos": "noun",
+    "definition": "thành ngữ",
+    "example": "The idiom \"when pigs fly\" means that something will never happen.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_593",
+    "word": "independent",
+    "phonetic": "/ˌɪndɪ'pendənt/",
+    "pos": "adjective",
+    "definition": "độc lập,&nbsp;không phụ thuộc",
+    "example": "She chose to live an independent life in the country.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_594",
+    "word": "inside",
+    "phonetic": "/ˌɪn'saɪd/",
+    "pos": "adjective",
+    "definition": "bên trong,&nbsp;phía trong, phần trong",
+    "example": "The inside of the box was empty.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_595",
+    "word": "master",
+    "phonetic": "/'mɑːstə/",
+    "pos": "adjective",
+    "definition": "bậc thầy, thợ cả",
+    "example": "My brother is a master of taekwondo.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_596",
+    "word": "memory",
+    "phonetic": "/'mem(ə)rɪ/",
+    "pos": "noun",
+    "definition": "trí nhớ, ký ức,&nbsp;sự tưởng nhớ",
+    "example": "The memory of my first time in the city will always be the best.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_597",
+    "word": "proper",
+    "phonetic": "/'prɔpə/",
+    "pos": "adjective",
+    "definition": "thích đáng, thích hợp, đúng mực",
+    "example": "It is not proper to throw your garbage on the road.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_598",
+    "word": "scan",
+    "phonetic": "/skæn/",
+    "pos": "verb",
+    "definition": "quét, nhìn chăm chú,&nbsp;đọc lướt",
+    "example": "You must scan each person closely.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_599",
+    "word": "section",
+    "phonetic": "/'sekʃ(ə)n/",
+    "pos": "verb",
+    "definition": "mặt cắt,&nbsp;lát cắt, đoạn (trong sách)",
+    "example": "The green section of the graph is the most important part.",
+    "deck": "oxford"
+  },
+  {
+    "id": "essential_4k_600",
+    "word": "surface",
+    "phonetic": "/'sɜːfɪs/",
+    "pos": "verb",
+    "definition": "bề mặt",
+    "example": "The surface of the moon is very rough.",
+    "deck": "oxford"
+  }
+]
