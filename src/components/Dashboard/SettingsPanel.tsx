@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AppSettings, DeckType, TargetLanguage } from '../../types';
 import { StorageService } from '../../services/storage';
-import { Clock, Sliders, Volume2, ShieldAlert, Sparkles, Check, Power, Keyboard, Download, Upload, Moon, Globe, Target, Trash2, RotateCcw } from 'lucide-react';
+import { UpdateCheckerService, UpdateCheckResult } from '../../services/updateChecker';
+import { APP_VERSION } from '../../config/version';
+import { Clock, Sliders, Volume2, ShieldAlert, Sparkles, Check, Power, Keyboard, Download, Upload, Moon, Globe, Target, Trash2, RotateCcw, ExternalLink, Loader2, RefreshCw } from 'lucide-react';
 
 interface SettingsPanelProps {
   onPracticeNow: () => void;
@@ -10,6 +12,32 @@ interface SettingsPanelProps {
 export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) => {
   const [settings, setSettings] = useState<AppSettings>(StorageService.getSettings());
   const [savedSuccess, setSavedSuccess] = useState(false);
+  const [checkingUpdate, setCheckingUpdate] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState<UpdateCheckResult | null>(null);
+  const [checkMessage, setCheckMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Auto-check for updates silently on mount
+    UpdateCheckerService.checkForUpdates().then((res) => {
+      if (res && res.hasUpdate) {
+        setUpdateInfo(res);
+      }
+    });
+  }, []);
+
+  const handleManualCheckUpdate = async () => {
+    setCheckingUpdate(true);
+    setCheckMessage(null);
+    const res = await UpdateCheckerService.checkForUpdates();
+    setCheckingUpdate(false);
+
+    if (res && res.hasUpdate) {
+      setUpdateInfo(res);
+    } else {
+      setCheckMessage('✨ Bạn đang sử dụng phiên bản Engion mới nhất!');
+      setTimeout(() => setCheckMessage(null), 4000);
+    }
+  };
 
   const handleSave = (updated: AppSettings) => {
     setSettings(updated);
@@ -574,9 +602,67 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
         </div>
       </div>
 
+      {/* Update Available Notification Banner */}
+      {updateInfo && (
+        <div
+          className="animate-pop"
+          style={{
+            marginTop: '20px',
+            padding: '16px 20px',
+            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%)',
+            border: '1px solid var(--accent-green)',
+            borderRadius: 'var(--radius-md)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '12px'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <Sparkles size={22} style={{ color: 'var(--accent-amber)' }} />
+            <div>
+              <div style={{ fontWeight: 800, color: '#FFF', fontSize: '0.95rem' }}>
+                🚀 Đã có phiên bản Engion {updateInfo.latestVersion} mới nhất!
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                Tùy chọn nhấp để tải file .exe mới về hoặc tiếp tục sử dụng bản hiện tại.
+              </div>
+            </div>
+          </div>
+
+          <a
+            href={updateInfo.releaseUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-primary"
+            style={{ padding: '8px 16px', fontSize: '0.85rem', gap: '6px', background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)', textDecoration: 'none' }}
+          >
+            <ExternalLink size={15} /> 📥 Tải File .exe Mới Về
+          </a>
+        </div>
+      )}
+
       {/* App Version Info Footer */}
-      <div style={{ marginTop: '24px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '0.78rem', opacity: 0.8 }}>
-        Engion Tray Learner • Phiên bản <strong>v1.0.0</strong> (Official Release)
+      <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+        <div>
+          Engion Tray Learner • Phiên bản <strong>v{APP_VERSION}</strong> (Official Release)
+        </div>
+
+        <button
+          onClick={handleManualCheckUpdate}
+          disabled={checkingUpdate}
+          className="btn-icon"
+          style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', gap: '6px', cursor: 'pointer' }}
+        >
+          {checkingUpdate ? <Loader2 size={13} className="animate-spin" /> : <RefreshCw size={13} />}
+          {checkingUpdate ? 'Đang kiểm tra...' : 'Kiểm tra bản cập nhật'}
+        </button>
+
+        {checkMessage && (
+          <div style={{ color: 'var(--accent-green)', fontWeight: 600, fontSize: '0.75rem' }}>
+            {checkMessage}
+          </div>
+        )}
       </div>
     </div>
   );
