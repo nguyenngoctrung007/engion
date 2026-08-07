@@ -67,6 +67,7 @@ Exposes safe context bridge API `window.electronAPI`:
   2. `window.location.search.includes('popup')`
   3. `(window.innerWidth <= 550 && window.innerHeight <= 600)`
   *Ensures frameless popup window NEVER falls back to rendering the full Dashboard.*
+- **Popup Container Controls (`PopupContainer.tsx`)**: Exposes instant top action bar controls across all quiz modes (Flashcard, Fill-in-the-blank, Choice) including 1-click **Star Favorite toggle** (`StorageService.toggleFavorite`), **Edit Word**, and **Delete Word**.
 
 ---
 

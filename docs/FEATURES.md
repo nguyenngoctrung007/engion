@@ -63,7 +63,7 @@ This document details all implemented features, business logic, and UI capabilit
 - **🔔 Windows Goal Notifications**: Automatic Windows native desktop notification triggers when you reach 100% of your daily vocabulary target.
 
 ### 4. ⭐ Starred Favorites & Anki CSV Exporter
-- **Favorite Tagging**: Click the star icon **`⭐`** on any word card to toggle favorite status.
+- **Favorite Tagging**: Click the star icon **`⭐`** on any word card in the Deck Manager or directly in the top action bar of the **Popup Quiz window** to toggle favorite status for special attention without needing to open the Deck Manager.
 - **Dedicated Favorite Filter**: Filter deck by **`⭐ YÊU THÍCH`** to review starred words.
 - **Anki / CSV Exporter**: Export entire vocabulary bank (Word, Phonetic, POS, Definition, Example, Deck) into a UTF-8 `.csv` file format ready for import into **Anki** or **Quizlet** mobile apps.
 

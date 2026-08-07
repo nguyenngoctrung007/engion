@@ -5,7 +5,7 @@ import { calculateSRS, pickSmartNextWord } from '../../services/srs';
 import { FlashcardView } from './FlashcardView';
 import { FillInBlankQuiz } from './FillInBlankQuiz';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
-import { X, Layers, HelpCircle, CheckSquare, Sparkles, Edit3, Trash2, Save } from 'lucide-react';
+import { X, Layers, HelpCircle, CheckSquare, Sparkles, Edit3, Trash2, Save, Star } from 'lucide-react';
 
 export const PopupContainer: React.FC = () => {
   const [currentWord, setCurrentWord] = useState<VocabularyWord | null>(null);
@@ -13,6 +13,7 @@ export const PopupContainer: React.FC = () => {
   const [quizMode, setQuizMode] = useState<'flashcard' | 'fill' | 'choice'>('flashcard');
   const [sessionCount, setSessionCount] = useState<number>(0);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   const pickNextWord = (overrideWords?: typeof allWords) => {
     const words = overrideWords ?? StorageService.getAllVocabulary();
@@ -23,6 +24,7 @@ export const PopupContainer: React.FC = () => {
   useEffect(() => {
     const words = StorageService.getAllVocabulary();
     setAllWords(words);
+    setFavoriteIds(StorageService.getFavoriteIds());
 
     const settings = StorageService.getSettings();
     if (settings.quizMode && settings.quizMode !== 'random') {
@@ -100,6 +102,12 @@ export const PopupContainer: React.FC = () => {
       StorageService.deleteWord(currentWord.id);
       pickNextWord();
     }
+  };
+
+  const handleToggleFavorite = () => {
+    if (!currentWord) return;
+    StorageService.toggleFavorite(currentWord.id);
+    setFavoriteIds(StorageService.getFavoriteIds());
   };
 
   const handleSaveEditWord = (e: React.FormEvent) => {
@@ -309,6 +317,18 @@ export const PopupContainer: React.FC = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
           {currentWord && (
             <>
+              <button
+                onClick={handleToggleFavorite}
+                className="btn-icon"
+                style={{
+                  color: favoriteIds.includes(currentWord.id) ? '#F59E0B' : 'var(--text-muted)',
+                  padding: '4px 6px'
+                }}
+                title={favoriteIds.includes(currentWord.id) ? 'Bỏ đánh dấu yêu thích' : 'Đánh dấu yêu thích (chăm sóc đặc biệt)'}
+              >
+                <Star size={15} fill={favoriteIds.includes(currentWord.id) ? '#F59E0B' : 'none'} />
+              </button>
+
               <button
                 onClick={() => setEditingWord({ ...currentWord })}
                 className="btn-icon"
