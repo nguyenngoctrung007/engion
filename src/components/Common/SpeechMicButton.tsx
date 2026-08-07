@@ -180,12 +180,7 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
           const sim = calculateSimilarity(recognizedText, targetWord);
           scorePercent = Math.round(sim * 100);
           isCorrect = sim >= 0.55 || recognizedText.includes(targetWord.toLowerCase());
-
-          if (isCorrect) {
-            verdictMessage = `✅ ĐÃ ĐỌC ĐÚNG (${scorePercent}%)`;
-          } else {
-            verdictMessage = `❌ ĐỌC CHƯA ĐÚNG (${scorePercent}%)`;
-          }
+          verdictMessage = isCorrect ? `ĐÃ ĐỌC ĐÚNG (${scorePercent}%)` : `ĐỌC CHƯA ĐÚNG (${scorePercent}%)`;
         } else {
           // Case 2: Electron Desktop local audio spectrum & energy evaluation
           const averageEnergy = samplesCount > 0 ? totalEnergy / samplesCount : 0;
@@ -195,21 +190,15 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
           if (averageEnergy < 6 || activeVoiceFrames < 3) {
             isCorrect = false;
             scorePercent = 0;
-            verdictMessage = '❌ CHƯA PHÁT RA ÂM THANH (Nói quá nhỏ / im lặng)';
+            verdictMessage = 'CHƯA PHÁT RA ÂM THANH';
           } else {
             const durationDiff = Math.abs(voiceDurationSec - expectedDuration);
             let durationMatch = Math.max(0, 1 - durationDiff / expectedDuration);
             let energyScore = Math.min(1, averageEnergy / 38);
 
             scorePercent = Math.min(95, Math.max(30, Math.round((durationMatch * 0.6 + energyScore * 0.4) * 100)));
-
-            if (scorePercent >= 60) {
-              isCorrect = true;
-              verdictMessage = `✅ ĐÃ ĐỌC ĐÚNG (${scorePercent}% Khớp âm tiết & ngữ điệu)`;
-            } else {
-              isCorrect = false;
-              verdictMessage = `❌ ĐỌC CHƯA ĐÚNG (${scorePercent}% - Âm tiết ngắn/dài bất thường)`;
-            }
+            isCorrect = scorePercent >= 60;
+            verdictMessage = isCorrect ? `ĐÃ ĐỌC ĐÚNG (${scorePercent}%)` : `ĐỌC CHƯA ĐÚNG (${scorePercent}%)`;
           }
         }
 
@@ -220,6 +209,11 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
           verdictMessage,
           audioUrl
         });
+
+        // Auto dismiss feedback after 6 seconds to keep UI clean
+        setTimeout(() => {
+          setFeedback(prev => (prev?.audioUrl === audioUrl ? null : prev));
+        }, 6000);
 
         // Playback recorded audio automatically
         const audio = new Audio(audioUrl);
@@ -332,43 +326,45 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
           className="glass-card animate-pop"
           style={{
             position: 'absolute',
-            top: '110%',
-            left: 0,
+            top: '115%',
+            left: '50%',
+            transform: 'translateX(-50%)',
             zIndex: 1000,
-            width: '330px',
-            padding: '16px',
-            background: 'rgba(15, 23, 42, 0.97)',
+            width: '260px',
+            maxWidth: 'calc(100vw - 32px)',
+            padding: '10px 12px',
+            background: 'rgba(15, 23, 42, 0.98)',
             border: `1px solid ${feedback.isCorrect ? '#10B981' : '#EF4444'}`,
-            boxShadow: '0 12px 36px rgba(0,0,0,0.7)',
-            backdropFilter: 'blur(12px)',
+            boxShadow: '0 16px 40px rgba(0,0,0,0.85), 0 0 15px rgba(0,0,0,0.5)',
+            backdropFilter: 'blur(16px)',
             borderRadius: 'var(--radius-md)'
           }}
         >
           {/* Header Verdict */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flex: 1, minWidth: 0 }}>
               {feedback.isCorrect ? (
-                <Check size={18} style={{ color: '#10B981' }} />
+                <Check size={18} style={{ color: '#10B981', flexShrink: 0 }} />
               ) : (
-                <X size={18} style={{ color: '#EF4444' }} />
+                <X size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
               )}
-              <span style={{ fontSize: '0.88rem', fontWeight: 900, color: feedback.isCorrect ? '#10B981' : '#EF4444' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 900, color: feedback.isCorrect ? '#10B981' : '#EF4444', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {feedback.verdictMessage}
               </span>
             </div>
             <button
               onClick={() => setFeedback(null)}
-              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '2px' }}
+              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '2px', flexShrink: 0 }}
             >
-              <X size={14} />
+              <X size={15} />
             </button>
           </div>
 
           {/* Character Comparison Rows */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '0.85rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '0.85rem' }}>
             {/* Target Word Row */}
             <div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginBottom: '6px', fontWeight: 700 }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 700 }}>
                 🎯 TỪ MẪU ĐÚNG:
               </div>
               <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', fontFamily: 'JetBrains Mono' }}>
@@ -376,7 +372,7 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
                   <span
                     key={idx}
                     style={{
-                      padding: '3px 7px',
+                      padding: '2px 6px',
                       borderRadius: '4px',
                       background: feedback.isCorrect ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.2)',
                       color: feedback.isCorrect ? '#10B981' : '#EF4444',
@@ -392,7 +388,7 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
 
             {/* Recognized / Voice Row */}
             <div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-dim)', marginBottom: '6px', fontWeight: 700 }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-dim)', marginBottom: '4px', fontWeight: 700 }}>
                 🗣️ BẠN ĐỌC ({feedback.recognizedText ? 'MÁY NGHE ĐƯỢC' : 'TỰ ĐỘNG PHÂN TÍCH SPECTRUM'}):
               </div>
               {feedback.recognizedText ? (
@@ -404,7 +400,7 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
                       <span
                         key={idx}
                         style={{
-                          padding: '3px 7px',
+                          padding: '2px 6px',
                           borderRadius: '4px',
                           background: isMatch ? 'rgba(16, 185, 129, 0.25)' : 'rgba(239, 68, 68, 0.3)',
                           color: isMatch ? '#10B981' : '#EF4444',
@@ -420,13 +416,14 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
               ) : (
                 <div
                   style={{
-                    padding: '8px 12px',
+                    padding: '8px 10px',
                     borderRadius: '6px',
                     background: feedback.isCorrect ? 'rgba(16, 185, 129, 0.12)' : 'rgba(239, 68, 68, 0.12)',
                     border: `1px dashed ${feedback.isCorrect ? '#10B981' : '#EF4444'}`,
-                    fontSize: '0.8rem',
+                    fontSize: '0.76rem',
                     color: feedback.isCorrect ? '#10B981' : '#EF4444',
-                    fontWeight: 600
+                    fontWeight: 600,
+                    lineHeight: '1.3'
                   }}
                 >
                   {feedback.isCorrect
@@ -437,18 +434,18 @@ export const SpeechMicButton: React.FC<SpeechMicButtonProps> = ({ targetWord, on
             </div>
 
             {/* Playback Button Row */}
-            <div style={{ marginTop: '4px', paddingTop: '10px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                Độ chính xác: <strong style={{ color: feedback.isCorrect ? '#10B981' : '#EF4444', fontSize: '0.9rem' }}>{feedback.scorePercent}%</strong>
+            <div style={{ marginTop: '2px', paddingTop: '8px', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.74rem', color: 'var(--text-muted)' }}>
+                Độ chính xác: <strong style={{ color: feedback.isCorrect ? '#10B981' : '#EF4444', fontSize: '0.88rem' }}>{feedback.scorePercent}%</strong>
               </span>
 
               {feedback.audioUrl && (
                 <button
                   onClick={playRecordedVoice}
                   className="btn btn-secondary"
-                  style={{ padding: '6px 12px', fontSize: '0.78rem', gap: '6px' }}
+                  style={{ padding: '4px 10px', fontSize: '0.74rem', gap: '4px', flexShrink: 0 }}
                 >
-                  <Volume2 size={14} className={isPlayingAudio ? 'animate-pulse' : ''} /> Nghe lại giọng bạn
+                  <Volume2 size={13} className={isPlayingAudio ? 'animate-pulse' : ''} /> Nghe giọng bạn
                 </button>
               )}
             </div>

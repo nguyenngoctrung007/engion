@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VocabularyWord, UserWordProgress } from '../../types';
 import { StorageService } from '../../services/storage';
-import { calculateSRS } from '../../services/srs';
+import { calculateSRS, pickSmartNextWord } from '../../services/srs';
 import { FlashcardView } from './FlashcardView';
 import { FillInBlankQuiz } from './FillInBlankQuiz';
 import { MultipleChoiceQuiz } from './MultipleChoiceQuiz';
@@ -14,16 +14,10 @@ export const PopupContainer: React.FC = () => {
   const [sessionCount, setSessionCount] = useState<number>(0);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
 
-  const pickNextWord = () => {
-    const words = StorageService.getAllVocabulary();
-    if (words.length > 0) {
-      const filtered = currentWord ? words.filter(w => w.id !== currentWord.id) : words;
-      const pool = filtered.length > 0 ? filtered : words;
-      const next = pool[Math.floor(Math.random() * pool.length)];
-      setCurrentWord(next);
-    } else {
-      setCurrentWord(null);
-    }
+  const pickNextWord = (overrideWords?: typeof allWords) => {
+    const words = overrideWords ?? StorageService.getAllVocabulary();
+    const next = pickSmartNextWord(words, currentWord?.id);
+    setCurrentWord(next);
   };
 
   useEffect(() => {
@@ -38,7 +32,19 @@ export const PopupContainer: React.FC = () => {
       setQuizMode(modes[Math.floor(Math.random() * modes.length)]);
     }
 
-    pickNextWord();
+    // Use smart SRS picker on first load
+    const next = pickSmartNextWord(words, undefined);
+    setCurrentWord(next);
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' || (e.altKey && e.key.toLowerCase() === 'q')) {
+        e.preventDefault();
+        handleClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -105,7 +111,124 @@ export const PopupContainer: React.FC = () => {
     setEditingWord(null);
   };
 
-  if (!currentWord) return null;
+  if (!currentWord) {
+    const handleAction = (type: 'quick-add' | 'dashboard' | 'close') => {
+      if (type === 'quick-add') {
+        if ((window as any).electronAPI?.openQuickAdd) {
+          (window as any).electronAPI.openQuickAdd();
+        } else {
+          window.location.hash = '#quick-add';
+        }
+      } else if (type === 'dashboard') {
+        if ((window as any).electronAPI?.openDashboard) {
+          (window as any).electronAPI.openDashboard();
+        } else {
+          window.location.hash = '';
+        }
+      } else {
+        handleClose();
+      }
+    };
+
+    return (
+      <div
+        className="glass-panel animate-pop"
+        style={{
+          width: '100vw',
+          height: '100vh',
+          padding: '16px 20px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+          background: 'rgba(15, 23, 42, 0.98)',
+          border: '1px solid rgba(99, 102, 241, 0.4)',
+          borderRadius: 'var(--radius-lg)',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.85)',
+          color: '#FFF',
+          overflow: 'hidden'
+        }}
+      >
+        {/* Header Bar */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ padding: '3px 8px', borderRadius: '6px', background: 'var(--accent-amber)', color: '#000', fontWeight: 800, fontSize: '0.72rem' }}>
+              ENGION
+            </div>
+            <span style={{ fontSize: '0.9rem', fontWeight: 800 }}>Kho Từ Vựng Trống</span>
+          </div>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose();
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose();
+            }}
+            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '6px', borderRadius: '50%' }}
+            title="Đóng (ESC)"
+          >
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Empty State Body */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '12px' }}>
+          <div style={{ padding: '14px', borderRadius: '50%', background: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent-cyan)' }}>
+            <Sparkles size={32} />
+          </div>
+          <div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, color: '#FFF', marginBottom: '6px' }}>
+              Kho từ vựng của bạn hiện đang trống!
+            </div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', maxWidth: '320px', lineHeight: 1.4 }}>
+              Bạn có thể thêm từ vựng mới bằng phím tắt <b style={{ color: 'var(--accent-amber)' }}>Alt + N</b> hoặc chọn các bộ từ vựng sẵn có trong Bảng Điều Khiển (<b style={{ color: 'var(--accent-amber)' }}>Alt + D</b>).
+            </div>
+          </div>
+        </div>
+
+        {/* Action buttons with onMouseDown & onClick Win32 protection */}
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAction('quick-add');
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAction('quick-add');
+            }}
+            className="btn btn-primary"
+            style={{ flex: 1, justifyContent: 'center', padding: '8px 12px', fontSize: '0.82rem', fontWeight: 700, gap: '6px' }}
+          >
+            <Sparkles size={14} /> ⚡ Thêm từ (Alt+N)
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAction('dashboard');
+            }}
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleAction('dashboard');
+            }}
+            className="btn btn-secondary"
+            style={{ padding: '8px 12px', fontSize: '0.82rem' }}
+          >
+            📊 Bảng điều khiển (Alt+D)
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div

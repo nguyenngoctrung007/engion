@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, BarChart3, Settings, PlayCircle } from 'lucide-react';
+import { BookOpen, BarChart3, Settings, PlayCircle, Zap } from 'lucide-react';
 import { APP_VERSION } from '../../config/version';
 
 interface SidebarProps {
@@ -9,6 +9,14 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onPracticeNow }) => {
+  const handleQuickAdd = () => {
+    if ((window as any).electronAPI?.openQuickAdd) {
+      (window as any).electronAPI.openQuickAdd();
+    } else {
+      window.location.hash = '#quick-add';
+    }
+  };
+
   return (
     <div
       style={{
@@ -115,28 +123,19 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onPra
       </div>
 
       {/* Smart Status Card & Quick Action */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-        <div
-          style={{
-            padding: '12px 14px',
-            background: 'rgba(16, 185, 129, 0.08)',
-            border: '1px solid rgba(16, 185, 129, 0.2)',
-            borderRadius: 'var(--radius-md)'
-          }}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        <button
+          onClick={handleQuickAdd}
+          className="btn btn-secondary"
+          style={{ width: '100%', justifyContent: 'center', gap: '8px', padding: '10px', fontSize: '0.85rem', color: 'var(--accent-amber)' }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-green)', display: 'inline-block' }} />
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--accent-green)' }}>DASHBOARD ĐANG MỞ</span>
-          </div>
-          <div style={{ fontSize: '0.74rem', color: 'var(--text-muted)', lineHeight: '1.3' }}>
-            Tự động tạm dừng popup để bạn tập trung làm việc.
-          </div>
-        </div>
+          <Zap size={16} /> ⚡ Thêm từ nhanh (Alt+N)
+        </button>
 
         <button
           onClick={onPracticeNow}
           className="btn btn-primary"
-          style={{ width: '100%', justifyContent: 'center', gap: '8px', padding: '12px' }}
+          style={{ width: '100%', justifyContent: 'center', gap: '8px', padding: '11px' }}
         >
           <PlayCircle size={18} /> Học từ ngay
         </button>

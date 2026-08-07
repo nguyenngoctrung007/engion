@@ -23,6 +23,24 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
         setUpdateInfo(res);
       }
     });
+
+    // Send initial settings to main process on mount
+    const saved = StorageService.getSettings();
+    if ((window as any).electronAPI?.updateSettings) {
+      (window as any).electronAPI.updateSettings(saved);
+    }
+
+    if ((window as any).electronAPI?.onSettingsUpdatedFromTray) {
+      (window as any).electronAPI.onSettingsUpdatedFromTray((data: any) => {
+        if (data && data.popupIntervalMinutes !== undefined) {
+          setSettings((prev) => {
+            const updated = { ...prev, popupIntervalMinutes: data.popupIntervalMinutes };
+            StorageService.saveSettings(updated);
+            return updated;
+          });
+        }
+      });
+    }
   }, []);
 
   const handleManualCheckUpdate = async () => {
@@ -153,20 +171,36 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
           </div>
         </div>
 
-        {/* Global Hotkey Card */}
+        {/* Global Hotkeys Grid Card */}
         <div className="glass-card" style={{ padding: '20px', borderLeft: '4px solid var(--accent-amber)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Keyboard size={18} style={{ color: 'var(--accent-amber)' }} /> Phím tắt toàn hệ thống (Global Hotkey)
-              </h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                Nhấn tổ hợp phím bất kỳ lúc nào khi làm việc để gọi ngay cửa sổ học:
-              </p>
+          <div style={{ marginBottom: '14px' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFF', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Keyboard size={18} style={{ color: 'var(--accent-amber)' }} /> Phím tắt toàn hệ thống (Global Hotkeys)
+            </h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+              Nhấn tổ hợp phím bất kỳ lúc nào khi đang làm việc trên Windows để điều khiển Engion:
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '12px' }}>
+            <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)' }}>📖 Mở Dashboard</span>
+              <span style={{ padding: '4px 8px', background: 'rgba(99, 102, 241, 0.15)', borderRadius: '4px', fontSize: '0.82rem', fontWeight: 800, color: 'var(--accent-primary)', fontFamily: 'monospace' }}>Alt + D</span>
             </div>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <span style={{ padding: '6px 12px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '6px', fontSize: '0.88rem', fontWeight: 800, color: 'var(--accent-amber)', fontFamily: 'monospace' }}>Alt + E</span>
-              <span style={{ padding: '6px 12px', background: 'rgba(255, 255, 255, 0.1)', borderRadius: '6px', fontSize: '0.88rem', fontWeight: 800, color: 'var(--accent-amber)', fontFamily: 'monospace' }}>Ctrl + Shift + E</span>
+
+            <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)' }}>⚡ Thêm từ nhanh</span>
+              <span style={{ padding: '4px 8px', background: 'rgba(99, 102, 241, 0.15)', borderRadius: '4px', fontSize: '0.82rem', fontWeight: 800, color: 'var(--accent-primary)', fontFamily: 'monospace' }}>Alt + N</span>
+            </div>
+
+            <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)' }}>📚 Luyện từ ngay</span>
+              <span style={{ padding: '4px 8px', background: 'rgba(245, 158, 11, 0.15)', borderRadius: '4px', fontSize: '0.82rem', fontWeight: 800, color: 'var(--accent-amber)', fontFamily: 'monospace' }}>Alt + E</span>
+            </div>
+
+            <div style={{ background: 'rgba(255, 255, 255, 0.04)', padding: '10px 14px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--text-main)' }}>❌ Đóng cửa sổ</span>
+              <span style={{ padding: '4px 8px', background: 'rgba(239, 68, 68, 0.15)', borderRadius: '4px', fontSize: '0.82rem', fontWeight: 800, color: '#EF4444', fontFamily: 'monospace' }}>Alt + Q</span>
             </div>
           </div>
         </div>
@@ -357,23 +391,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
               { label: '15 phút', value: 15 },
               { label: '30 phút (Khuyên dùng)', value: 30 },
               { label: '60 phút', value: 60 }
-            ].map((option) => (
-              <button
-                key={option.value}
-                onClick={() => handleSave({ ...settings, popupIntervalMinutes: option.value })}
-                className="btn"
-                style={{
-                  padding: '12px',
-                  fontSize: '0.88rem',
-                  flexDirection: 'column',
-                  background: settings.popupIntervalMinutes === option.value ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.04)',
-                  color: settings.popupIntervalMinutes === option.value ? '#FFF' : 'var(--text-muted)',
-                  border: '1px solid var(--border-subtle)'
-                }}
-              >
-                <span style={{ fontWeight: 700 }}>{option.label}</span>
-              </button>
-            ))}
+            ].map((option) => {
+              const isSelected = option.value <= 0.2
+                ? settings.popupIntervalMinutes <= 0.2
+                : Math.abs(settings.popupIntervalMinutes - option.value) < 0.5;
+
+              return (
+                <button
+                  key={option.value}
+                  onClick={() => handleSave({ ...settings, popupIntervalMinutes: option.value })}
+                  className="btn"
+                  style={{
+                    padding: '12px',
+                    fontSize: '0.88rem',
+                    flexDirection: 'column',
+                    background: isSelected ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.04)',
+                    color: isSelected ? '#FFF' : 'var(--text-muted)',
+                    border: isSelected ? '1px solid var(--accent-primary)' : '1px solid var(--border-subtle)',
+                    fontWeight: isSelected ? 700 : 500
+                  }}
+                >
+                  <span style={{ fontWeight: 700 }}>{option.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

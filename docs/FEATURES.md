@@ -10,9 +10,18 @@ This document details all implemented features, business logic, and UI capabilit
 - **Live Tooltip Countdown**: Hovering over the system tray icon shows real-time countdown (e.g., `Engion - Luyện Từ Vựng (Popup tiếp theo sau: 14 phút 30 giây)`).
 - **Non-Transparent Tray Icon**: Clean 32x32 PNG icon built to conform to Win32 System Tray specs.
 - **Minimize-to-Tray 📥**: Clicking Minimize (`_`) or Close (`X`) on the main Dashboard window hides the window directly to System Tray instead of cluttering the Windows Taskbar.
-- **Global Hotkeys**: Press `Alt + E` or `Ctrl + Shift + E` anytime to force-trigger the learning popup.
-- **Continuous Learning Session**: Floating popup tracks session count (e.g. `🔥 Đã học 3 từ`). Clicking **"Từ tiếp theo ➔"** generates a new word instantly.
-- **Instant 1-Click Closing**: Close buttons (`X` and `Xong & Đóng ✕`) handle `onMouseDown` events to respond on the very first click without OS focus delays.
+### ⚡ 2. Global Hotkeys & Quick Add Word (Bộ Phím Tắt Toàn Cục & Thêm Từ Vựng Siêu Nhanh)
+- **Bộ Phím Tắt Toàn Cục (System-wide Global Shortcuts)**:
+  - **`Alt + D`**: Mở Engion Dashboard (Bảng điều khiển chính).
+  - **`Alt + N`**: Mở Quick Add (Cửa sổ thêm từ vựng siêu nhanh 500x440px).
+  - **`Alt + E`**: Bật Popup Flashcard (Học / Luyện từ ngay lập tức).
+  - **`Alt + Q`**: **Đóng ngay cửa sổ / dialog hiện tại đang focus**.
+- **Luồng Tra Từ 1-Click & Chống Trùng Lặp Gộp Nghĩa**:
+  - Gõ từ tiếng Anh ➔ Bấm `Enter` để tra từ điển Oxford & Google Translate.
+  - **Smart POS Selector**: Tự động nhận diện chính xác Động từ (`verb`), Danh từ (`noun`), Tính từ (`adjective`), Trạng từ (`adverb`).
+  - **Natural Context Generator**: Tự động sinh câu ngữ cảnh mượt mà thực tế cho các từ giao tiếp (`okay`, `hello`, `hi`).
+  - **Smart Duplicate Prevention & Merge**: Nếu từ đã có sẵn trong Kho, hệ thống tự động gộp nghĩa mới (ví dụ: `"chơi; vở kịch"`) tránh tạo rác dữ liệu.
+  - Nhấn `Ctrl + Enter` (hoặc `Alt + Enter`) để lưu ngầm vào Kho và tự đóng cửa sổ.
 
 ---
 
@@ -60,29 +69,38 @@ This document details all implemented features, business logic, and UI capabilit
 
 ---
 
-### 5. 🧠 Spaced Repetition System (SRS) & Quiz Modes
-- **5 Memory Boxes Algorithm**:
-  - `Box 1`: Learning / Hard (reviewed every 1 day)
-  - `Box 2`: Medium (reviewed every 3 days)
-  - `Box 3`: Good (reviewed every 7 days)
-  - `Box 4`: Mastered (reviewed every 15 days)
-  - `Box 5`: Mastered (reviewed every 30 days)
+### 5. 🧠 Enhanced Spaced Repetition System (SRS Engine) & Visual Box Distribution
+- **Thuật Toán SM-2 Nâng Cấp & Fuzz ±10%**:
+  - `Box 1`: Mới học / Hay quên (Lặp sau 1 ngày) — Thanh Đỏ `#EF4444`
+  - `Box 2`: Đang ghi nhớ (Lặp sau 4 ngày) — Thanh Cam `#F59E0B`
+  - `Box 3`: Khá vững (Lặp sau 7-10 ngày) — Thanh Xanh Chàm `#6366F1`
+  - `Box 4 & 5`: Thuộc lòng (Lặp sau 15-30 ngày) — Thanh Xanh Lá `#10B981`
+  - `EaseFactor`: Giới hạn từ `1.3` (từ rất khó) đến `3.0` (từ rất dễ).
+  - `Leech Detection`: Theo dõi các từ bị chọn `hard` liên tiếp (`consecutiveHard`) để đưa vào danh sách **🔥 Từ vựng hay sai nhất**.
+- **Bộ Chọn Từ 3 Tầng Ưu Tiên Thông Minh (3-Tier Smart Word Picker)**:
+  - **Tier 1 (Đến hạn ôn - Due Words)**: Ưu tiên tuyệt đối các từ đã đến hạn hoặc quá hạn ôn luyện (`nextReview ≤ now`), sắp xếp từ cũ nhất lên đầu.
+  - **Tier 2 (Từ mới - Unseen Words)**: Tiếp theo ưu tiên hiển thị các từ vựng mới thêm vào Kho chưa học bao giờ.
+  - **Tier 3 (Ôn dải rộng - Least Recently Reviewed)**: Nếu không có từ quá hạn hay từ mới, lấy ngẫu nhiên trong 30% số từ ít được ôn tập nhất gần đây.
 - **3 Interactive Quiz Modes**:
-  1. **Flashcard**: Flip card to reveal answer, rate memory (`Khó`, `Nhớ được`, `Thuộc`).
-  2. **Fill-in-the-blank**: Type the English word matching the Vietnamese definition.
-  3. **Multiple Choice**: Select correct translation out of 4 options.
-- **Weak Words Focus Deck (`🔥 CẦN ÔN LẠI`)**: Automatically aggregates all words in Box 1 & 2 or low accuracy words for targeted revision.
+  1. **Flashcard**: Lật thẻ xem đáp án, đánh giá trí nhớ (`Khó`, `Nhớ được`, `Thuộc`).
+  2. **Fill-in-the-blank**: Gõ từ tiếng Anh tương ứng với nghĩa Tiếng Việt.
+  3. **Multiple Choice**: Trắc nghiệm 4 lựa chọn bản dịch chuẩn xác.
+- **Weak Words Focus Deck (`🔥 CẦN ÔN LẠI`)**: Tự động tổng hợp các từ thuộc Box 1 & 2 hoặc từ có tỷ lệ chính xác thấp để ôn tập tập trung.
 
 ---
 
-### 6. 🏆 Gamification, Daily Goal & Badges
+### 6. 🏆 Gamification, Daily Goal & Roast Badges (Khích Tướng)
 - **Daily Learning Target (Mục tiêu hàng ngày)**: Set minimum daily word target (5, 10, 15, 20, 30 words/day) with a real-time progress bar (`🎯 Mục tiêu hôm nay: 8/10 từ`) and 100% completion badge.
-- **Tracks overall progress**: Total learned words, Mastered count (Box 4 & 5), Accuracy %, and Continuous Streak days.
-- **4 Unlockable Achievement Badges**:
+- **4 Unlockable Achievement Badges (Huy Hiệu Vinh Danh)**:
   - `🔥 Streak 7 Ngày` (Maintained 7 consecutive days)
   - `🧠 Bậc Thầy Từ Vựng` (Mastered 10+ words)
   - `⚡ Học Giả Chăm Chỉ` (Reviewed 20+ words)
   - `🎯 Sát Thủ Tiếng Anh` (Accuracy rate > 80%)
+- **4 Provocative & Troll Badges (Huy Hiệu Khích Tướng Troll)**:
+  - `😴 Trùm Làm Biếng`: Gắn nhãn khi chưa nạp từ nào trong ngày hoặc Streak = 1.
+  - `❌ Trùm Sai Vặt`: Gắn nhãn khi bị đánh dấu Khó / Trả lời sai từ 3+ lần.
+  - `🎲 Chuyên Gia Chọn Lụi`: Gắn nhãn khi tỷ lệ chính xác dưới 50%.
+  - `🌀 Thánh Quên Từ`: Gắn nhãn khi có từ dính kẹt lại ở Box 1 chưa thăng cấp được.
 
 ---
 

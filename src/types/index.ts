@@ -21,11 +21,12 @@ export interface VocabularyWord {
 
 export interface UserWordProgress {
   wordId: string;
-  box: number; // SRS box / level (1-5)
-  easeFactor: number; // SM-2 ease factor (default 2.5)
+  box: number; // SRS box / level (0=new, 1-5)
+  easeFactor: number; // SM-2 ease factor (default 2.5, min 1.3, max 3.0)
   interval: number; // Days until next review
   reviewsCount: number;
   correctCount: number;
+  consecutiveHard: number; // How many times in a row rated "hard" (leech detection)
   lastReviewed: string; // ISO date string
   nextReview: string; // ISO date string
 }
@@ -58,4 +59,11 @@ export interface LearningStats {
   lastActiveDate: string;
   accuracyRate: number;
   todayLearnedCount: number;
+  totalReviews?: number;
+  totalWrong?: number;
+  box1Count?: number;
+  box2Count?: number;
+  box3Count?: number;
+  box4Count?: number;
+  box5Count?: number;
 }

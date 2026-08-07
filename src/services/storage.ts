@@ -94,7 +94,26 @@ export const StorageService = {
 
   saveCustomWord(word: VocabularyWord): void {
     const list = this.getCustomWords();
-    list.unshift(word);
+    const targetWord = word.word.toLowerCase().trim();
+    const existingIndex = list.findIndex(w => w.word.toLowerCase().trim() === targetWord);
+
+    if (existingIndex !== -1) {
+      // If word already exists, update & merge entry instead of creating duplicates
+      const existing = list[existingIndex];
+      let newDef = word.definition.trim();
+      if (existing.definition && existing.definition.trim() !== newDef && !existing.definition.includes(newDef)) {
+        newDef = `${existing.definition}; ${newDef}`;
+      }
+      list[existingIndex] = {
+        ...existing,
+        definition: newDef,
+        phonetic: word.phonetic || existing.phonetic,
+        pos: word.pos || existing.pos,
+        example: word.example || existing.example
+      };
+    } else {
+      list.unshift(word);
+    }
     localStorage.setItem(CUSTOM_WORDS_KEY, JSON.stringify(list));
   },
 
@@ -283,7 +302,14 @@ export const StorageService = {
 
     let totalReviews = progressList.reduce((acc, p) => acc + p.reviewsCount, 0);
     let totalCorrect = progressList.reduce((acc, p) => acc + p.correctCount, 0);
+    let totalWrong = totalReviews - totalCorrect;
     let accuracyRate = totalReviews > 0 ? Math.round((totalCorrect / totalReviews) * 100) : 100;
+
+    let box1Count = progressList.filter(p => p.box === 1 || p.box === 0).length;
+    let box2Count = progressList.filter(p => p.box === 2).length;
+    let box3Count = progressList.filter(p => p.box === 3).length;
+    let box4Count = progressList.filter(p => p.box === 4).length;
+    let box5Count = progressList.filter(p => p.box === 5).length;
 
     const todayStr = new Date().toISOString().split('T')[0];
     let todayLearnedCount = progressList.filter(p => p.lastReviewed && p.lastReviewed.startsWith(todayStr)).length;
@@ -307,8 +333,42 @@ export const StorageService = {
       streakDays,
       lastActiveDate,
       accuracyRate,
-      todayLearnedCount
+      todayLearnedCount,
+      totalReviews,
+      totalWrong,
+      box1Count,
+      box2Count,
+      box3Count,
+      box4Count,
+      box5Count
     };
+  },
+
+  getTopWeakWords(limit: number = 5): Array<{ word: VocabularyWord; progress: UserWordProgress; accuracy: number }> {
+    const allWords = this.getAllVocabulary();
+    const progressMap = this.getProgressMap();
+
+    const weakItems = allWords
+      .map(word => {
+        const progress = progressMap[word.id];
+        if (!progress || progress.reviewsCount === 0) return null;
+        const accuracy = Math.round((progress.correctCount / progress.reviewsCount) * 100);
+        return { word, progress, accuracy };
+      })
+      .filter((item): item is { word: VocabularyWord; progress: UserWordProgress; accuracy: number } => {
+        if (!item) return false;
+        return (item.progress.consecutiveHard && item.progress.consecutiveHard > 0) || item.progress.box <= 2 || item.accuracy < 75;
+      })
+      .sort((a, b) => {
+        const hardA = a.progress.consecutiveHard || 0;
+        const hardB = b.progress.consecutiveHard || 0;
+        if (hardB !== hardA) {
+          return hardB - hardA;
+        }
+        return a.accuracy - b.accuracy;
+      });
+
+    return weakItems.slice(0, limit);
   },
 
   exportData(): string {

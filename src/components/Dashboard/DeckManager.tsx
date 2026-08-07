@@ -220,11 +220,36 @@ export const DeckManager: React.FC = () => {
         </div>
 
         {/* Dynamic Deck Tabs */}
-        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', alignItems: 'center' }}>
+          {/* Permanent Filter Tabs */}
           {[
-            { id: 'all', label: 'TẤT CẢ', canDelete: false },
-            { id: 'fav', label: '⭐ YÊU THÍCH', canDelete: false },
-            { id: 'weak', label: '🔥 CẦN ÔN LẠI', canDelete: false },
+            { id: 'all', label: 'TẤT CẢ', activeBg: 'var(--accent-primary)', activeColor: '#FFF' },
+            { id: 'fav', label: '⭐ YÊU THÍCH', activeBg: '#F59E0B', activeColor: '#0F172A' },
+            { id: 'weak', label: '🔥 CẦN ÔN LẠI', activeBg: '#EF4444', activeColor: '#FFF' }
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setSelectedDeck(tab.id)}
+              className="btn"
+              style={{
+                padding: '8px 14px',
+                fontSize: '0.82rem',
+                fontWeight: 800,
+                background: selectedDeck === tab.id ? tab.activeBg : 'rgba(255, 255, 255, 0.04)',
+                color: selectedDeck === tab.id ? tab.activeColor : 'var(--text-muted)',
+                border: selectedDeck === tab.id ? `1px solid ${tab.activeBg}` : '1px solid var(--border-subtle)',
+                borderRadius: '6px',
+                boxShadow: selectedDeck === tab.id ? '0 4px 12px rgba(0,0,0,0.3)' : 'none'
+              }}
+            >
+              {tab.label}
+            </button>
+          ))}
+
+          <div style={{ width: '1px', height: '24px', background: 'rgba(255, 255, 255, 0.12)', margin: '0 6px' }} />
+
+          {/* Category Decks */}
+          {[
             { id: 'it', label: 'IT', canDelete: true },
             { id: 'toeic', label: 'TOEIC', canDelete: true },
             { id: 'ielts', label: 'IELTS', canDelete: true },
@@ -242,10 +267,8 @@ export const DeckManager: React.FC = () => {
                   padding: '8px 14px',
                   fontSize: '0.82rem',
                   fontWeight: 700,
-                  background: selectedDeck === tab.id
-                    ? (tab.id === 'weak' ? 'var(--accent-amber)' : tab.id === 'fav' ? '#F59E0B' : 'var(--accent-primary)')
-                    : 'rgba(255, 255, 255, 0.04)',
-                  color: selectedDeck === tab.id ? (tab.id === 'weak' || tab.id === 'fav' ? '#0F172A' : '#FFF') : 'var(--text-muted)',
+                  background: selectedDeck === tab.id ? 'var(--accent-primary)' : 'rgba(255, 255, 255, 0.04)',
+                  color: selectedDeck === tab.id ? '#FFF' : 'var(--text-muted)',
                   border: '1px solid var(--border-subtle)',
                   borderRadius: tab.canDelete ? '6px 0 0 6px' : '6px'
                 }}

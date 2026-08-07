@@ -8,6 +8,8 @@ const __dirname = path.dirname(__filename);
 
 let dashboardWindow: BrowserWindow | null = null;
 let popupWindow: BrowserWindow | null = null;
+let quickAddWindow: BrowserWindow | null = null;
+let quickAddReviewWindow: BrowserWindow | null = null;
 let tray: Tray | null = null;
 let quizTimer: NodeJS.Timeout | null = null;
 let countdownTicker: NodeJS.Timeout | null = null;
@@ -216,6 +218,111 @@ function createPopupWindow() {
   });
 }
 
+function createQuickAddWindow() {
+  if (quickAddWindow && !quickAddWindow.isDestroyed()) {
+    try {
+      if (quickAddWindow.isMinimized()) quickAddWindow.restore();
+      quickAddWindow.show();
+      quickAddWindow.focus();
+    } catch {}
+    return;
+  }
+
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
+
+  const winWidth = 500;
+  const winHeight = 440;
+
+  const x = Math.round((screenWidth - winWidth) / 2);
+  const y = Math.round((screenHeight - winHeight) / 2 - 30);
+
+  quickAddWindow = new BrowserWindow({
+    width: winWidth,
+    height: winHeight,
+    x,
+    y,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    resizable: true,
+    icon: createTrayIcon(),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true
+    },
+    backgroundColor: '#00000000'
+  });
+
+  const baseUrl = process.env.VITE_DEV_SERVER_URL 
+    ? process.env.VITE_DEV_SERVER_URL 
+    : `file://${path.join(__dirname, '../dist/index.html')}`;
+
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const quickAddUrl = `${cleanBase}?mode=quick-add#quick-add`;
+
+  quickAddWindow.loadURL(quickAddUrl);
+
+  quickAddWindow.on('closed', () => {
+    quickAddWindow = null;
+  });
+}
+
+function createQuickAddReviewWindow(wordToLookup: string) {
+  if (quickAddWindow && !quickAddWindow.isDestroyed()) {
+    try { quickAddWindow.destroy(); } catch {}
+    quickAddWindow = null;
+  }
+
+  if (quickAddReviewWindow && !quickAddReviewWindow.isDestroyed()) {
+    try { quickAddReviewWindow.destroy(); } catch {}
+    quickAddReviewWindow = null;
+  }
+
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
+
+  const winWidth = 510;
+  const winHeight = 460;
+
+  const x = Math.round((screenWidth - winWidth) / 2);
+  const y = Math.round((screenHeight - winHeight) / 2 - 30);
+
+  quickAddReviewWindow = new BrowserWindow({
+    width: winWidth,
+    height: winHeight,
+    x,
+    y,
+    frame: false,
+    transparent: true,
+    alwaysOnTop: true,
+    skipTaskbar: true,
+    resizable: false,
+    icon: createTrayIcon(),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: false,
+      contextIsolation: true
+    },
+    backgroundColor: '#00000000'
+  });
+
+  const baseUrl = process.env.VITE_DEV_SERVER_URL 
+    ? process.env.VITE_DEV_SERVER_URL 
+    : `file://${path.join(__dirname, '../dist/index.html')}`;
+
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  const reviewUrl = `${cleanBase}?mode=quick-add-review&word=${encodeURIComponent(wordToLookup)}#quick-add-review`;
+
+  quickAddReviewWindow.loadURL(reviewUrl);
+
+  quickAddReviewWindow.on('closed', () => {
+    quickAddReviewWindow = null;
+  });
+}
+
 function updateContextMenu() {
   if (!tray) return;
 
@@ -224,13 +331,19 @@ function updateContextMenu() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: '📖 Mở Engion Dashboard',
+      label: '📖 Mở Engion Dashboard (Alt+D)',
       click: () => {
         showOrCreateDashboard();
       }
     },
     {
-      label: '⚡ Học / Luyện từ ngay',
+      label: '⚡ Thêm từ vựng nhanh (Alt+N)',
+      click: () => {
+        createQuickAddWindow();
+      }
+    },
+    {
+      label: '⚡ Học / Luyện từ ngay (Alt+E)',
       click: () => {
         triggerQuizPopup(true);
       }
@@ -285,19 +398,19 @@ function updateContextMenu() {
         {
           label: '15 phút',
           type: 'radio',
-          checked: currentIntervalMinutes === 15,
+          checked: Math.abs(currentIntervalMinutes - 15) < 0.5,
           click: () => setQuizInterval(15)
         },
         {
           label: '30 phút',
           type: 'radio',
-          checked: currentIntervalMinutes === 30,
+          checked: Math.abs(currentIntervalMinutes - 30) < 0.5,
           click: () => setQuizInterval(30)
         },
         {
           label: '60 phút',
           type: 'radio',
-          checked: currentIntervalMinutes === 60,
+          checked: Math.abs(currentIntervalMinutes - 60) < 0.5,
           click: () => setQuizInterval(60)
         }
       ]
@@ -334,8 +447,8 @@ function triggerQuizPopup(force: boolean = false) {
     return;
   }
 
-  // If dashboard is open & visible, suppress auto popups unless user explicitly requested it
-  if (!force && dashboardWindow && !dashboardWindow.isDestroyed() && dashboardWindow.isVisible() && !dashboardWindow.isMinimized()) {
+  // If test mode (10s interval <= 0.2m), ALWAYS trigger popups even if dashboard is visible so user can verify timer working!
+  if (!force && currentIntervalMinutes > 0.2 && dashboardWindow && !dashboardWindow.isDestroyed() && dashboardWindow.isVisible() && !dashboardWindow.isMinimized()) {
     console.log('[ENGION] Dashboard is open and visible. Suppressing automatic tray popup.');
     return;
   }
@@ -355,7 +468,7 @@ function triggerQuizPopup(force: boolean = false) {
   }, 300);
 }
 
-function setQuizInterval(minutes: number) {
+function setQuizInterval(minutes: number, notifyRenderer: boolean = true) {
   currentIntervalMinutes = minutes;
   if (quizTimer) clearInterval(quizTimer);
   if (countdownTicker) clearInterval(countdownTicker);
@@ -374,6 +487,12 @@ function setQuizInterval(minutes: number) {
 
   updateCountdownTick();
   updateContextMenu();
+
+  if (notifyRenderer && dashboardWindow && !dashboardWindow.isDestroyed()) {
+    try {
+      dashboardWindow.webContents.send('settings-updated-from-tray', { popupIntervalMinutes: minutes });
+    } catch {}
+  }
 }
 
 app.whenReady().then(() => {
@@ -387,17 +506,103 @@ app.whenReady().then(() => {
   createDashboardWindow();
   setQuizInterval(30);
 
-  // Register Global Hotkeys (Alt+E or Ctrl+Shift+E to trigger popup anytime)
+  // Register Global Hotkeys (Alt+Q: Close, Alt+D: Dashboard, Alt+E: Quiz, Alt+N: Quick Add)
   try {
+    globalShortcut.register('Alt+Q', () => {
+      const focusedWin = BrowserWindow.getFocusedWindow();
+      if (focusedWin && !focusedWin.isDestroyed()) {
+        if (focusedWin === dashboardWindow) {
+          focusedWin.hide();
+        } else {
+          try { focusedWin.destroy(); } catch {}
+          if (focusedWin === popupWindow) popupWindow = null;
+          if (focusedWin === quickAddWindow) quickAddWindow = null;
+          if (focusedWin === quickAddReviewWindow) quickAddReviewWindow = null;
+        }
+      }
+    });
+    globalShortcut.register('Alt+D', () => {
+      showOrCreateDashboard();
+    });
+    globalShortcut.register('CommandOrControl+Shift+D', () => {
+      showOrCreateDashboard();
+    });
     globalShortcut.register('Alt+E', () => {
       triggerQuizPopup(true);
     });
     globalShortcut.register('CommandOrControl+Shift+E', () => {
       triggerQuizPopup(true);
     });
+    globalShortcut.register('Alt+N', () => {
+      createQuickAddWindow();
+    });
+    globalShortcut.register('CommandOrControl+Shift+N', () => {
+      createQuickAddWindow();
+    });
   } catch (err) {
     console.log('[ENGION] Failed to register global shortcuts:', err);
   }
+
+  ipcMain.on('open-quick-add-window', () => {
+    if (popupWindow && !popupWindow.isDestroyed()) {
+      try { popupWindow.destroy(); } catch {}
+      popupWindow = null;
+    }
+    createQuickAddWindow();
+  });
+
+  ipcMain.on('open-quick-add-review-window', (_event, wordToLookup: string) => {
+    createQuickAddReviewWindow(wordToLookup);
+  });
+
+  ipcMain.on('open-dashboard-window', () => {
+    if (popupWindow && !popupWindow.isDestroyed()) {
+      try { popupWindow.destroy(); } catch {}
+      popupWindow = null;
+    }
+    showOrCreateDashboard();
+  });
+
+  ipcMain.on('close-quick-add-window', (event) => {
+    const sender = BrowserWindow.fromWebContents(event.sender);
+    if (sender && sender !== dashboardWindow) {
+      try { sender.destroy(); } catch {}
+      if (sender === quickAddWindow) quickAddWindow = null;
+      if (sender === quickAddReviewWindow) quickAddReviewWindow = null;
+    } else {
+      if (quickAddWindow && !quickAddWindow.isDestroyed()) {
+        try { quickAddWindow.destroy(); } catch {}
+        quickAddWindow = null;
+      }
+      if (quickAddReviewWindow && !quickAddReviewWindow.isDestroyed()) {
+        try { quickAddReviewWindow.destroy(); } catch {}
+        quickAddReviewWindow = null;
+      }
+    }
+  });
+
+  ipcMain.on('resize-quick-add-window', (event, expanded: boolean) => {
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (win && !win.isDestroyed()) {
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
+
+      const targetWidth = expanded ? 480 : 440;
+      const targetHeight = expanded ? 480 : 115;
+      const targetX = screenWidth - targetWidth - 24;
+      const targetY = screenHeight - targetHeight - 24;
+
+      try {
+        win.setResizable(true);
+        // Move y position UPWARDS first so window expands upwards on Windows OS
+        win.setPosition(targetX, targetY, false);
+        win.setSize(targetWidth, targetHeight, false);
+        win.setBounds({ x: targetX, y: targetY, width: targetWidth, height: targetHeight }, false);
+      } catch (err) {
+        console.error('[ENGION] Resize quick add window failed:', err);
+      }
+    }
+  });
 
   ipcMain.on('set-auto-launch', (_event, enable: boolean) => {
     app.setLoginItemSettings({
@@ -430,13 +635,9 @@ app.whenReady().then(() => {
     triggerQuizPopup(true);
   });
 
-  ipcMain.on('open-dashboard-window', () => {
-    showOrCreateDashboard();
-  });
-
   ipcMain.on('update-timer-settings', (_event, settings) => {
     if (settings.popupIntervalMinutes !== undefined) {
-      setQuizInterval(settings.popupIntervalMinutes);
+      setQuizInterval(settings.popupIntervalMinutes, false);
     }
     if (settings.autoLaunch !== undefined) {
       app.setLoginItemSettings({

@@ -24,7 +24,7 @@ Engion is a desktop vocabulary learning application built with **Electron + Reac
 |                         ELECTRON MAIN PROCESS                           |
 |  - System Tray (Live Tooltip Countdown & Context Menu)                 |
 |  - Single Instance Lock (app.requestSingleInstanceLock)                 |
-|  - Global Shortcuts (Alt+E / Ctrl+Shift+E)                              |
+|  - Global Shortcuts (Alt+D: Dashboard, Alt+N: Quick Add, Alt+E: Quiz, Alt+Q: Close Focused Window) |
 |  - Windows Management (DashboardWindow & PopupWindow)                   |
 |  - Timer & Countdown Ticker Loop                                        |
 +------------------------------------+------------------------------------+
@@ -86,14 +86,15 @@ engion/
 │   └── create-icon.js                # Dynamically generates 32x32 PNG tray icon
 ├── src/                              # React App source
 │   ├── components/
-│   │   ├── Common/                   # Reusable UI components (AudioButton, Badge)
-│   │   ├── Dashboard/                # Dashboard tabs (DeckManager, StatsOverview, SettingsPanel)
-│   │   └── Popup/                    # Floating popup components (PopupContainer, FlashcardView, etc.)
+│   │   ├── Common/                   # Reusable UI components (AudioButton, Badge, SpeechMicButton)
+│   │   ├── Dashboard/                # Dashboard tabs & Modals (DeckManager, StatsOverview, SettingsPanel, QuickAddModal, QuickAddReviewModal)
+│   │   └── Popup/                    # Floating popup components (PopupContainer, FlashcardView, FillInBlankQuiz, MultipleChoiceQuiz)
 │   ├── data/
 │   │   └── vocabulary.ts             # 24 Built-in vocabulary words (IT, TOEIC, IELTS, Oxford)
 │   ├── services/
 │   │   ├── dictionary.ts             # Dictionary API & Google Translate integration
-│   │   └── storage.ts                # StorageService (localStorage, SRS, favorites, CSV/JSON export)
+│   │   ├── srs.ts                    # Enhanced SM-2 Engine, ±10% fuzzing, 3-tier smart word picker
+│   │   └── storage.ts                # StorageService (localStorage, SRS, favorites, weak words, CSV/JSON export)
 │   ├── types/
 │   │   └── index.ts                  # TypeScript interfaces & types
 │   ├── App.tsx                       # Main React App root

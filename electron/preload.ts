@@ -27,5 +27,20 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   selectAndParseApkg: () => {
     return ipcRenderer.invoke('select-and-parse-apkg');
+  },
+  openQuickAdd: () => {
+    ipcRenderer.send('open-quick-add-window');
+  },
+  closeQuickAdd: () => {
+    ipcRenderer.send('close-quick-add-window');
+  },
+  resizeQuickAddWindow: (expanded: boolean) => {
+    ipcRenderer.send('resize-quick-add-window', expanded);
+  },
+  openQuickAddReview: (word: string) => {
+    ipcRenderer.send('open-quick-add-review-window', word);
+  },
+  onSettingsUpdatedFromTray: (callback: (data: any) => void) => {
+    ipcRenderer.on('settings-updated-from-tray', (_event, data) => callback(data));
   }
 });

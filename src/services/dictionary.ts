@@ -35,11 +35,23 @@ export const DictionaryService = {
 
     const lang = targetLang || StorageService.getSettings().targetLanguage || 'vi';
 
+    const normalizePos = (rawPos: string): string => {
+      const p = (rawPos || '').toLowerCase();
+      if (p.includes('verb') || p.includes('participle')) return 'verb';
+      if (p.includes('adj')) return 'adjective';
+      if (p.includes('adv')) return 'adverb';
+      if (p.includes('noun')) return 'noun';
+      if (p.includes('interjection') || p.includes('preposition') || p.includes('conjunction') || p.includes('phrase')) return 'phrase';
+      return 'noun';
+    };
+
     let phonetic = '';
-    let pos = 'noun';
+    let pos = '';
     let englishDef = '';
     let example = '';
     let isValidWord = false;
+
+    const detectedPosList: string[] = [];
 
     // 1. Fetch Phonetics, POS, and Example from Free English Dictionary API
     try {
@@ -48,15 +60,30 @@ export const DictionaryService = {
         const data = await res.json();
         if (data && Array.isArray(data) && data.length > 0) {
           isValidWord = true;
-          const entry = data[0];
-          phonetic = entry.phonetic || entry.phonetics?.find((p: any) => p.text)?.text || '';
+          for (const entry of data) {
+            if (!phonetic && entry.phonetic) phonetic = entry.phonetic;
+            if (!phonetic && entry.phonetics && Array.isArray(entry.phonetics)) {
+              const p = entry.phonetics.find((item: any) => item.text && item.text.trim());
+              if (p) phonetic = p.text.trim();
+            }
 
-          if (entry.meanings && entry.meanings.length > 0) {
-            const m = entry.meanings[0];
-            pos = m.partOfSpeech || 'noun';
-            if (m.definitions && m.definitions.length > 0) {
-              englishDef = m.definitions[0].definition || '';
-              example = m.definitions[0].example || '';
+            if (entry.meanings && Array.isArray(entry.meanings)) {
+              for (const m of entry.meanings) {
+                if (m.partOfSpeech) {
+                  const norm = normalizePos(m.partOfSpeech);
+                  if (!detectedPosList.includes(norm)) detectedPosList.push(norm);
+                }
+
+                if (m.definitions && Array.isArray(m.definitions)) {
+                  for (const d of m.definitions) {
+                    if (!englishDef && d.definition) englishDef = d.definition;
+                    if (!example && d.example) {
+                      example = d.example;
+                      break;
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -77,12 +104,46 @@ export const DictionaryService = {
       finalTargetDef = await this.translateToTargetLang(englishDef, lang);
     }
 
+    // 3. Smart POS selector: If dictionary contains 'verb' & translation is action verb (or ends in -ing/-ed), pick 'verb'!
+    const viDefLower = (finalTargetDef || '').toLowerCase().trim();
+    const isNounPrefix = viDefLower.startsWith('sự ') || viDefLower.startsWith('cuộc ') || viDefLower.startsWith('trò ') || viDefLower.startsWith('cái ');
+
+    if (detectedPosList.includes('verb')) {
+      if (cleanWord.endsWith('ing') || cleanWord.endsWith('ed') || cleanWord.endsWith('ize') || cleanWord.endsWith('ate') || !isNounPrefix) {
+        pos = 'verb';
+      } else {
+        pos = detectedPosList[0] || 'noun';
+      }
+    } else {
+      pos = detectedPosList[0] || 'noun';
+    }
+
+    // Helper for natural example sentence generator when dictionary API has no example field
+    const generateNaturalExample = (wordStr: string, posType: string): string => {
+      const capWord = wordStr.charAt(0).toUpperCase() + wordStr.slice(1);
+      const lowerWord = wordStr.toLowerCase();
+
+      if (lowerWord === 'okay' || lowerWord === 'hello' || lowerWord === 'hi') {
+        return `"${capWord}, everything is ready for the meeting."`;
+      }
+      if (posType.includes('verb')) {
+        return `Please ${lowerWord} this task as soon as possible.`;
+      }
+      if (posType.includes('adj')) {
+        return `The team found a very ${lowerWord} solution to the problem.`;
+      }
+      if (posType.includes('adv')) {
+        return `She completed the work ${lowerWord} without any issues.`;
+      }
+      return `She explained the concept of ${lowerWord} clearly to everyone.`;
+    };
+
     return {
       word: cleanWord,
       phonetic: phonetic || `/${cleanWord}/`,
       pos: pos || 'noun',
       definition: finalTargetDef || englishDef || targetWordTrans,
-      example: example || `${cleanWord} is a useful English term.`
+      example: example || generateNaturalExample(cleanWord, pos)
     };
   }
 };
