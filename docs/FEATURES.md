@@ -113,6 +113,6 @@ This document details all implemented features, business logic, and UI capabilit
   - **Quick Pause**: One-click temporary DND pause for 1 hour, 2 hours, or until 7:00 AM tomorrow via Settings or System Tray Context Menu.
   - **Scheduled Quiet Hours**: Configure automatic night DND hours (e.g., `22:00` to `07:00`) to suppress automatic popup quizzes.
 - **Audio Accent & Auto-Play**: Toggle between US and UK accents with auto-audio option.
-- **Windows Autostart**: Auto-launch Engion in system tray on Windows boot.
+- **Windows Autostart & Silent Tray Launch**: Auto-launch Engion in system tray on Windows boot. Supports Portable builds (`process.env.PORTABLE_EXECUTABLE_FILE`), Dev mode, and displays a native Toast/Balloon notification (*"Engion đã tự động khởi động và đang chạy ngầm trong Khay hệ thống"*) when started silently.
 - **JSON Backup & Restore**: Export/Import full application state (Settings, Custom Words, SRS progress) via `.json`.
 - **Floating Toast Notifications**: Fixed bottom-right notifications (`position: fixed`) with zero layout shift.

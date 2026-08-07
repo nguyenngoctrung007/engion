@@ -59,7 +59,7 @@ Exposes safe context bridge API `window.electronAPI`:
 - `getTimerState()`: Fetches current countdown & next popup timestamp.
 - `onUpdateTimer(callback)`: Listens for live countdown tick updates.
 - `onOpenPopupQuiz(callback)`: Listens for popup trigger events.
-- `setAutoLaunch(enable)`: Configures Windows startup registry launch.
+- `setAutoLaunch(enable)`: Configures Windows startup registry launch (`applyAutoLaunch`) with Portable build support (`process.env.PORTABLE_EXECUTABLE_FILE`), Dev mode handling, and silent tray start Toast/Balloon notifications.
 
 ### 3. Renderer Process (`src/`)
 - **Dual Mode Guard (`App.tsx`)**: Evaluates `isPopupMode` based on 3 strict criteria:

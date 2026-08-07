@@ -120,9 +120,9 @@ function showOrCreateDashboard() {
   }
 }
 
-function createDashboardWindow() {
+function createDashboardWindow(showOnCreate: boolean = true) {
   if (dashboardWindow && !dashboardWindow.isDestroyed()) {
-    showOrCreateDashboard();
+    if (showOnCreate) showOrCreateDashboard();
     return;
   }
 
@@ -132,6 +132,7 @@ function createDashboardWindow() {
     minWidth: 800,
     minHeight: 600,
     title: 'Engion - English Tray Learner',
+    show: showOnCreate,
     icon: createTrayIcon(),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -495,6 +496,57 @@ function setQuizInterval(minutes: number, notifyRenderer: boolean = true) {
   }
 }
 
+function applyAutoLaunch(enable: boolean) {
+  try {
+    if (!app.isPackaged) {
+      // In development mode (running via electron dev), process.execPath points to node_modules/electron/dist/electron.exe
+      // Arguments must include the compiled main entry point script
+      const mainScript = path.resolve(__dirname, 'main.js');
+      app.setLoginItemSettings({
+        openAtLogin: enable,
+        path: process.execPath,
+        args: [mainScript, '--hidden']
+      });
+    } else {
+      // In production mode (NSIS installed app or Portable executable)
+      const exePath = process.env.PORTABLE_EXECUTABLE_FILE || process.execPath;
+      app.setLoginItemSettings({
+        openAtLogin: enable,
+        path: exePath,
+        args: ['--hidden']
+      });
+    }
+    console.log(`[ENGION] Auto-launch configured (openAtLogin: ${enable})`);
+  } catch (err) {
+    console.error('[ENGION] Failed to configure auto-launch:', err);
+  }
+}
+
+function showAutoStartNotification() {
+  try {
+    if (Notification.isSupported()) {
+      const notification = new Notification({
+        title: 'Engion - English Tray Learner',
+        body: 'Ứng dụng đã khởi động cùng Windows và đang chạy ngầm trong Khay hệ thống (System Tray).',
+        icon: createTrayIcon()
+      });
+      notification.on('click', () => {
+        showOrCreateDashboard();
+      });
+      notification.show();
+    }
+    if (tray && process.platform === 'win32' && typeof (tray as any).displayBalloon === 'function') {
+      (tray as any).displayBalloon({
+        title: 'Engion - Tự động khởi động',
+        content: 'Ứng dụng đã được mở ngầm ở Khay hệ thống. Click đúp vào biểu tượng để mở Dashboard.',
+        iconType: 'info'
+      });
+    }
+  } catch (err) {
+    console.error('[ENGION] Failed to show auto-start notification:', err);
+  }
+}
+
 app.whenReady().then(() => {
   // Grant microphone & media permissions in Electron
   session.defaultSession.setPermissionRequestHandler((_webContents: any, _permission: any, callback: (granted: boolean) => void) => {
@@ -503,7 +555,13 @@ app.whenReady().then(() => {
   session.defaultSession.setPermissionCheckHandler(() => true);
 
   setupTray();
-  createDashboardWindow();
+  const isAutoStart = process.argv.includes('--hidden') || app.getLoginItemSettings().wasOpenedAtLogin;
+  createDashboardWindow(!isAutoStart);
+  if (isAutoStart) {
+    setTimeout(() => {
+      showAutoStartNotification();
+    }, 1500);
+  }
   setQuizInterval(30);
 
   // Register Global Hotkeys (Alt+Q: Close, Alt+D: Dashboard, Alt+E: Quiz, Alt+N: Quick Add)
@@ -605,10 +663,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.on('set-auto-launch', (_event, enable: boolean) => {
-    app.setLoginItemSettings({
-      openAtLogin: enable,
-      path: process.execPath
-    });
+    applyAutoLaunch(enable);
   });
 
   ipcMain.on('close-popup-window', (event) => {
@@ -640,10 +695,7 @@ app.whenReady().then(() => {
       setQuizInterval(settings.popupIntervalMinutes, false);
     }
     if (settings.autoLaunch !== undefined) {
-      app.setLoginItemSettings({
-        openAtLogin: settings.autoLaunch,
-        path: process.execPath
-      });
+      applyAutoLaunch(settings.autoLaunch);
     }
     if (settings.dndUntil !== undefined) {
       dndUntilTimestamp = settings.dndUntil ? new Date(settings.dndUntil).getTime() : null;
