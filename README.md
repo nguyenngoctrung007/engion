@@ -74,7 +74,7 @@ It features a **Pure Client-Side Anki Package (`.apkg`) Importer**, allowing you
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/engion.git
+   git clone https://github.com/nguyenngoctrung007/engion.git
    cd engion
    ```
 
