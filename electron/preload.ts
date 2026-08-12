@@ -42,5 +42,20 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   onSettingsUpdatedFromTray: (callback: (data: any) => void) => {
     ipcRenderer.on('settings-updated-from-tray', (_event, data) => callback(data));
+  },
+  checkForUpdates: () => {
+    ipcRenderer.send('check-for-updates');
+  },
+  onUpdateAvailable: (callback: (data: { version: string; releaseUrl: string }) => void) => {
+    ipcRenderer.on('update-available', (_event, data) => callback(data));
+  },
+  onUpdateProgress: (callback: (data: { percent: number; bytesPerSecond: number; transferred: number; total: number }) => void) => {
+    ipcRenderer.on('update-progress', (_event, data) => callback(data));
+  },
+  onUpdateError: (callback: (data: { message: string }) => void) => {
+    ipcRenderer.on('update-error', (_event, data) => callback(data));
+  },
+  installUpdate: () => {
+    ipcRenderer.send('install-update');
   }
 });

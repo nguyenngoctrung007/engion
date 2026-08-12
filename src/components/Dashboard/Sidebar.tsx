@@ -9,6 +9,16 @@ interface SidebarProps {
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onPracticeNow }) => {
+  const [downloadedVersion, setDownloadedVersion] = React.useState<string | null>(null);
+
+  React.useEffect(() => {
+    if ((window as any).electronAPI?.onUpdateDownloaded) {
+      (window as any).electronAPI.onUpdateDownloaded((data: { version: string }) => {
+        setDownloadedVersion(data.version);
+      });
+    }
+  }, []);
+
   const handleQuickAdd = () => {
     if ((window as any).electronAPI?.openQuickAdd) {
       (window as any).electronAPI.openQuickAdd();
@@ -124,6 +134,33 @@ export const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab, onPra
 
       {/* Smart Status Card & Quick Action */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {downloadedVersion && (
+          <button
+            onClick={() => {
+              if ((window as any).electronAPI?.installUpdate) {
+                (window as any).electronAPI.installUpdate();
+              }
+            }}
+            className="btn animate-pulse"
+            style={{
+              width: '100%',
+              justifyContent: 'center',
+              gap: '6px',
+              padding: '10px',
+              fontSize: '0.82rem',
+              fontWeight: 800,
+              background: '#10B981',
+              color: '#FFF',
+              border: 'none',
+              borderRadius: 'var(--radius-md)',
+              cursor: 'pointer'
+            }}
+            title="Đã tải xong bản nâng cấp! Bấm để khởi động lại và nâng cấp ngay"
+          >
+            🚀 Nâng cấp v{downloadedVersion}
+          </button>
+        )}
+
         <button
           onClick={handleQuickAdd}
           className="btn btn-secondary"

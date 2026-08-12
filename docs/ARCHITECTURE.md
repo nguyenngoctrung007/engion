@@ -60,6 +60,8 @@ Exposes safe context bridge API `window.electronAPI`:
 - `onUpdateTimer(callback)`: Listens for live countdown tick updates.
 - `onOpenPopupQuiz(callback)`: Listens for popup trigger events.
 - `setAutoLaunch(enable)`: Configures Windows startup registry launch (`applyAutoLaunch`) with Portable build support (`process.env.PORTABLE_EXECUTABLE_FILE`), Dev mode handling, and silent tray start Toast/Balloon notifications.
+- `checkForUpdates()`: Triggers background release check via GitHub API (`nguyenngoctrung007/engion`).
+- `onUpdateAvailable(callback)`: Listens for new release notifications with GitHub Release download URL.
 
 ### 3. Renderer Process (`src/`)
 - **Dual Mode Guard (`App.tsx`)**: Evaluates `isPopupMode` based on 3 strict criteria:

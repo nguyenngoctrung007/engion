@@ -24,6 +24,16 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
       }
     });
 
+    if ((window as any).electronAPI?.onUpdateAvailable) {
+      (window as any).electronAPI.onUpdateAvailable((data: { version: string; releaseUrl: string }) => {
+        setUpdateInfo({
+          hasUpdate: true,
+          latestVersion: data.version,
+          releaseUrl: data.releaseUrl
+        });
+      });
+    }
+
     // Send initial settings to main process on mount
     const saved = StorageService.getSettings();
     if ((window as any).electronAPI?.updateSettings) {

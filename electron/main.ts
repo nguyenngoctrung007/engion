@@ -1,10 +1,14 @@
-import { app, BrowserWindow, Tray, Menu, ipcMain, screen, Notification, nativeImage, NativeImage, globalShortcut, session, dialog } from 'electron';
+import { app, BrowserWindow, Tray, Menu, ipcMain, screen, Notification, nativeImage, NativeImage, globalShortcut, session, dialog, shell } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import { autoUpdater } from 'electron-updater';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = false;
 
 let dashboardWindow: BrowserWindow | null = null;
 let popupWindow: BrowserWindow | null = null;
@@ -19,6 +23,7 @@ let dndUntilTimestamp: number | null = null;
 let dndEnabled: boolean = false;
 let dndStart: string = '22:00';
 let dndEnd: string = '07:00';
+let availableUpdateVersion: string | null = null;
 
 function isDndActiveNow(): boolean {
   const now = Date.now();
@@ -148,6 +153,11 @@ function createDashboardWindow(showOnCreate: boolean = true) {
   } else {
     dashboardWindow.loadFile(path.join(__dirname, '../dist/index.html'));
   }
+
+  dashboardWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url);
+    return { action: 'deny' };
+  });
 
   dashboardWindow.on('minimize' as any, (e: any) => {
     e.preventDefault();
@@ -330,7 +340,19 @@ function updateContextMenu() {
   const intervalText = currentIntervalMinutes <= 0.2 ? '10 giây' : `${currentIntervalMinutes} phút`;
   const isDndOn = isDndActiveNow();
 
-  const contextMenu = Menu.buildFromTemplate([
+  const menuItems: any[] = [];
+
+  if (availableUpdateVersion) {
+    menuItems.push({
+      label: `🚀 Đã có bản Engion v${availableUpdateVersion} (Bấm để mở trang tải về)`,
+      click: () => {
+        shell.openExternal('https://github.com/nguyenngoctrung007/engion/releases/latest');
+      }
+    });
+    menuItems.push({ type: 'separator' });
+  }
+
+  menuItems.push(
     {
       label: '📖 Mở Engion Dashboard (Alt+D)',
       click: () => {
@@ -424,8 +446,9 @@ function updateContextMenu() {
         app.quit();
       }
     }
-  ]);
+  );
 
+  const contextMenu = Menu.buildFromTemplate(menuItems);
   tray.setContextMenu(contextMenu);
 }
 
@@ -547,6 +570,57 @@ function showAutoStartNotification() {
   }
 }
 
+function setupAutoUpdater() {
+  autoUpdater.on('checking-for-update', () => {
+    console.log('[ENGION] Checking for updates on GitHub...');
+  });
+
+  autoUpdater.on('update-available', (info) => {
+    console.log(`[ENGION] Update available: v${info.version}`);
+    availableUpdateVersion = info.version;
+    updateContextMenu();
+
+    const releaseUrl = 'https://github.com/nguyenngoctrung007/engion/releases/latest';
+
+    if (dashboardWindow && !dashboardWindow.isDestroyed()) {
+      dashboardWindow.webContents.send('update-available', {
+        version: info.version,
+        releaseUrl
+      });
+    }
+
+    if (Notification.isSupported()) {
+      const notification = new Notification({
+        title: 'Engion - Phiên Bản Cập Nhật Mới 🚀',
+        body: `Đã có bản Engion v${info.version}! Nhấp vào đây để mở trang tải về trên GitHub.`,
+        icon: createTrayIcon()
+      });
+      notification.on('click', () => {
+        shell.openExternal(releaseUrl);
+      });
+      notification.show();
+    }
+    if (tray && process.platform === 'win32' && typeof (tray as any).displayBalloon === 'function') {
+      (tray as any).displayBalloon({
+        title: 'Engion - Cập nhật mới',
+        content: `Đã có bản Engion v${info.version}! Click để mở trang tải bản mới.`,
+        iconType: 'info'
+      });
+    }
+  });
+
+  autoUpdater.on('update-not-available', () => {
+    console.log('[ENGION] App is up to date.');
+    if (dashboardWindow && !dashboardWindow.isDestroyed()) {
+      dashboardWindow.webContents.send('update-not-available');
+    }
+  });
+
+  autoUpdater.on('error', (err) => {
+    console.error('[ENGION] Auto-updater check error:', err);
+  });
+}
+
 app.whenReady().then(() => {
   // Grant microphone & media permissions in Electron
   session.defaultSession.setPermissionRequestHandler((_webContents: any, _permission: any, callback: (granted: boolean) => void) => {
@@ -555,6 +629,15 @@ app.whenReady().then(() => {
   session.defaultSession.setPermissionCheckHandler(() => true);
 
   setupTray();
+  setupAutoUpdater();
+
+  if (app.isPackaged) {
+    setTimeout(() => {
+      autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+        console.error('[ENGION] Auto-update check error:', err);
+      });
+    }, 5000);
+  }
   const isAutoStart = process.argv.includes('--hidden') || app.getLoginItemSettings().wasOpenedAtLogin;
   createDashboardWindow(!isAutoStart);
   if (isAutoStart) {
@@ -716,6 +799,23 @@ app.whenReady().then(() => {
     if (Notification.isSupported()) {
       new Notification({ title, body, icon: createTrayIcon() }).show();
     }
+  });
+
+  ipcMain.on('check-for-updates', () => {
+    if (app.isPackaged) {
+      autoUpdater.checkForUpdatesAndNotify().catch((err) => {
+        console.error('[ENGION] Manual update check error:', err);
+      });
+    } else {
+      console.log('[ENGION] Check for updates ignored in dev mode (unpackaged app).');
+      if (dashboardWindow && !dashboardWindow.isDestroyed()) {
+        dashboardWindow.webContents.send('update-not-available');
+      }
+    }
+  });
+
+  ipcMain.on('install-update', () => {
+    autoUpdater.quitAndInstall();
   });
 
   ipcMain.handle('select-and-parse-apkg', async (_event) => {
