@@ -958,14 +958,30 @@ app.whenReady().then(() => {
 
       // Spin up a one-shot local HTTP server to receive the callback
       const server = http.createServer(async (req, res) => {
-        if (!req.url?.startsWith('/callback')) return;
-        const url = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
-        const code = url.searchParams.get('code');
-        const returnedState = url.searchParams.get('state');
+        if (!req.url) return;
+        const reqUrl = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
+        if (reqUrl.pathname !== '/callback') {
+          res.writeHead(404);
+          res.end();
+          return;
+        }
+
+        const code = reqUrl.searchParams.get('code');
+        const returnedState = reqUrl.searchParams.get('state');
 
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.end('<html><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>✅ Đăng nhập thành công!</h2><p>Bạn có thể đóng tab này và quay lại Engion.</p></body></html>');
-        server.close();
+        res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
+        res.write('<h2 style="color:#10B981;font-size:1.8rem">✅ Đăng Nhập Engion Thành Công!</h2>');
+        res.write('<p style="color:#94A3B8;font-size:1.1rem">Tiến trình từ vựng của bạn đang được tự động đồng bộ qua Google Drive.</p>');
+        res.write('<p style="color:#64748B;font-size:0.9rem">Bạn có thể đóng tab này và quay lại ứng dụng Engion.</p>');
+        res.write('<script>setTimeout(() => window.close(), 3000);</script>');
+        res.write('</body></html>');
+        res.end();
+
+        // Delay closing server slightly to allow HTTP response to flush cleanly to Chrome
+        setTimeout(() => {
+          try { server.close(); } catch {}
+        }, 1000);
 
         if (!code || returnedState !== state) {
           resolve({ success: false, error: 'Invalid OAuth state or missing code' });
@@ -987,6 +1003,8 @@ app.whenReady().then(() => {
             body: params.toString(),
           });
           if (!tokenRes.ok) {
+            const errBody = await tokenRes.text();
+            console.error('[GoogleDrive] Token exchange failed:', errBody);
             resolve({ success: false, error: 'Token exchange failed' });
             return;
           }
@@ -1004,13 +1022,19 @@ app.whenReady().then(() => {
         }
       });
 
-      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
+      server.on('error', (err: any) => {
+        console.error('[GoogleDrive] Local OAuth server error:', err);
+        resolve({ success: false, error: 'Lỗi cổng OAuth: ' + err.message });
+      });
+
+      server.listen(GOOGLE_REDIRECT_PORT, () => {
+        console.log(`[GoogleDrive] OAuth callback server listening on port ${GOOGLE_REDIRECT_PORT}`);
         shell.openExternal(authUrl.toString());
       });
 
       // Timeout after 5 minutes
       setTimeout(() => {
-        server.close();
+        try { server.close(); } catch {}
         resolve({ success: false, error: 'Login timeout' });
       }, 5 * 60 * 1000);
     });
