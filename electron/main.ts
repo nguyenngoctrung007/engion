@@ -946,87 +946,58 @@ app.whenReady().then(() => {
     return { success: true };
   });
 
-  // Start OAuth2 login flow using dedicated popup window & redirect interception
+  // Start OAuth2 login flow using popup window + local HTTP callback server
   ipcMain.handle('google-auth-start', async () => {
     return new Promise<any>((resolve) => {
       const state = crypto.randomBytes(16).toString('hex');
-      const redirectUri = 'http://localhost/callback';
       const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
-      authUrl.searchParams.set('redirect_uri', redirectUri);
+      authUrl.searchParams.set('redirect_uri', GOOGLE_REDIRECT_URI);
       authUrl.searchParams.set('response_type', 'code');
       authUrl.searchParams.set('scope', GOOGLE_SCOPES);
       authUrl.searchParams.set('state', state);
       authUrl.searchParams.set('access_type', 'offline');
       authUrl.searchParams.set('prompt', 'consent');
 
-      // Create auth popup window inside Electron
-      const authWin = new BrowserWindow({
-        width: 520,
-        height: 650,
-        title: 'Đăng nhập Google - Engion',
-        parent: dashboardWindow || undefined,
-        modal: true,
-        show: true,
-        autoHideMenuBar: true,
-        webPreferences: {
-          nodeIntegration: false,
-          contextIsolation: true
-        }
-      });
-
-      // Custom User-Agent so Google allows Electron window login
-      authWin.webContents.setUserAgent(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
-      );
-
-      authWin.webContents.setWindowOpenHandler(({ url }) => {
-        if (url.includes('accounts.google.com') || url.includes('localhost/callback')) {
-          return { action: 'allow' };
-        }
-        shell.openExternal(url);
-        return { action: 'deny' };
-      });
-
       let handled = false;
+      let authWin: BrowserWindow | null = null;
 
-      const handleNavigation = async (targetUrl: string) => {
+      // Spin up local HTTP server to receive the callback on 127.0.0.1:8085
+      const server = http.createServer(async (req, res) => {
+        if (!req.url) return;
+        const reqUrl = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
+        if (reqUrl.pathname !== '/callback') {
+          res.writeHead(404);
+          res.end();
+          return;
+        }
+
+        const code = reqUrl.searchParams.get('code');
+        const returnedState = reqUrl.searchParams.get('state');
+
+        // Immediately respond 200 OK with beautiful success page
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
+        res.write('<h2 style="color:#10B981;font-size:1.8rem">✅ Đăng Nhập Engion Thành Công!</h2>');
+        res.write('<p style="color:#94A3B8;font-size:1.1rem">Tiến trình từ vựng của bạn đang được tự động đồng bộ qua Google Drive.</p>');
+        res.write('<p style="color:#64748B;font-size:0.9rem">Bạn có thể đóng tab này và quay lại ứng dụng Engion.</p>');
+        res.write('</body></html>');
+        res.end();
+
+        setTimeout(() => {
+          try { server.close(); } catch {}
+          if (authWin && !authWin.isDestroyed()) {
+            try { authWin.close(); } catch {}
+          }
+        }, 1500);
+
         if (handled) return;
-
-        let code: string | null = null;
-        let returnedState: string | null = null;
-
-        if (targetUrl) {
-          try {
-            const urlObj = new URL(targetUrl);
-            code = urlObj.searchParams.get('code');
-            returnedState = urlObj.searchParams.get('state');
-          } catch {}
-        }
-
-        // Fallback: Check page title or DOM if Google showed "Approved Clicked" approval page
-        if (!code && authWin && !authWin.isDestroyed()) {
-          try {
-            const pageTitle = authWin.getTitle();
-            if (pageTitle.includes('code=')) {
-              code = pageTitle.split('code=')[1].split('&')[0];
-            } else {
-              code = await authWin.webContents.executeJavaScript(
-                `(function() {
-                  const el = document.querySelector('input[id*="code"], textarea[id*="code"], code');
-                  if (el) return el.value || el.innerText;
-                  if (document.title.includes('code=')) return document.title.split('code=')[1];
-                  return null;
-                })()`
-              );
-            }
-          } catch {}
-        }
-
-        if (!code) return; // Code not ready yet
-
         handled = true;
-        try { authWin.close(); } catch {}
+
+        if (!code || returnedState !== state) {
+          resolve({ success: false, error: 'Invalid OAuth state or missing code' });
+          return;
+        }
 
         // Exchange code for tokens
         try {
@@ -1034,7 +1005,7 @@ app.whenReady().then(() => {
             code,
             client_id: GOOGLE_CLIENT_ID,
             client_secret: GOOGLE_CLIENT_SECRET,
-            redirect_uri: redirectUri,
+            redirect_uri: GOOGLE_REDIRECT_URI,
             grant_type: 'authorization_code',
           });
 
@@ -1046,7 +1017,7 @@ app.whenReady().then(() => {
 
           if (!tokenRes.ok) {
             const errText = await tokenRes.text();
-            console.error('[GoogleDrive] Token exchange error:', errText);
+            console.error('[GoogleDrive] Token exchange failed:', errText);
             resolve({ success: false, error: 'Token exchange failed: ' + errText });
             return;
           }
@@ -1063,32 +1034,54 @@ app.whenReady().then(() => {
         } catch (err: any) {
           resolve({ success: false, error: err.message });
         }
-      };
-
-      // Intercept all navigation & load events (HTTP 302, JS navigations, DOM title updates, and localhost callback loads)
-      authWin.webContents.on('will-redirect', (_event, url) => handleNavigation(url));
-      authWin.webContents.on('will-navigate', (_event, url) => handleNavigation(url));
-      authWin.webContents.on('did-navigate', (_event, url) => handleNavigation(url));
-      authWin.webContents.on('did-start-navigation', (details: any) => handleNavigation(details.url));
-      authWin.webContents.on('did-fail-load', (_event, _errorCode, _errorDescription, validatedURL) => handleNavigation(validatedURL));
-      authWin.webContents.on('did-finish-load', () => {
-        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
-      });
-      authWin.webContents.on('did-stop-loading', () => {
-        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
-      });
-      authWin.on('page-title-updated', () => {
-        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
       });
 
-      authWin.on('closed', () => {
+      server.on('error', (err: any) => {
+        console.error('[GoogleDrive] Local OAuth server error:', err);
+      });
+
+      // Listen on 127.0.0.1:8085
+      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
+        console.log(`[GoogleDrive] Server listening on http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
+
+        // Open auth popup window in Electron
+        authWin = new BrowserWindow({
+          width: 520,
+          height: 650,
+          title: 'Đăng nhập Google - Engion',
+          parent: dashboardWindow || undefined,
+          modal: true,
+          show: true,
+          autoHideMenuBar: true,
+          webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true
+          }
+        });
+
+        authWin.webContents.setUserAgent(
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+        );
+
+        authWin.on('closed', () => {
+          try { server.close(); } catch {}
+          if (!handled) {
+            handled = true;
+            resolve({ success: false, error: 'Đã hủy đăng nhập Google' });
+          }
+        });
+
+        authWin.loadURL(authUrl.toString());
+      });
+
+      // Timeout 5 mins
+      setTimeout(() => {
+        try { server.close(); } catch {}
         if (!handled) {
           handled = true;
-          resolve({ success: false, error: 'Đã hủy đăng nhập Google' });
+          resolve({ success: false, error: 'Login timeout' });
         }
-      });
-
-      authWin.loadURL(authUrl.toString());
+      }, 5 * 60 * 1000);
     });
   });
 
