@@ -10,7 +10,7 @@ import { autoUpdater } from 'electron-updater';
 // Fill in your Client ID & Secret in the .env file
 const GOOGLE_CLIENT_ID     = process.env.GOOGLE_CLIENT_ID     ?? '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
-const GOOGLE_REDIRECT_PORT = 49152; // localhost callback port
+const GOOGLE_REDIRECT_PORT = 8085; // standard user-space loopback port
 const GOOGLE_REDIRECT_URI  = `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}/callback`;
 const GOOGLE_SCOPES        = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
 const TOKEN_STORAGE_KEY    = 'engion_google_tokens';
@@ -166,6 +166,9 @@ function createDashboardWindow(showOnCreate: boolean = true) {
   }
 
   dashboardWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (url.includes('accounts.google.com') || url.includes('localhost/callback')) {
+      return { action: 'allow' };
+    }
     shell.openExternal(url);
     return { action: 'deny' };
   });
@@ -943,108 +946,120 @@ app.whenReady().then(() => {
     return { success: true };
   });
 
-  // Start OAuth2 login flow
+  // Start OAuth2 login flow using dedicated popup window & redirect interception
   ipcMain.handle('google-auth-start', async () => {
     return new Promise<any>((resolve) => {
       const state = crypto.randomBytes(16).toString('hex');
+      const redirectUri = 'http://localhost/callback';
       const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
       authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
-      authUrl.searchParams.set('redirect_uri', GOOGLE_REDIRECT_URI);
+      authUrl.searchParams.set('redirect_uri', redirectUri);
       authUrl.searchParams.set('response_type', 'code');
       authUrl.searchParams.set('scope', GOOGLE_SCOPES);
       authUrl.searchParams.set('state', state);
       authUrl.searchParams.set('access_type', 'offline');
       authUrl.searchParams.set('prompt', 'consent');
 
-      // Spin up a one-shot local HTTP server to receive the callback
-      const server = http.createServer(async (req, res) => {
-        if (!req.url) return;
-        const reqUrl = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
-        if (reqUrl.pathname !== '/callback') {
-          res.writeHead(404);
-          res.end();
-          return;
+      // Create auth popup window inside Electron
+      const authWin = new BrowserWindow({
+        width: 520,
+        height: 650,
+        title: 'Đăng nhập Google - Engion',
+        parent: dashboardWindow || undefined,
+        modal: true,
+        show: true,
+        autoHideMenuBar: true,
+        webPreferences: {
+          nodeIntegration: false,
+          contextIsolation: true
         }
+      });
 
-        const code = reqUrl.searchParams.get('code');
-        const returnedState = reqUrl.searchParams.get('state');
+      // Custom User-Agent so Google allows Electron window login
+      authWin.webContents.setUserAgent(
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
+      );
 
-        if (!code) {
-          res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
-          res.end('<html><body><h3>❌ Không nhận được authorization code từ Google</h3></body></html>');
-          return;
+      authWin.webContents.setWindowOpenHandler(({ url }) => {
+        if (url.includes('accounts.google.com') || url.includes('localhost/callback')) {
+          return { action: 'allow' };
         }
+        shell.openExternal(url);
+        return { action: 'deny' };
+      });
 
-        // Send success page HTML immediately to browser
-        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-        res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
-        res.write('<h2 style="color:#10B981;font-size:1.8rem">✅ Đăng Nhập Engion Thành Công!</h2>');
-        res.write('<p style="color:#94A3B8;font-size:1.1rem">Tiến trình từ vựng của bạn đang được tự động đồng bộ qua Google Drive.</p>');
-        res.write('<p style="color:#64748B;font-size:0.9rem">Bạn có thể đóng tab này và quay lại ứng dụng Engion.</p>');
-        res.write('<script>setTimeout(() => window.close(), 3000);</script>');
-        res.write('</body></html>');
-        res.end();
+      let handled = false;
 
-        // Delay closing server by 3 seconds to ensure Chrome receives full HTTP response
-        setTimeout(() => {
-          try { server.close(); } catch {}
-        }, 3000);
+      const handleNavigation = async (targetUrl: string) => {
+        if (handled) return;
+        if (targetUrl.startsWith(redirectUri)) {
+          handled = true;
+          try {
+            const urlObj = new URL(targetUrl);
+            const code = urlObj.searchParams.get('code');
+            const returnedState = urlObj.searchParams.get('state');
 
-        if (returnedState !== state) {
-          resolve({ success: false, error: 'Invalid OAuth state' });
-          return;
-        }
+            try { authWin.close(); } catch {}
 
-        // Exchange code for tokens
-        try {
-          const params = new URLSearchParams({
-            code,
-            client_id: GOOGLE_CLIENT_ID,
-            client_secret: GOOGLE_CLIENT_SECRET,
-            redirect_uri: GOOGLE_REDIRECT_URI,
-            grant_type: 'authorization_code',
-          });
-          const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: params.toString(),
-          });
-          if (!tokenRes.ok) {
-            const errBody = await tokenRes.text();
-            console.error('[GoogleDrive] Token exchange failed:', errBody);
-            resolve({ success: false, error: 'Token exchange failed: ' + errBody });
-            return;
+            if (!code || returnedState !== state) {
+              resolve({ success: false, error: 'Invalid OAuth state or missing code' });
+              return;
+            }
+
+            // Exchange code for tokens
+            const params = new URLSearchParams({
+              code,
+              client_id: GOOGLE_CLIENT_ID,
+              client_secret: GOOGLE_CLIENT_SECRET,
+              redirect_uri: redirectUri,
+              grant_type: 'authorization_code',
+            });
+
+            const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+              body: params.toString(),
+            });
+
+            if (!tokenRes.ok) {
+              const errText = await tokenRes.text();
+              console.error('[GoogleDrive] Token exchange error:', errText);
+              resolve({ success: false, error: 'Token exchange failed: ' + errText });
+              return;
+            }
+
+            const tokenData = await tokenRes.json();
+            const stored = {
+              access_token: tokenData.access_token,
+              refresh_token: tokenData.refresh_token,
+              expiry: Date.now() + (tokenData.expires_in ?? 3600) * 1000,
+            };
+            saveTokens(stored);
+            const userInfo = await fetchUserInfo(stored.access_token);
+            resolve({ success: true, userInfo });
+          } catch (err: any) {
+            resolve({ success: false, error: err.message });
           }
-          const tokenData = await tokenRes.json();
-          const stored = {
-            access_token: tokenData.access_token,
-            refresh_token: tokenData.refresh_token,
-            expiry: Date.now() + (tokenData.expires_in ?? 3600) * 1000,
-          };
-          saveTokens(stored);
-          const userInfo = await fetchUserInfo(stored.access_token);
-          resolve({ success: true, userInfo });
-        } catch (err: any) {
-          resolve({ success: false, error: err.message });
+        }
+      };
+
+      // Intercept navigation events
+      authWin.webContents.on('will-redirect', (_event, url) => {
+        handleNavigation(url);
+      });
+
+      authWin.webContents.on('will-navigate', (_event, url) => {
+        handleNavigation(url);
+      });
+
+      authWin.on('closed', () => {
+        if (!handled) {
+          handled = true;
+          resolve({ success: false, error: 'Đã hủy đăng nhập Google' });
         }
       });
 
-      server.on('error', (err: any) => {
-        console.error('[GoogleDrive] Local OAuth server error:', err);
-        resolve({ success: false, error: 'Lỗi cổng OAuth: ' + err.message });
-      });
-
-      // Explicitly bind to 127.0.0.1 IPv4 interface
-      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
-        console.log(`[GoogleDrive] OAuth callback server listening on http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
-        shell.openExternal(authUrl.toString());
-      });
-
-      // Timeout after 5 minutes
-      setTimeout(() => {
-        try { server.close(); } catch {}
-        resolve({ success: false, error: 'Login timeout' });
-      }, 5 * 60 * 1000);
+      authWin.loadURL(authUrl.toString());
     });
   });
 

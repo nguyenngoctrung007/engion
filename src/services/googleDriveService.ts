@@ -59,11 +59,11 @@ export const GoogleDriveService = {
   /** Trigger the Google OAuth2 login flow (Native Electron or Web Popup). */
   async login(): Promise<{ success: boolean; userInfo?: GoogleAuthInfo; error?: string }> {
     // 1. Try Native Electron IPC if running inside Electron
-    if (ipc()?.googleAuthStart) {
+    const api = ipc();
+    if (api && typeof api.googleAuthStart === 'function') {
       try {
-        const result = await ipc().googleAuthStart();
-        if (result && result.success) return result;
-        if (result && result.error) return result;
+        const result = await api.googleAuthStart();
+        if (result) return result;
       } catch (e: any) {
         console.warn('[GoogleDrive] Native IPC login error:', e);
       }
@@ -71,16 +71,11 @@ export const GoogleDriveService = {
 
     // 2. Web Browser Fallback (OAuth2 Code Flow for Desktop Client ID)
     return new Promise((resolve) => {
-      const redirectUri = 'http://127.0.0.1:49152/callback';
+      const redirectUri = 'http://127.0.0.1:8085/callback';
       const scopes = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
       const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scopes)}&access_type=offline&prompt=consent`;
 
-      // Open OAuth URL directly in browser / popup
-      if (ipc()?.googleAuthStart) {
-        // Handled by Electron main
-      } else {
-        window.open(authUrl, '_blank');
-      }
+      window.open(authUrl, '_blank');
 
       const timer = setInterval(async () => {
         const token = await this.getAccessToken();
