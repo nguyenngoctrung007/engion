@@ -969,6 +969,13 @@ app.whenReady().then(() => {
         const code = reqUrl.searchParams.get('code');
         const returnedState = reqUrl.searchParams.get('state');
 
+        if (!code) {
+          res.writeHead(400, { 'Content-Type': 'text/html; charset=utf-8' });
+          res.end('<html><body><h3>❌ Không nhận được authorization code từ Google</h3></body></html>');
+          return;
+        }
+
+        // Send success page HTML immediately to browser
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
         res.write('<h2 style="color:#10B981;font-size:1.8rem">✅ Đăng Nhập Engion Thành Công!</h2>');
@@ -978,13 +985,13 @@ app.whenReady().then(() => {
         res.write('</body></html>');
         res.end();
 
-        // Delay closing server slightly to allow HTTP response to flush cleanly to Chrome
+        // Delay closing server by 3 seconds to ensure Chrome receives full HTTP response
         setTimeout(() => {
           try { server.close(); } catch {}
-        }, 1000);
+        }, 3000);
 
-        if (!code || returnedState !== state) {
-          resolve({ success: false, error: 'Invalid OAuth state or missing code' });
+        if (returnedState !== state) {
+          resolve({ success: false, error: 'Invalid OAuth state' });
           return;
         }
 
@@ -1005,7 +1012,7 @@ app.whenReady().then(() => {
           if (!tokenRes.ok) {
             const errBody = await tokenRes.text();
             console.error('[GoogleDrive] Token exchange failed:', errBody);
-            resolve({ success: false, error: 'Token exchange failed' });
+            resolve({ success: false, error: 'Token exchange failed: ' + errBody });
             return;
           }
           const tokenData = await tokenRes.json();
@@ -1027,8 +1034,9 @@ app.whenReady().then(() => {
         resolve({ success: false, error: 'Lỗi cổng OAuth: ' + err.message });
       });
 
-      server.listen(GOOGLE_REDIRECT_PORT, () => {
-        console.log(`[GoogleDrive] OAuth callback server listening on port ${GOOGLE_REDIRECT_PORT}`);
+      // Explicitly bind to 127.0.0.1 IPv4 interface
+      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
+        console.log(`[GoogleDrive] OAuth callback server listening on http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
         shell.openExternal(authUrl.toString());
       });
 
