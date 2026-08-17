@@ -69,64 +69,32 @@ export const GoogleDriveService = {
       }
     }
 
-    // 2. Web Browser Fallback (OAuth2 Implicit Popup)
+    // 2. Web Browser Fallback (OAuth2 Code Flow for Desktop Client ID)
     return new Promise((resolve) => {
-      const redirectUri = window.location.origin + window.location.pathname;
+      const redirectUri = 'http://127.0.0.1:49152/callback';
       const scopes = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(scopes)}&prompt=consent`;
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=${encodeURIComponent(scopes)}&access_type=offline&prompt=consent`;
 
-      const popup = window.open(authUrl, 'google_login', 'width=550,height=650,top=100,left=100');
-      
-      if (!popup) {
-        resolve({ success: false, error: 'Cửa sổ popup bị chặn bởi trình duyệt. Vui lòng cho phép popup.' });
-        return;
+      // Open OAuth URL directly in browser / popup
+      if (ipc()?.googleAuthStart) {
+        // Handled by Electron main
+      } else {
+        window.open(authUrl, '_blank');
       }
 
-      const timer = setInterval(() => {
-        try {
-          if (popup.closed) {
-            clearInterval(timer);
-            resolve({ success: false, error: 'Đăng nhập bị hủy' });
-            return;
-          }
-
-          const href = popup.location.href;
-          if (href && href.includes('access_token=')) {
-            clearInterval(timer);
-            const params = new URLSearchParams(href.split('#')[1]);
-            const accessToken = params.get('access_token');
-            const expiresIn = parseInt(params.get('expires_in') || '3600', 10);
-            popup.close();
-
-            if (accessToken) {
-              const expiry = Date.now() + expiresIn * 1000;
-              localStorage.setItem(WEB_TOKEN_KEY, JSON.stringify({ token: accessToken, expiry }));
-
-              // Fetch User Info
-              fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-                headers: { Authorization: `Bearer ${accessToken}` }
-              })
-                .then(res => res.json())
-                .then(userInfo => {
-                  const info: GoogleAuthInfo = {
-                    email: userInfo.email,
-                    name: userInfo.name,
-                    picture: userInfo.picture
-                  };
-                  localStorage.setItem(WEB_USER_KEY, JSON.stringify(info));
-                  resolve({ success: true, userInfo: info });
-                })
-                .catch(() => {
-                  resolve({ success: true });
-                });
-            } else {
-              resolve({ success: false, error: 'Không lấy được access token từ Google' });
-            }
-          }
-        } catch {
-          // Cross-origin check throws error until popup redirects back to redirectUri — this is expected
+      const timer = setInterval(async () => {
+        const token = await this.getAccessToken();
+        if (token) {
+          clearInterval(timer);
+          const userInfo = await this.getUserInfo();
+          resolve({ success: true, userInfo: userInfo ?? undefined });
         }
-      }, 500);
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(timer);
+        resolve({ success: false, error: 'Hết thời gian chờ đăng nhập (5 phút)' });
+      }, 5 * 60 * 1000);
     });
   },
 
