@@ -31,16 +31,23 @@ export const QuickAddReviewModal: React.FC = () => {
       setLoading(true);
       try {
         const dictData = await DictionaryService.lookupWord(targetWord);
+        const finalWordStr = dictData?.word || targetWord;
         const parsed = {
-          word: targetWord,
-          phonetic: dictData?.phonetic || `/${targetWord}/`,
+          word: finalWordStr,
+          phonetic: dictData?.phonetic || `/${finalWordStr}/`,
           pos: dictData?.pos || 'noun',
           definition: dictData?.definition || 'Từ mới vừa thêm',
-          example: dictData?.example || `Example sentence for ${targetWord}.`,
+          example: dictData?.example || `Example sentence for ${finalWordStr}.`,
           deck: 'custom' as DeckType
         };
         setDraft(parsed);
-        playAudio(targetWord);
+        playAudio(finalWordStr);
+        if (dictData?.wasCorrected) {
+          setToastMessage({
+            text: `💡 Đã tự động sửa lỗi chính tả: "${dictData.originalQuery}" ➔ "${dictData.word}"`,
+            isError: false
+          });
+        }
       } catch (err) {
         console.error('[QuickAddReview] Error:', err);
         setDraft({
@@ -89,6 +96,30 @@ export const QuickAddReviewModal: React.FC = () => {
         window.speechSynthesis.cancel();
         window.speechSynthesis.speak(utterance);
       } catch {}
+    }
+  };
+
+  const handleReLookup = async () => {
+    if (!draft.word.trim()) return;
+    setLoading(true);
+    try {
+      const dictData = await DictionaryService.lookupWord(draft.word.trim());
+      if (dictData) {
+        setDraft(prev => ({
+          ...prev,
+          phonetic: dictData.phonetic || prev.phonetic,
+          pos: dictData.pos || prev.pos,
+          definition: dictData.definition || prev.definition,
+          example: dictData.example || prev.example
+        }));
+        setToastMessage({ text: '✨ Đã cập nhật lại IPA, nghĩa & câu ví dụ!', isError: false });
+      } else {
+        setToastMessage({ text: '⚠️ Không tìm thấy từ này trong từ điển.', isError: true });
+      }
+    } catch {
+      setToastMessage({ text: '⚠️ Lỗi khi tra từ.', isError: true });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -222,6 +253,30 @@ export const QuickAddReviewModal: React.FC = () => {
                 style={{ padding: '5px 10px', fontSize: '0.78rem', gap: '5px' }}
               >
                 <Volume2 size={14} style={{ color: 'var(--accent-amber)' }} /> Nghe thử
+              </button>
+              <button
+                type="button"
+                onClick={handleReLookup}
+                disabled={loading || !draft.word.trim()}
+                className="btn"
+                style={{
+                  padding: '5px 10px',
+                  fontSize: '0.78rem',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+                  color: '#FFF',
+                  fontWeight: 700,
+                  borderRadius: '6px',
+                  border: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  cursor: loading || !draft.word.trim() ? 'not-allowed' : 'pointer',
+                  opacity: loading || !draft.word.trim() ? 0.7 : 1,
+                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.4)'
+                }}
+                title="Tra lại từ điển để tự động cập nhật IPA, nghĩa & câu ví dụ"
+              >
+                <Sparkles size={13} className={loading ? 'animate-spin' : ''} /> ✨ Tra từ
               </button>
             </div>
 

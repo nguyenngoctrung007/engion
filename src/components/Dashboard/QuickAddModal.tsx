@@ -8,6 +8,8 @@ export const QuickAddModal: React.FC = () => {
   const [searchWord, setSearchWord] = useState('');
   const [loading, setLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<{ text: string; isError: boolean } | null>(null);
+  const [difficulty, setDifficulty] = useState<number>(StorageService.getSettings().wordDifficulty || 1);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const [draft, setDraft] = useState<{
     word: string;
@@ -24,6 +26,7 @@ export const QuickAddModal: React.FC = () => {
   draftRef.current = draft;
 
   useEffect(() => {
+    setSuggestions(DictionaryService.getRandomSuggestions(4, difficulty));
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
@@ -41,6 +44,25 @@ export const QuickAddModal: React.FC = () => {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  const handleDifficultyChange = (newDiff: number) => {
+    setDifficulty(newDiff);
+    const settings = StorageService.getSettings();
+    StorageService.saveSettings({ ...settings, wordDifficulty: newDiff });
+    setSuggestions(DictionaryService.getRandomSuggestions(4, newDiff));
+  };
+
+  const handlePickRandomSuggestion = async (wordToUse?: string) => {
+    setLoading(true);
+    try {
+      const target = wordToUse || (await DictionaryService.fetchRandomOnlineWord(difficulty));
+      setSearchWord(target);
+      await handleLookupWord(target);
+      setSuggestions(DictionaryService.getRandomSuggestions(4, difficulty));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleClose = () => {
     if ((window as any).electronAPI?.closeQuickAdd) {
@@ -65,7 +87,7 @@ export const QuickAddModal: React.FC = () => {
       const dictData = await DictionaryService.lookupWord(cleanWord);
 
       const parsedDraft = {
-        word: cleanWord,
+        word: dictData?.word || cleanWord,
         phonetic: dictData?.phonetic || `/${cleanWord}/`,
         pos: dictData?.pos || 'noun',
         definition: dictData?.definition || 'Từ mới vừa thêm',
@@ -74,7 +96,17 @@ export const QuickAddModal: React.FC = () => {
       };
 
       setDraft(parsedDraft);
-      playAudio(cleanWord);
+      if (dictData?.word) {
+        setSearchWord(dictData.word);
+      }
+      playAudio(dictData?.word || cleanWord);
+
+      if (dictData?.wasCorrected) {
+        setToastMessage({
+          text: `💡 Đã tự động sửa lỗi chính tả: "${dictData.originalQuery}" ➔ "${dictData.word}"`,
+          isError: false
+        });
+      }
 
       setTimeout(() => {
         if (definitionInputRef.current) {
@@ -294,23 +326,72 @@ export const QuickAddModal: React.FC = () => {
               </div>
             </div>
 
-            {/* Quick Suggestions Chips */}
-            <div style={{ display: 'flex', gap: '6px', marginTop: '6px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', alignSelf: 'center' }}>Gợi ý nhanh:</span>
-              {['resilient', 'refactor', 'collaborate'].map((w) => (
-                <button
-                  key={w}
-                  type="button"
-                  onClick={() => {
-                    setSearchWord(w);
-                    handleLookupWord(w);
-                  }}
-                  className="btn btn-secondary"
-                  style={{ padding: '3px 8px', fontSize: '0.74rem', borderRadius: '12px' }}
-                >
-                  {w}
-                </button>
-              ))}
+            {/* Quick Suggestions Chips & Random Word Recommendation */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
+              {/* Difficulty Selector Bar */}
+              <div style={{ display: 'flex', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '3px', borderRadius: '20px' }}>
+                {[
+                  { id: 1, label: '🟢 Dễ (Common)', color: '#10B981' },
+                  { id: 3, label: '🟡 Vừa (Medium)', color: '#F59E0B' },
+                  { id: 5, label: '🔴 Khó (Rare)', color: '#EF4444' }
+                ].map((d) => (
+                  <button
+                    key={d.id}
+                    type="button"
+                    onClick={() => handleDifficultyChange(d.id)}
+                    style={{
+                      padding: '3px 10px',
+                      fontSize: '0.72rem',
+                      fontWeight: 700,
+                      borderRadius: '16px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      background: difficulty === d.id ? 'rgba(255, 255, 255, 0.15)' : 'transparent',
+                      color: difficulty === d.id ? d.color : 'var(--text-muted)'
+                    }}
+                  >
+                    {d.label}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => handlePickRandomSuggestion()}
+                className="btn"
+                style={{
+                  padding: '6px 14px',
+                  fontSize: '0.8rem',
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.25) 100%)',
+                  color: '#F59E0B',
+                  border: '1px solid rgba(245, 158, 11, 0.5)',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  boxShadow: '0 2px 10px rgba(245, 158, 11, 0.2)'
+                }}
+                title="Tự động tìm 1 từ vựng hay ngẫu nhiên theo độ khó chưa có trong Kho"
+              >
+                <Lightbulb size={15} /> 🎲 Gợi ý từ ngẫu nhiên theo trình độ
+              </button>
+
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)' }}>Gợi ý từ nổi bật:</span>
+                {suggestions.map((w) => (
+                  <button
+                    key={w}
+                    type="button"
+                    onClick={() => handlePickRandomSuggestion(w)}
+                    className="btn btn-secondary"
+                    style={{ padding: '3px 10px', fontSize: '0.76rem', borderRadius: '12px', borderColor: 'rgba(99, 102, 241, 0.3)', color: 'var(--accent-cyan)' }}
+                  >
+                    {w}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}

@@ -10,6 +10,7 @@ This document details all implemented features, business logic, and UI capabilit
 - **Live Tooltip Countdown**: Hovering over the system tray icon shows real-time countdown (e.g., `Engion - Luyện Từ Vựng (Popup tiếp theo sau: 14 phút 30 giây)`).
 - **Non-Transparent Tray Icon**: Clean 32x32 PNG icon built to conform to Win32 System Tray specs.
 - **Minimize-to-Tray 📥**: Clicking Minimize (`_`) or Close (`X`) on the main Dashboard window hides the window directly to System Tray instead of cluttering the Windows Taskbar.
+- **Ultra-Compact Non-Wrapping Header**: Segmented quiz mode tabs (`Thẻ từ`, `Điền từ`, `Trắc nghiệm`) are strictly configured with `whiteSpace: 'nowrap'` and compact icon padding to ensure zero line wrapping and a clean, spacious layout on 360px-wide windows.
 ### ⚡ 2. Global Hotkeys & Quick Add Word (Bộ Phím Tắt Toàn Cục & Thêm Từ Vựng Siêu Nhanh)
 - **Bộ Phím Tắt Toàn Cục (System-wide Global Shortcuts)**:
   - **`Alt + D`**: Mở Engion Dashboard (Bảng điều khiển chính).
@@ -47,14 +48,20 @@ This document details all implemented features, business logic, and UI capabilit
 
 ---
 
-### 3. 🤖 Auto-Dictionary Lookup & Validation (`⚡ Tra tự động`)
-- **1-Click Auto Completion**: When adding a new word in the modal, typing an English word (e.g. `Serendipity`) and clicking **`⚡ Tra tự động`** automatically fills:
-  - IPA Phonetic (`/ˌserənˈdɪpəti/`)
-  - Part of Speech (`Noun`)
-  - **Target Language Translation**: Powered by Google Translate Engine, auto-translating to user's configured target language (Vietnamese 🇻🇳, Japanese 🇯🇵, Korean 🇰🇷, Chinese 🇨🇳, French 🇫🇷, Spanish 🇪🇸, German 🇩🇪).
-  - English Example Sentence (`Finding this book was pure serendipity...`)
-- **Strict Spell & Gibberish Validation**: If user types an invalid or non-existent word (e.g. `hellissdfasdf`), it is validated against English Dictionary API. If invalid, a non-blocking red inline error (`❌ Không tìm thấy từ này trong từ điển`) is displayed, preserving form state without popups or form corruption.
-- **🎙️ Speech Recognition & Pronunciation Evaluator**: Click the microphone button `🎙️` next to any word to speak into your mic. The app listens via Web Speech Recognition API and evaluates pronunciation accuracy (`✅ Đọc đúng` or `❌ Thử lại`).
+### 3. 🤖 Multi-Source Auto-Dictionary Engine & Spellcheck Auto-Correction (`✨ Tra từ`)
+- **3 Dynamic API Sources**:
+  1. **Free English Dictionary API (`dictionaryapi.dev`)**: Fetches official IPA phonetics (`/ɪnˈkrɛdəbəl/`), parts of speech (`adjective`), english definitions, and authentic example sentences.
+  2. **Google Translate API (`translate.googleapis.com`)**: Translates meanings into user-configured target languages (Vietnamese 🇻🇳, Japanese 🇯🇵, etc.).
+  3. **Datamuse Spellcheck & Suggestion API (`api.datamuse.com`)**: Detects typos & spelling errors and automatically suggests / corrects the word (e.g., `incridible` ➔ `incredible`).
+- **Smart Spellcheck Auto-Correction**: If a user types a misspelled word like `incridible`, Engion detects the 404 from Dictionary API, queries Datamuse API to auto-correct `incridible` ➔ `incredible`, and fills official IPA, adjective POS, and definition with a toast banner: `💡 Đã tự động sửa lỗi chính tả: "incridible" ➔ "incredible"`.
+- **Quick Edit Auto-Correct (Sửa Nhanh & Tra Từ Nhanh)**: In Quick Edit modals, clicking **`✨ Tra từ`** beside the word field re-fetches exact dictionary phonetics, definitions, and sentence examples.
+- **🌐 Difficulty-Filtered Internet Random Word API (`?diff=1..5`)**: When users click **`🎲 Gợi ý từ ngẫu nhiên theo trình độ`**, Engion queries `random-word-api.herokuapp.com/word?number=5&diff=${level}` (using Wikipedia word frequency data) allowing users to choose their desired proficiency level:
+  - 🟢 **Dễ (Easy - Common words)**: `diff=1` (e.g. `water`, `house`, `smile`)
+  - 🟡 **Vừa (Medium - Moderately common)**: `diff=3` (e.g. `resilient`, `schedule`, `pragmatic`)
+  - 🔴 **Khó (Hard - Rare words)**: `diff=5` (e.g. `defenestration`, `ephemeral`, `quintessential`)
+  Validates fetched words against English Dictionary API and auto-fills full IPA, definition, and example sentence.
+- **Strict Spell & Gibberish Validation**: If a string is completely invalid or gibberish (e.g. `asdfghjkl`), Engion shows an inline error (`❌ Không tìm thấy từ này trong từ điển`) preserving form state.
+- **🎙️ Speech Recognition & Pronunciation Evaluator**: Web Speech Recognition API evaluates spoken pronunciation (`✅ Đọc đúng` or `❌ Thử lại`).
 
 ---
 

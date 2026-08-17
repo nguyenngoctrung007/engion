@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VocabularyWord, UserWordProgress } from '../../types';
 import { StorageService } from '../../services/storage';
+import { DictionaryService } from '../../services/dictionary';
 import { calculateSRS, pickSmartNextWord } from '../../services/srs';
 import { FlashcardView } from './FlashcardView';
 import { FillInBlankQuiz } from './FillInBlankQuiz';
@@ -14,6 +15,8 @@ export const PopupContainer: React.FC = () => {
   const [sessionCount, setSessionCount] = useState<number>(0);
   const [editingWord, setEditingWord] = useState<VocabularyWord | null>(null);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [isSearchingDict, setIsSearchingDict] = useState<boolean>(false);
+  const [lookupMessage, setLookupMessage] = useState<string | null>(null);
 
   const pickNextWord = (overrideWords?: typeof allWords) => {
     const words = overrideWords ?? StorageService.getAllVocabulary();
@@ -108,6 +111,33 @@ export const PopupContainer: React.FC = () => {
     if (!currentWord) return;
     StorageService.toggleFavorite(currentWord.id);
     setFavoriteIds(StorageService.getFavoriteIds());
+  };
+
+  const handleAutoLookupEditWord = async () => {
+    if (!editingWord || !editingWord.word.trim()) return;
+    setIsSearchingDict(true);
+    setLookupMessage(null);
+    try {
+      const settings = StorageService.getSettings();
+      const dictData = await DictionaryService.lookupWord(editingWord.word.trim(), settings.targetLanguage);
+      if (dictData) {
+        setEditingWord(prev => prev ? {
+          ...prev,
+          phonetic: dictData.phonetic || prev.phonetic,
+          definition: dictData.definition || prev.definition,
+          example: dictData.example || prev.example,
+          pos: dictData.pos || prev.pos
+        } : null);
+        setLookupMessage('✨ Đã tự động cập nhật IPA, nghĩa & ví dụ!');
+      } else {
+        setLookupMessage('⚠️ Không tìm thấy từ này trong từ điển.');
+      }
+    } catch {
+      setLookupMessage('⚠️ Lỗi kết nối từ điển.');
+    } finally {
+      setIsSearchingDict(false);
+      setTimeout(() => setLookupMessage(null), 3000);
+    }
   };
 
   const handleSaveEditWord = (e: React.FormEvent) => {
@@ -254,25 +284,26 @@ export const PopupContainer: React.FC = () => {
       }}
     >
       {/* Top Header / Mode selector & Action buttons */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px', flexShrink: 0 }}>
-        <div style={{ display: 'flex', gap: '4px', background: 'rgba(255, 255, 255, 0.05)', padding: '3px', borderRadius: 'var(--radius-md)' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px', flexShrink: 0, gap: '4px' }}>
+        <div style={{ display: 'flex', gap: '2px', background: 'rgba(255, 255, 255, 0.06)', padding: '2px', borderRadius: '8px', flexShrink: 0 }}>
           <button
             onClick={() => setQuizMode('flashcard')}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
-              padding: '4px 10px',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              borderRadius: 'var(--radius-sm)',
+              padding: '4px 7px',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              borderRadius: '6px',
               border: 'none',
               cursor: 'pointer',
+              whiteSpace: 'nowrap',
               background: quizMode === 'flashcard' ? 'var(--accent-primary)' : 'transparent',
               color: quizMode === 'flashcard' ? '#FFF' : 'var(--text-muted)'
             }}
           >
-            <Layers size={13} /> Thẻ từ
+            <Layers size={12} /> Thẻ từ
           </button>
 
           <button
@@ -281,17 +312,18 @@ export const PopupContainer: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
-              padding: '4px 10px',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              borderRadius: 'var(--radius-sm)',
+              padding: '4px 7px',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              borderRadius: '6px',
               border: 'none',
               cursor: 'pointer',
+              whiteSpace: 'nowrap',
               background: quizMode === 'fill' ? 'var(--accent-primary)' : 'transparent',
               color: quizMode === 'fill' ? '#FFF' : 'var(--text-muted)'
             }}
           >
-            <HelpCircle size={13} /> Điền từ
+            <HelpCircle size={12} /> Điền từ
           </button>
 
           <button
@@ -300,21 +332,22 @@ export const PopupContainer: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '4px',
-              padding: '4px 10px',
-              fontSize: '0.75rem',
-              fontWeight: 600,
-              borderRadius: 'var(--radius-sm)',
+              padding: '4px 7px',
+              fontSize: '0.72rem',
+              fontWeight: 700,
+              borderRadius: '6px',
               border: 'none',
               cursor: 'pointer',
+              whiteSpace: 'nowrap',
               background: quizMode === 'choice' ? 'var(--accent-primary)' : 'transparent',
               color: quizMode === 'choice' ? '#FFF' : 'var(--text-muted)'
             }}
           >
-            <CheckSquare size={13} /> Trắc nghiệm
+            <CheckSquare size={12} /> Trắc nghiệm
           </button>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2px', flexShrink: 0 }}>
           {currentWord && (
             <>
               <button
@@ -322,38 +355,63 @@ export const PopupContainer: React.FC = () => {
                 className="btn-icon"
                 style={{
                   color: favoriteIds.includes(currentWord.id) ? '#F59E0B' : 'var(--text-muted)',
-                  padding: '4px 6px'
+                  width: '26px',
+                  height: '26px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '6px'
                 }}
-                title={favoriteIds.includes(currentWord.id) ? 'Bỏ đánh dấu yêu thích' : 'Đánh dấu yêu thích (chăm sóc đặc biệt)'}
+                title={favoriteIds.includes(currentWord.id) ? 'Bỏ đánh dấu yêu thích' : 'Đánh dấu yêu thích'}
               >
-                <Star size={15} fill={favoriteIds.includes(currentWord.id) ? '#F59E0B' : 'none'} />
+                <Star size={14} fill={favoriteIds.includes(currentWord.id) ? '#F59E0B' : 'none'} />
               </button>
 
               <button
                 onClick={() => setEditingWord({ ...currentWord })}
                 className="btn-icon"
-                style={{ color: 'var(--accent-cyan)', padding: '4px 6px' }}
+                style={{
+                  color: 'var(--accent-cyan)',
+                  width: '26px',
+                  height: '26px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '6px'
+                }}
                 title="Chỉnh sửa từ vựng này"
               >
-                <Edit3 size={15} />
+                <Edit3 size={14} />
               </button>
 
               <button
                 onClick={handleDeleteCurrentWord}
                 className="btn-icon"
-                style={{ color: '#EF4444', padding: '4px 6px' }}
-                title="Xóa từ vựng này khỏi hệ thống"
+                style={{
+                  color: '#EF4444',
+                  width: '26px',
+                  height: '26px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '6px'
+                }}
+                title="Xóa từ vựng này"
               >
-                <Trash2 size={15} />
+                <Trash2 size={14} />
               </button>
             </>
           )}
 
           {sessionCount > 0 && (
-            <span style={{ fontSize: '0.72rem', color: 'var(--accent-amber)', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
-              🔥 {sessionCount}
+            <span style={{ fontSize: '0.7rem', color: 'var(--accent-amber)', fontWeight: 700, padding: '0 2px' }}>
+              🔥{sessionCount}
             </span>
           )}
+
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -366,9 +424,19 @@ export const PopupContainer: React.FC = () => {
               handleClose();
             }}
             className="btn-icon"
-            style={{ borderRadius: '50%', padding: '6px', cursor: 'pointer' }}
+            style={{
+              width: '26px',
+              height: '26px',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '6px',
+              cursor: 'pointer'
+            }}
+            title="Đóng (ESC)"
           >
-            <X size={16} />
+            <X size={15} />
           </button>
         </div>
       </div>
@@ -411,7 +479,34 @@ export const PopupContainer: React.FC = () => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '14px' }}>
               <div>
-                <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Từ tiếng Anh:</label>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Từ tiếng Anh:</label>
+                  <button
+                    type="button"
+                    onClick={handleAutoLookupEditWord}
+                    disabled={isSearchingDict || !editingWord.word.trim()}
+                    className="btn"
+                    style={{
+                      fontSize: '0.75rem',
+                      padding: '3px 10px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+                      color: '#FFF',
+                      fontWeight: 700,
+                      borderRadius: '6px',
+                      border: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      cursor: isSearchingDict || !editingWord.word.trim() ? 'not-allowed' : 'pointer',
+                      opacity: isSearchingDict || !editingWord.word.trim() ? 0.7 : 1,
+                      boxShadow: '0 2px 8px rgba(99, 102, 241, 0.4)'
+                    }}
+                    title="Tra lại IPA, Nghĩa tiếng Việt & Câu ví dụ chuẩn xác từ từ điển"
+                  >
+                    <Sparkles size={13} className={isSearchingDict ? 'animate-spin' : ''} />
+                    {isSearchingDict ? 'Đang tra...' : '✨ Tra từ'}
+                  </button>
+                </div>
                 <input
                   type="text"
                   className="input-field"
@@ -420,6 +515,19 @@ export const PopupContainer: React.FC = () => {
                   required
                 />
               </div>
+
+              {lookupMessage && (
+                <div style={{
+                  fontSize: '0.75rem',
+                  color: lookupMessage.startsWith('✨') ? 'var(--accent-cyan)' : '#EF4444',
+                  padding: '4px 8px',
+                  borderRadius: '4px',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  textAlign: 'center'
+                }}>
+                  {lookupMessage}
+                </div>
+              )}
 
               <div>
                 <label style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '3px' }}>Phiên âm IPA:</label>

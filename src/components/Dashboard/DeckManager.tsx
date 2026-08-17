@@ -6,7 +6,7 @@ import { AudioButton } from '../Common/AudioButton';
 import { SpeechMicButton } from '../Common/SpeechMicButton';
 import { Badge } from '../Common/Badge';
 import { PresetLibraryModal } from './PresetLibraryModal';
-import { Search, Plus, Trash2, Sparkles, Flame, Star, Edit3, FolderPlus, X, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Plus, Trash2, Sparkles, Flame, Star, Edit3, FolderPlus, X, BookOpen, ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
 
 export const DeckManager: React.FC = () => {
   const [words, setWords] = useState<VocabularyWord[]>([]);
@@ -107,6 +107,7 @@ export const DeckManager: React.FC = () => {
       } else {
         setNewWord(prev => ({
           ...prev,
+          word: result.word,
           phonetic: result.phonetic || prev.phonetic,
           pos: result.pos || prev.pos,
           definition: result.definition || prev.definition,
@@ -115,6 +116,31 @@ export const DeckManager: React.FC = () => {
       }
     } else {
       setDictError('Không tìm thấy từ này trong từ điển');
+    }
+  };
+
+  const handleRandomSuggestAddModal = async () => {
+    setIsSearchingDict(true);
+    setDictError(null);
+    try {
+      const suggested = await DictionaryService.fetchRandomOnlineWord();
+      const settings = StorageService.getSettings();
+      const result = await DictionaryService.lookupWord(suggested, settings.targetLanguage);
+
+      if (result) {
+        setNewWord(prev => ({
+          ...prev,
+          word: result.word,
+          phonetic: result.phonetic || `/${result.word}/`,
+          pos: result.pos || 'noun',
+          definition: result.definition || '',
+          example: result.example || ''
+        }));
+      }
+    } catch {
+      setDictError('Lỗi kết nối từ điển');
+    } finally {
+      setIsSearchingDict(false);
     }
   };
 
@@ -466,15 +492,55 @@ export const DeckManager: React.FC = () => {
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                   <label style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Từ tiếng Anh *</label>
-                  <button
-                    type="button"
-                    onClick={() => handleAutoLookup(false)}
-                    disabled={isSearchingDict || !newWord.word.trim()}
-                    className="btn"
-                    style={{ fontSize: '0.75rem', padding: '2px 8px', background: 'rgba(99, 102, 241, 0.2)', color: 'var(--accent-primary)' }}
-                  >
-                    <Sparkles size={12} /> {isSearchingDict ? 'Đang tra...' : '⚡ Tra tự động'}
-                  </button>
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    <button
+                      type="button"
+                      onClick={handleRandomSuggestAddModal}
+                      disabled={isSearchingDict}
+                      className="btn"
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: '3px 8px',
+                        background: 'rgba(245, 158, 11, 0.18)',
+                        color: '#F59E0B',
+                        border: '1px solid rgba(245, 158, 11, 0.4)',
+                        borderRadius: '6px',
+                        fontWeight: 700,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        cursor: 'pointer'
+                      }}
+                      title="Tự động gợi ý 1 từ vựng ngẫu nhiên chưa có trong Kho"
+                    >
+                      <Lightbulb size={12} /> 🎲 Gợi ý từ
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleAutoLookup(false)}
+                      disabled={isSearchingDict || !newWord.word.trim()}
+                      className="btn"
+                      style={{
+                        fontSize: '0.75rem',
+                        padding: '3px 10px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+                        color: '#FFF',
+                        fontWeight: 700,
+                        borderRadius: '6px',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        cursor: isSearchingDict || !newWord.word.trim() ? 'not-allowed' : 'pointer',
+                        opacity: isSearchingDict || !newWord.word.trim() ? 0.7 : 1,
+                        boxShadow: '0 2px 8px rgba(99, 102, 241, 0.4)'
+                      }}
+                      title="Tra từ điển tự động điền IPA & nghĩa"
+                    >
+                      <Sparkles size={13} className={isSearchingDict ? 'animate-spin' : ''} />
+                      {isSearchingDict ? 'Đang tra...' : '✨ Tra từ'}
+                    </button>
+                  </div>
                 </div>
                 <input
                   type="text"
@@ -593,9 +659,25 @@ export const DeckManager: React.FC = () => {
                     onClick={() => handleAutoLookup(true)}
                     disabled={isSearchingDict || !editingWord.word.trim()}
                     className="btn"
-                    style={{ fontSize: '0.75rem', padding: '2px 8px', background: 'rgba(99, 102, 241, 0.2)', color: 'var(--accent-primary)' }}
+                    style={{
+                      fontSize: '0.75rem',
+                      padding: '3px 10px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)',
+                      color: '#FFF',
+                      fontWeight: 700,
+                      borderRadius: '6px',
+                      border: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      cursor: isSearchingDict || !editingWord.word.trim() ? 'not-allowed' : 'pointer',
+                      opacity: isSearchingDict || !editingWord.word.trim() ? 0.7 : 1,
+                      boxShadow: '0 2px 8px rgba(99, 102, 241, 0.4)'
+                    }}
+                    title="Tra lại IPA, Nghĩa tiếng Việt & Câu ví dụ chuẩn xác từ từ điển"
                   >
-                    <Sparkles size={12} /> {isSearchingDict ? 'Đang tra...' : '⚡ Tra lại tự động'}
+                    <Sparkles size={13} className={isSearchingDict ? 'animate-spin' : ''} />
+                    {isSearchingDict ? 'Đang tra...' : '✨ Tra từ'}
                   </button>
                 </div>
                 <input

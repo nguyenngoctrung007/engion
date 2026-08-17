@@ -1,3 +1,31 @@
+# 🚀 Engion v1.1.1 - Release Notes
+
+**Release Date**: August 17, 2026
+
+Engion v1.1.1 introduces 1-Click Quick Auto-Lookup (`✨ Tra từ`), Datamuse Spellcheck Auto-Correction, Difficulty-Filtered Internet Random Word Recommendation (`?diff=1..5`), and ultra-compact popup window header optimizations!
+
+---
+
+## 🔥 Key Highlights in v1.1.1
+
+### ✨ 1. 1-Click Quick Auto-Lookup & Sửa Nhanh Từ Vựng
+- **`✨ Tra từ` Button**: Added to Quick Edit Word modals (`PopupContainer.tsx`, `DeckManager.tsx`, `QuickAddReviewModal.tsx`). Clicking it automatically re-fetches correct IPA phonetics, definitions, and example sentences from dictionary APIs.
+
+### 🤖 2. Datamuse Spellcheck Auto-Correction Engine
+- **Automatic Typo Correction**: If a user types a misspelled word like `incridible`, Engion detects the dictionary 404, queries Datamuse API to auto-correct `incridible` ➔ `incredible`, and populates official IPA, definitions, and examples with an inline toast notification (`💡 Đã tự động sửa lỗi chính tả: "incridible" ➔ "incredible"`).
+
+### 🌐 3. Unlimited Internet Random Word Recommendation with Difficulty Filter (`?diff=1..5`)
+- **Internet Random Word API**: Queries `random-word-api.herokuapp.com` and `api.datamuse.com` to fetch brand-new, unlimited English words directly from the web.
+- **Difficulty Selector**: Users can filter random word recommendations by proficiency level:
+  - 🟢 **Dễ (Easy - Common words)**: `diff=1` (e.g. `water`, `house`, `smile`)
+  - 🟡 **Vừa (Medium - Moderately common)**: `diff=3` (e.g. `resilient`, `schedule`, `pragmatic`)
+  - 🔴 **Khó (Hard - Rare words)**: `diff=5` (e.g. `defenestration`, `ephemeral`, `quintessential`)
+
+### 🔲 4. Ultra-Compact Non-Wrapping Popup Header
+- Applied `whiteSpace: 'nowrap'` and compact icon paddings to the 360px popup window header (`Thẻ từ`, `Điền từ`, `Trắc nghiệm`), preventing awkward line breaks and ensuring a sleek native desktop look.
+
+---
+
 # 🚀 Engion v1.1.0 - Release Notes
 
 **Release Date**: August 7, 2026

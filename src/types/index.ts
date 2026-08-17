@@ -49,6 +49,7 @@ export interface AppSettings {
   dndStart?: string;
   dndEnd?: string;
   dailyTargetWords?: number; // e.g. 5, 10, 15, 20, 30 words/day
+  wordDifficulty?: number; // 1=Easy, 2=Med-Easy, 3=Medium, 4=Med-Hard, 5=Hard
 }
 
 export interface LearningStats {
