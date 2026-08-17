@@ -991,8 +991,8 @@ app.whenReady().then(() => {
       let handled = false;
 
       const handleNavigation = async (targetUrl: string) => {
-        if (handled) return;
-        if (targetUrl.startsWith(redirectUri)) {
+        if (!targetUrl || handled) return;
+        if (targetUrl.includes('code=') || targetUrl.startsWith(redirectUri)) {
           handled = true;
           try {
             const urlObj = new URL(targetUrl);
@@ -1043,14 +1043,12 @@ app.whenReady().then(() => {
         }
       };
 
-      // Intercept navigation events
-      authWin.webContents.on('will-redirect', (_event, url) => {
-        handleNavigation(url);
-      });
-
-      authWin.webContents.on('will-navigate', (_event, url) => {
-        handleNavigation(url);
-      });
+      // Intercept all navigation events (HTTP redirects, JS navigations, and failed loads to localhost)
+      authWin.webContents.on('will-redirect', (_event, url) => handleNavigation(url));
+      authWin.webContents.on('will-navigate', (_event, url) => handleNavigation(url));
+      authWin.webContents.on('did-navigate', (_event, url) => handleNavigation(url));
+      authWin.webContents.on('did-start-navigation', (details: any) => handleNavigation(details.url));
+      authWin.webContents.on('did-fail-load', (_event, _errorCode, _errorDescription, validatedURL) => handleNavigation(validatedURL));
 
       authWin.on('closed', () => {
         if (!handled) {
