@@ -49,7 +49,11 @@ export const GoogleDriveSyncCard: React.FC = () => {
 
   const handleLogin = async () => {
     setSyncStatus(prev => ({ ...prev, state: 'syncing' }));
+    console.log('[GoogleDrive] Starting login...', { electronAPI: (window as any).electronAPI });
+
     const result = await GoogleDriveService.login();
+    console.log('[GoogleDrive] Login result:', result);
+
     if (result.success) {
       setLoggedIn(true);
       setUserInfo(result.userInfo ?? null);
@@ -144,6 +148,21 @@ export const GoogleDriveSyncCard: React.FC = () => {
           <p style={{ fontSize: '0.83rem', color: 'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
             Đăng nhập Google để đồng bộ từ vựng, tiến trình SRS, streak và cài đặt của bạn — hoạt động trên mọi thiết bị, hoàn toàn <strong style={{ color: '#10B981' }}>miễn phí</strong>.
           </p>
+
+          {/* Error message from failed login attempt */}
+          {syncStatus.state === 'error' && syncStatus.errorMessage && (
+            <div style={{
+              padding: '8px 12px',
+              background: 'rgba(239, 68, 68, 0.12)',
+              border: '1px solid rgba(239, 68, 68, 0.35)',
+              borderRadius: '8px',
+              fontSize: '0.8rem',
+              color: '#EF4444'
+            }}>
+              ❌ {syncStatus.errorMessage}
+            </div>
+          )}
+
           <button
             onClick={handleLogin}
             disabled={isSyncing}

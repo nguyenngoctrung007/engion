@@ -23,54 +23,140 @@ function ipc() {
 
 // ─── Main Service ────────────────────────────────────────────────────────────
 
+const WEB_TOKEN_KEY = 'engion_google_web_token';
+const WEB_USER_KEY = 'engion_google_user_info';
+const GOOGLE_CLIENT_ID = '969701944799-7rgihm7vea7ebcmk8tvb32jv883jbud1.apps.googleusercontent.com';
+
 export const GoogleDriveService = {
 
   /** Check if the user is currently logged in (has stored token). */
   async isLoggedIn(): Promise<boolean> {
-    try {
-      const result = await ipc()?.googleAuthStatus?.();
-      return result?.loggedIn === true;
-    } catch {
-      return false;
+    if (ipc()?.googleAuthStatus) {
+      try {
+        const result = await ipc().googleAuthStatus();
+        if (result?.loggedIn) return true;
+      } catch {}
     }
+    const token = await this.getAccessToken();
+    return !!token;
   },
 
   /** Get cached user info (name, email, avatar) — null if not logged in. */
   async getUserInfo(): Promise<GoogleAuthInfo | null> {
-    try {
-      const result = await ipc()?.googleAuthStatus?.();
-      if (result?.loggedIn && result?.userInfo) return result.userInfo as GoogleAuthInfo;
-      return null;
-    } catch {
-      return null;
+    if (ipc()?.googleAuthStatus) {
+      try {
+        const result = await ipc().googleAuthStatus();
+        if (result?.loggedIn && result?.userInfo) return result.userInfo as GoogleAuthInfo;
+      } catch {}
     }
+    const raw = localStorage.getItem(WEB_USER_KEY);
+    if (raw) {
+      try { return JSON.parse(raw); } catch {}
+    }
+    return null;
   },
 
-  /** Trigger the Google OAuth2 login flow (opens browser). */
+  /** Trigger the Google OAuth2 login flow (Native Electron or Web Popup). */
   async login(): Promise<{ success: boolean; userInfo?: GoogleAuthInfo; error?: string }> {
-    try {
-      const result = await ipc()?.googleAuthStart?.();
-      return result ?? { success: false, error: 'electronAPI not available' };
-    } catch (e: any) {
-      return { success: false, error: e.message };
+    // 1. Try Native Electron IPC if running inside Electron
+    if (ipc()?.googleAuthStart) {
+      try {
+        const result = await ipc().googleAuthStart();
+        if (result && result.success) return result;
+        if (result && result.error) return result;
+      } catch (e: any) {
+        console.warn('[GoogleDrive] Native IPC login error:', e);
+      }
     }
+
+    // 2. Web Browser Fallback (OAuth2 Implicit Popup)
+    return new Promise((resolve) => {
+      const redirectUri = window.location.origin + window.location.pathname;
+      const scopes = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${encodeURIComponent(GOOGLE_CLIENT_ID)}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=token&scope=${encodeURIComponent(scopes)}&prompt=consent`;
+
+      const popup = window.open(authUrl, 'google_login', 'width=550,height=650,top=100,left=100');
+      
+      if (!popup) {
+        resolve({ success: false, error: 'Cửa sổ popup bị chặn bởi trình duyệt. Vui lòng cho phép popup.' });
+        return;
+      }
+
+      const timer = setInterval(() => {
+        try {
+          if (popup.closed) {
+            clearInterval(timer);
+            resolve({ success: false, error: 'Đăng nhập bị hủy' });
+            return;
+          }
+
+          const href = popup.location.href;
+          if (href && href.includes('access_token=')) {
+            clearInterval(timer);
+            const params = new URLSearchParams(href.split('#')[1]);
+            const accessToken = params.get('access_token');
+            const expiresIn = parseInt(params.get('expires_in') || '3600', 10);
+            popup.close();
+
+            if (accessToken) {
+              const expiry = Date.now() + expiresIn * 1000;
+              localStorage.setItem(WEB_TOKEN_KEY, JSON.stringify({ token: accessToken, expiry }));
+
+              // Fetch User Info
+              fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+                headers: { Authorization: `Bearer ${accessToken}` }
+              })
+                .then(res => res.json())
+                .then(userInfo => {
+                  const info: GoogleAuthInfo = {
+                    email: userInfo.email,
+                    name: userInfo.name,
+                    picture: userInfo.picture
+                  };
+                  localStorage.setItem(WEB_USER_KEY, JSON.stringify(info));
+                  resolve({ success: true, userInfo: info });
+                })
+                .catch(() => {
+                  resolve({ success: true });
+                });
+            } else {
+              resolve({ success: false, error: 'Không lấy được access token từ Google' });
+            }
+          }
+        } catch {
+          // Cross-origin check throws error until popup redirects back to redirectUri — this is expected
+        }
+      }, 500);
+    });
   },
 
   /** Log out and clear stored tokens. */
   async logout(): Promise<void> {
-    try {
-      await ipc()?.googleAuthLogout?.();
-    } catch {}
+    if (ipc()?.googleAuthLogout) {
+      try { await ipc().googleAuthLogout(); } catch {}
+    }
+    localStorage.removeItem(WEB_TOKEN_KEY);
+    localStorage.removeItem(WEB_USER_KEY);
   },
 
   /** Get a fresh access token (auto-refreshes if expired). */
   async getAccessToken(): Promise<string | null> {
-    try {
-      const result = await ipc()?.googleGetToken?.();
-      return result?.accessToken ?? null;
-    } catch {
-      return null;
+    if (ipc()?.googleGetToken) {
+      try {
+        const result = await ipc().googleGetToken();
+        if (result?.accessToken) return result.accessToken;
+      } catch {}
     }
+    const raw = localStorage.getItem(WEB_TOKEN_KEY);
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        if (data.expiry && Date.now() < data.expiry) {
+          return data.token;
+        }
+      } catch {}
+    }
+    return null;
   },
 
   // ─── Data Packaging ───────────────────────────────────────────────────────
