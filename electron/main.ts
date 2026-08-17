@@ -991,64 +991,95 @@ app.whenReady().then(() => {
       let handled = false;
 
       const handleNavigation = async (targetUrl: string) => {
-        if (!targetUrl || handled) return;
-        if (targetUrl.includes('code=') || targetUrl.startsWith(redirectUri)) {
-          handled = true;
+        if (handled) return;
+
+        let code: string | null = null;
+        let returnedState: string | null = null;
+
+        if (targetUrl) {
           try {
             const urlObj = new URL(targetUrl);
-            const code = urlObj.searchParams.get('code');
-            const returnedState = urlObj.searchParams.get('state');
+            code = urlObj.searchParams.get('code');
+            returnedState = urlObj.searchParams.get('state');
+          } catch {}
+        }
 
-            try { authWin.close(); } catch {}
-
-            if (!code || returnedState !== state) {
-              resolve({ success: false, error: 'Invalid OAuth state or missing code' });
-              return;
+        // Fallback: Check page title or DOM if Google showed "Approved Clicked" approval page
+        if (!code && authWin && !authWin.isDestroyed()) {
+          try {
+            const pageTitle = authWin.getTitle();
+            if (pageTitle.includes('code=')) {
+              code = pageTitle.split('code=')[1].split('&')[0];
+            } else {
+              code = await authWin.webContents.executeJavaScript(
+                `(function() {
+                  const el = document.querySelector('input[id*="code"], textarea[id*="code"], code');
+                  if (el) return el.value || el.innerText;
+                  if (document.title.includes('code=')) return document.title.split('code=')[1];
+                  return null;
+                })()`
+              );
             }
+          } catch {}
+        }
 
-            // Exchange code for tokens
-            const params = new URLSearchParams({
-              code,
-              client_id: GOOGLE_CLIENT_ID,
-              client_secret: GOOGLE_CLIENT_SECRET,
-              redirect_uri: redirectUri,
-              grant_type: 'authorization_code',
-            });
+        if (!code) return; // Code not ready yet
 
-            const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: params.toString(),
-            });
+        handled = true;
+        try { authWin.close(); } catch {}
 
-            if (!tokenRes.ok) {
-              const errText = await tokenRes.text();
-              console.error('[GoogleDrive] Token exchange error:', errText);
-              resolve({ success: false, error: 'Token exchange failed: ' + errText });
-              return;
-            }
+        // Exchange code for tokens
+        try {
+          const params = new URLSearchParams({
+            code,
+            client_id: GOOGLE_CLIENT_ID,
+            client_secret: GOOGLE_CLIENT_SECRET,
+            redirect_uri: redirectUri,
+            grant_type: 'authorization_code',
+          });
 
-            const tokenData = await tokenRes.json();
-            const stored = {
-              access_token: tokenData.access_token,
-              refresh_token: tokenData.refresh_token,
-              expiry: Date.now() + (tokenData.expires_in ?? 3600) * 1000,
-            };
-            saveTokens(stored);
-            const userInfo = await fetchUserInfo(stored.access_token);
-            resolve({ success: true, userInfo });
-          } catch (err: any) {
-            resolve({ success: false, error: err.message });
+          const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString(),
+          });
+
+          if (!tokenRes.ok) {
+            const errText = await tokenRes.text();
+            console.error('[GoogleDrive] Token exchange error:', errText);
+            resolve({ success: false, error: 'Token exchange failed: ' + errText });
+            return;
           }
+
+          const tokenData = await tokenRes.json();
+          const stored = {
+            access_token: tokenData.access_token,
+            refresh_token: tokenData.refresh_token,
+            expiry: Date.now() + (tokenData.expires_in ?? 3600) * 1000,
+          };
+          saveTokens(stored);
+          const userInfo = await fetchUserInfo(stored.access_token);
+          resolve({ success: true, userInfo });
+        } catch (err: any) {
+          resolve({ success: false, error: err.message });
         }
       };
 
-      // Intercept all navigation events (HTTP redirects, JS navigations, and failed loads to localhost)
+      // Intercept all navigation & load events (HTTP 302, JS navigations, DOM title updates, and localhost callback loads)
       authWin.webContents.on('will-redirect', (_event, url) => handleNavigation(url));
       authWin.webContents.on('will-navigate', (_event, url) => handleNavigation(url));
       authWin.webContents.on('did-navigate', (_event, url) => handleNavigation(url));
       authWin.webContents.on('did-start-navigation', (details: any) => handleNavigation(details.url));
       authWin.webContents.on('did-fail-load', (_event, _errorCode, _errorDescription, validatedURL) => handleNavigation(validatedURL));
+      authWin.webContents.on('did-finish-load', () => {
+        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
+      });
+      authWin.webContents.on('did-stop-loading', () => {
+        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
+      });
+      authWin.on('page-title-updated', () => {
+        if (authWin && !authWin.isDestroyed()) handleNavigation(authWin.webContents.getURL());
+      });
 
       authWin.on('closed', () => {
         if (!handled) {
