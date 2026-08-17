@@ -3,6 +3,7 @@ import { AppSettings, DeckType, TargetLanguage } from '../../types';
 import { StorageService } from '../../services/storage';
 import { UpdateCheckerService, UpdateCheckResult } from '../../services/updateChecker';
 import { APP_VERSION } from '../../config/version';
+import { GoogleDriveSyncCard } from './GoogleDriveSyncCard';
 import { Clock, Sliders, Volume2, ShieldAlert, Sparkles, Check, Power, Keyboard, Download, Upload, Moon, Globe, Target, Trash2, RotateCcw, ExternalLink, Loader2, RefreshCw } from 'lucide-react';
 
 interface SettingsPanelProps {
@@ -164,6 +165,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '720px' }}>
+        {/* Google Drive Sync Card */}
+        <GoogleDriveSyncCard />
+
         {/* Test Popup Card */}
         <div className="glass-card" style={{ padding: '20px', borderLeft: '4px solid var(--accent-cyan)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

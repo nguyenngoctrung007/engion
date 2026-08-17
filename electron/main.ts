@@ -1,8 +1,19 @@
-import { app, BrowserWindow, Tray, Menu, ipcMain, screen, Notification, nativeImage, NativeImage, globalShortcut, session, dialog, shell } from 'electron';
+import { app, BrowserWindow, Tray, Menu, ipcMain, screen, Notification, nativeImage, NativeImage, globalShortcut, session, dialog, shell, safeStorage } from 'electron';
 import path from 'path';
 import fs from 'fs';
+import http from 'http';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 import { autoUpdater } from 'electron-updater';
+
+// ─── Google OAuth2 Configuration ─────────────────────────────────────────────
+// Fill in your Client ID & Secret in the .env file
+const GOOGLE_CLIENT_ID     = process.env.GOOGLE_CLIENT_ID     ?? '';
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
+const GOOGLE_REDIRECT_PORT = 49152; // localhost callback port
+const GOOGLE_REDIRECT_URI  = `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}/callback`;
+const GOOGLE_SCOPES        = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
+const TOKEN_STORAGE_KEY    = 'engion_google_tokens';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -817,6 +828,194 @@ app.whenReady().then(() => {
   ipcMain.on('install-update', () => {
     autoUpdater.quitAndInstall();
   });
+
+  // ─── Google OAuth2 IPC Handlers ──────────────────────────────────────────
+
+  function loadStoredTokens(): { access_token: string; refresh_token: string; expiry: number } | null {
+    try {
+      if (!safeStorage.isEncryptionAvailable()) {
+        const raw = app.getPath('userData');
+        const file = path.join(raw, TOKEN_STORAGE_KEY + '.json');
+        if (fs.existsSync(file)) return JSON.parse(fs.readFileSync(file, 'utf-8'));
+        return null;
+      }
+      const file = path.join(app.getPath('userData'), TOKEN_STORAGE_KEY + '.enc');
+      if (!fs.existsSync(file)) return null;
+      const enc = fs.readFileSync(file);
+      const dec = safeStorage.decryptString(enc);
+      return JSON.parse(dec);
+    } catch {
+      return null;
+    }
+  }
+
+  function saveTokens(tokens: { access_token: string; refresh_token: string; expiry: number }): void {
+    try {
+      if (!safeStorage.isEncryptionAvailable()) {
+        const file = path.join(app.getPath('userData'), TOKEN_STORAGE_KEY + '.json');
+        fs.writeFileSync(file, JSON.stringify(tokens), 'utf-8');
+        return;
+      }
+      const enc = safeStorage.encryptString(JSON.stringify(tokens));
+      const file = path.join(app.getPath('userData'), TOKEN_STORAGE_KEY + '.enc');
+      fs.writeFileSync(file, enc);
+    } catch {}
+  }
+
+  function clearTokens(): void {
+    try {
+      const encFile = path.join(app.getPath('userData'), TOKEN_STORAGE_KEY + '.enc');
+      const jsonFile = path.join(app.getPath('userData'), TOKEN_STORAGE_KEY + '.json');
+      if (fs.existsSync(encFile)) fs.unlinkSync(encFile);
+      if (fs.existsSync(jsonFile)) fs.unlinkSync(jsonFile);
+    } catch {}
+  }
+
+  async function refreshAccessToken(refreshToken: string): Promise<{ access_token: string; expiry: number } | null> {
+    try {
+      const params = new URLSearchParams({
+        client_id: GOOGLE_CLIENT_ID,
+        client_secret: GOOGLE_CLIENT_SECRET,
+        refresh_token: refreshToken,
+        grant_type: 'refresh_token',
+      });
+      const res = await fetch('https://oauth2.googleapis.com/token', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString(),
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return {
+        access_token: data.access_token,
+        expiry: Date.now() + (data.expires_in ?? 3600) * 1000,
+      };
+    } catch {
+      return null;
+    }
+  }
+
+  async function fetchUserInfo(accessToken: string): Promise<{ email: string; name: string; picture?: string } | null> {
+    try {
+      const res = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (!res.ok) return null;
+      return await res.json();
+    } catch {
+      return null;
+    }
+  }
+
+  // Check auth status
+  ipcMain.handle('google-auth-status', async () => {
+    const tokens = loadStoredTokens();
+    if (!tokens?.refresh_token) return { loggedIn: false };
+    // Refresh if expired
+    let accessToken = tokens.access_token;
+    if (Date.now() >= tokens.expiry - 60_000) {
+      const refreshed = await refreshAccessToken(tokens.refresh_token);
+      if (!refreshed) return { loggedIn: false };
+      accessToken = refreshed.access_token;
+      saveTokens({ ...tokens, access_token: accessToken, expiry: refreshed.expiry });
+    }
+    const userInfo = await fetchUserInfo(accessToken);
+    return { loggedIn: true, userInfo };
+  });
+
+  // Get (and auto-refresh) access token
+  ipcMain.handle('google-get-token', async () => {
+    const tokens = loadStoredTokens();
+    if (!tokens?.refresh_token) return { accessToken: null };
+    let accessToken = tokens.access_token;
+    if (Date.now() >= tokens.expiry - 60_000) {
+      const refreshed = await refreshAccessToken(tokens.refresh_token);
+      if (!refreshed) return { accessToken: null };
+      accessToken = refreshed.access_token;
+      saveTokens({ ...tokens, access_token: accessToken, expiry: refreshed.expiry });
+    }
+    return { accessToken };
+  });
+
+  // Logout
+  ipcMain.handle('google-auth-logout', () => {
+    clearTokens();
+    return { success: true };
+  });
+
+  // Start OAuth2 login flow
+  ipcMain.handle('google-auth-start', async () => {
+    return new Promise<any>((resolve) => {
+      const state = crypto.randomBytes(16).toString('hex');
+      const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+      authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
+      authUrl.searchParams.set('redirect_uri', GOOGLE_REDIRECT_URI);
+      authUrl.searchParams.set('response_type', 'code');
+      authUrl.searchParams.set('scope', GOOGLE_SCOPES);
+      authUrl.searchParams.set('state', state);
+      authUrl.searchParams.set('access_type', 'offline');
+      authUrl.searchParams.set('prompt', 'consent');
+
+      // Spin up a one-shot local HTTP server to receive the callback
+      const server = http.createServer(async (req, res) => {
+        if (!req.url?.startsWith('/callback')) return;
+        const url = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
+        const code = url.searchParams.get('code');
+        const returnedState = url.searchParams.get('state');
+
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+        res.end('<html><body style="font-family:sans-serif;text-align:center;padding:60px"><h2>✅ Đăng nhập thành công!</h2><p>Bạn có thể đóng tab này và quay lại Engion.</p></body></html>');
+        server.close();
+
+        if (!code || returnedState !== state) {
+          resolve({ success: false, error: 'Invalid OAuth state or missing code' });
+          return;
+        }
+
+        // Exchange code for tokens
+        try {
+          const params = new URLSearchParams({
+            code,
+            client_id: GOOGLE_CLIENT_ID,
+            client_secret: GOOGLE_CLIENT_SECRET,
+            redirect_uri: GOOGLE_REDIRECT_URI,
+            grant_type: 'authorization_code',
+          });
+          const tokenRes = await fetch('https://oauth2.googleapis.com/token', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: params.toString(),
+          });
+          if (!tokenRes.ok) {
+            resolve({ success: false, error: 'Token exchange failed' });
+            return;
+          }
+          const tokenData = await tokenRes.json();
+          const stored = {
+            access_token: tokenData.access_token,
+            refresh_token: tokenData.refresh_token,
+            expiry: Date.now() + (tokenData.expires_in ?? 3600) * 1000,
+          };
+          saveTokens(stored);
+          const userInfo = await fetchUserInfo(stored.access_token);
+          resolve({ success: true, userInfo });
+        } catch (err: any) {
+          resolve({ success: false, error: err.message });
+        }
+      });
+
+      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
+        shell.openExternal(authUrl.toString());
+      });
+
+      // Timeout after 5 minutes
+      setTimeout(() => {
+        server.close();
+        resolve({ success: false, error: 'Login timeout' });
+      }, 5 * 60 * 1000);
+    });
+  });
+
 
   ipcMain.handle('select-and-parse-apkg', async (_event) => {
     try {

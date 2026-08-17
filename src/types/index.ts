@@ -68,3 +68,30 @@ export interface LearningStats {
   box4Count?: number;
   box5Count?: number;
 }
+
+// Google Drive Sync types
+export interface GoogleAuthInfo {
+  email: string;
+  name: string;
+  picture?: string;
+}
+
+export interface CloudSyncPayload {
+  version: string;
+  syncedAt: string; // ISO timestamp — used for conflict resolution (newer wins)
+  customWords: string;       // JSON string of custom vocabulary
+  progressMap: string;       // JSON string of SRS progress
+  favorites: string;         // JSON string of favorite word IDs
+  customDecks: string;       // JSON string of custom deck categories
+  deletedWordIds: string;    // JSON string of deleted word IDs
+  deletedDeckIds: string;    // JSON string of deleted deck IDs
+  settings: string;          // JSON string of AppSettings
+}
+
+export type SyncState = 'idle' | 'syncing' | 'success' | 'error' | 'conflict';
+
+export interface SyncStatus {
+  state: SyncState;
+  lastSyncedAt: string | null; // ISO string
+  errorMessage?: string;
+}

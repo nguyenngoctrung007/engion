@@ -57,5 +57,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
   },
   installUpdate: () => {
     ipcRenderer.send('install-update');
+  },
+  googleAuthStart: () => {
+    return ipcRenderer.invoke('google-auth-start');
+  },
+  googleAuthLogout: () => {
+    return ipcRenderer.invoke('google-auth-logout');
+  },
+  googleGetToken: () => {
+    return ipcRenderer.invoke('google-get-token');
+  },
+  googleAuthStatus: () => {
+    return ipcRenderer.invoke('google-auth-status');
   }
 });
