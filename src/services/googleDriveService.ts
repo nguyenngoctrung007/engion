@@ -63,13 +63,14 @@ export const GoogleDriveService = {
     if (api && typeof api.googleAuthStart === 'function') {
       try {
         const result = await api.googleAuthStart();
-        if (result) return result;
+        return result ?? { success: false, error: 'Không nhận được phản hồi từ Electron' };
       } catch (e: any) {
         console.warn('[GoogleDrive] Native IPC login error:', e);
+        return { success: false, error: e.message };
       }
     }
 
-    // 2. Web Browser Fallback (OAuth2 Code Flow for Desktop Client ID)
+    // 2. Web Browser Fallback (if running outside Electron)
     return new Promise((resolve) => {
       const redirectUri = 'http://127.0.0.1:8085/callback';
       const scopes = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
@@ -127,7 +128,7 @@ export const GoogleDriveService = {
   /** Pack all localStorage data into a CloudSyncPayload. */
   packLocalData(): CloudSyncPayload {
     return {
-      version: '1.1.1',
+      version: '1.2.0',
       syncedAt: new Date().toISOString(),
       customWords:    localStorage.getItem('engion_custom_words')   ?? '[]',
       progressMap:    localStorage.getItem('engion_word_progress')  ?? '{}',
@@ -164,12 +165,16 @@ export const GoogleDriveService = {
       const res = await fetch(`${DRIVE_FILES_URL}?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        console.error('[GoogleDrive] findSyncFile failed:', res.status, await res.text());
+        return null;
+      }
       const data = await res.json();
       const file = data.files?.[0];
       if (!file) return null;
       return { id: file.id, syncedAt: file.modifiedTime };
-    } catch {
+    } catch (err) {
+      console.error('[GoogleDrive] findSyncFile error:', err);
       return null;
     }
   },
@@ -183,9 +188,13 @@ export const GoogleDriveService = {
       const res = await fetch(`${DRIVE_FILES_URL}/${found.id}?alt=media`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) return null;
+      if (!res.ok) {
+        console.error('[GoogleDrive] downloadFromCloud failed:', res.status, await res.text());
+        return null;
+      }
       return await res.json() as CloudSyncPayload;
-    } catch {
+    } catch (err) {
+      console.error('[GoogleDrive] downloadFromCloud error:', err);
       return null;
     }
   },
@@ -208,6 +217,7 @@ export const GoogleDriveService = {
           },
           body: jsonBlob,
         });
+        if (!res.ok) console.error('[GoogleDrive] uploadToCloud (PATCH) failed:', res.status, await res.text());
         return res.ok;
       } else {
         // Create new file in appDataFolder
@@ -224,9 +234,11 @@ export const GoogleDriveService = {
           headers: { Authorization: `Bearer ${token}` },
           body: form,
         });
+        if (!res.ok) console.error('[GoogleDrive] uploadToCloud (POST) failed:', res.status, await res.text());
         return res.ok;
       }
-    } catch {
+    } catch (err) {
+      console.error('[GoogleDrive] uploadToCloud error:', err);
       return false;
     }
   },

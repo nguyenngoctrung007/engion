@@ -1,3 +1,21 @@
+# 🚀 Engion v1.2.0 - Release Notes
+
+**Release Date**: August 18, 2026
+
+Engion v1.2.0 introduces **Google Drive Sync** — back up and sync your vocabulary, SRS progress, streaks, and settings across devices for free, stored privately in your own Google Drive.
+
+---
+
+## 🔥 Key Highlights in v1.2.0
+
+### ☁️ 1. Google Drive Sync (OAuth2 + appDataFolder)
+- **System-Browser OAuth Login**: Standard RFC 8252 loopback-server flow — login opens your system's default browser instead of an embedded webview, avoiding Google's restrictions on embedded OAuth.
+- **Private, App-Scoped Storage**: Synced data lives in Google Drive's hidden `appDataFolder` (via the `drive.appdata` scope) — invisible in the normal Drive UI, readable only by Engion.
+- **Smart Two-Way Sync**: Compares cloud vs. local sync timestamps to decide whether to push or pull, so `☁️ Đồng bộ ngay` no longer blindly overwrites newer data already synced from another device.
+- **Manual Controls**: `☁️ Đồng bộ ngay` (smart push/pull) and `⬇️ Khôi phục từ Cloud` (explicit, confirmed restore) in *Cài Đặt & Nâng Cao*.
+
+---
+
 # 🚀 Engion v1.1.1 - Release Notes
 
 **Release Date**: August 17, 2026

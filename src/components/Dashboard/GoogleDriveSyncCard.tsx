@@ -74,8 +74,10 @@ export const GoogleDriveSyncCard: React.FC = () => {
 
   const handleSyncNow = async () => {
     setSyncStatus(prev => ({ ...prev, state: 'syncing' }));
-    const result = await GoogleDriveService.syncToCloud();
-    setSyncStatus({ ...result, direction: undefined });
+    // smartSync compares cloud vs. local timestamps first — a blind upload here would
+    // silently overwrite newer data already synced from another device.
+    const result = await GoogleDriveService.smartSync();
+    setSyncStatus({ ...result, direction: (result as any).direction });
   };
 
   const handleRestoreFromCloud = async () => {

@@ -42,7 +42,23 @@ export default defineConfig({
             rollupOptions: {
               external: ['electron']
             }
-          }
+          },
+          plugins: [
+            {
+              // Electron loads preload scripts via require(), not import. vite-plugin-electron
+              // defaults build.lib.formats to ['es'] whenever package.json has "type": "module",
+              // and merging a ['cjs'] override in only concatenates to ['es','cjs'] (Vite's
+              // mergeConfig always concatenates arrays), which built BOTH formats to the same
+              // output path and corrupted the file. Mutate the resolved config directly instead
+              // so only 'cjs' is ever built.
+              name: 'force-preload-cjs',
+              config(config) {
+                if (config.build?.lib) {
+                  config.build.lib.formats = ['cjs'];
+                }
+              }
+            }
+          ]
         }
       }
     ]),

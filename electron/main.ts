@@ -10,8 +10,7 @@ import { autoUpdater } from 'electron-updater';
 // Fill in your Client ID & Secret in the .env file
 const GOOGLE_CLIENT_ID     = process.env.GOOGLE_CLIENT_ID     ?? '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET ?? '';
-const GOOGLE_REDIRECT_PORT = 8085; // standard user-space loopback port
-const GOOGLE_REDIRECT_URI  = `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}/callback`;
+const GOOGLE_REDIRECT_URI  = 'http://localhost';
 const GOOGLE_SCOPES        = 'https://www.googleapis.com/auth/drive.appdata openid email profile';
 const TOKEN_STORAGE_KEY    = 'engion_google_tokens';
 
@@ -166,7 +165,7 @@ function createDashboardWindow(showOnCreate: boolean = true) {
   }
 
   dashboardWindow.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.includes('accounts.google.com') || url.includes('localhost/callback')) {
+    if (url.includes('accounts.google.com') || url.includes('localhost') || url.includes('127.0.0.1')) {
       return { action: 'allow' };
     }
     shell.openExternal(url);
@@ -946,26 +945,53 @@ app.whenReady().then(() => {
     return { success: true };
   });
 
-  // Start OAuth2 login flow using popup window + local HTTP callback server
+  // Start OAuth2 login flow using standard RFC 8252 loopback server + system browser
   ipcMain.handle('google-auth-start', async () => {
-    return new Promise<any>((resolve) => {
+    return new Promise<any>(async (resolve) => {
       const state = crypto.randomBytes(16).toString('hex');
-      const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
-      authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
-      authUrl.searchParams.set('redirect_uri', GOOGLE_REDIRECT_URI);
-      authUrl.searchParams.set('response_type', 'code');
-      authUrl.searchParams.set('scope', GOOGLE_SCOPES);
-      authUrl.searchParams.set('state', state);
-      authUrl.searchParams.set('access_type', 'offline');
-      authUrl.searchParams.set('prompt', 'consent');
-
       let handled = false;
-      let authWin: BrowserWindow | null = null;
+      let server: http.Server | null = null;
 
-      // Spin up local HTTP server to receive the callback on 127.0.0.1:8085
-      const server = http.createServer(async (req, res) => {
+      // Find available loopback port (8085 or free port)
+      let activePort = 8085;
+      const candidatePorts = [8085, 8086, 8087, 8088, 8089, 0];
+
+      const testPortAvailable = (p: number): Promise<boolean> => {
+        return new Promise((res) => {
+          const s = http.createServer();
+          s.once('error', () => res(false));
+          s.once('listening', () => {
+            s.close(() => res(true));
+          });
+          s.listen(p, '127.0.0.1');
+        });
+      };
+
+      for (const p of candidatePorts) {
+        if (await testPortAvailable(p)) {
+          activePort = p;
+          break;
+        }
+      }
+
+      const redirectUri = `http://127.0.0.1:${activePort}/callback`;
+
+      const cleanupAndResolve = (res: any) => {
+        if (handled) return;
+        handled = true;
+        try {
+          if (server) {
+            server.close();
+            server = null;
+          }
+        } catch {}
+        resolve(res);
+      };
+
+      server = http.createServer(async (req, res) => {
         if (!req.url) return;
-        const reqUrl = new URL(req.url, `http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
+        const reqUrl = new URL(req.url, `http://127.0.0.1:${activePort}`);
+
         if (reqUrl.pathname !== '/callback') {
           res.writeHead(404);
           res.end();
@@ -974,8 +1000,26 @@ app.whenReady().then(() => {
 
         const code = reqUrl.searchParams.get('code');
         const returnedState = reqUrl.searchParams.get('state');
+        const authError = reqUrl.searchParams.get('error');
+        const stateValid = returnedState === state;
 
-        // Immediately respond 200 OK with beautiful success page
+        if (authError || !code || !stateValid) {
+          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+          res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
+          res.write('<h2 style="color:#EF4444;font-size:1.8rem">❌ Đăng Nhập Thất Bại</h2>');
+          res.write('<p style="color:#94A3B8;font-size:1.1rem">Bạn có thể đóng tab này và thử lại trong ứng dụng Engion.</p>');
+          res.write('</body></html>');
+          res.end();
+
+          if (!stateValid) {
+            cleanupAndResolve({ success: false, error: 'Xác thực thất bại (state không khớp)' });
+          } else {
+            cleanupAndResolve({ success: false, error: authError ? `Đăng nhập bị từ chối: ${authError}` : 'Xác thực thất bại (thiếu mã code)' });
+          }
+          return;
+        }
+
+        // Respond 200 OK with beautiful HTML page
         res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
         res.write('<html><head><title>Engion - Google Auth</title></head><body style="font-family:system-ui,sans-serif;text-align:center;padding:60px;background:#0F172A;color:#FFF">');
         res.write('<h2 style="color:#10B981;font-size:1.8rem">✅ Đăng Nhập Engion Thành Công!</h2>');
@@ -984,28 +1028,13 @@ app.whenReady().then(() => {
         res.write('</body></html>');
         res.end();
 
-        setTimeout(() => {
-          try { server.close(); } catch {}
-          if (authWin && !authWin.isDestroyed()) {
-            try { authWin.close(); } catch {}
-          }
-        }, 1500);
-
-        if (handled) return;
-        handled = true;
-
-        if (!code || returnedState !== state) {
-          resolve({ success: false, error: 'Invalid OAuth state or missing code' });
-          return;
-        }
-
-        // Exchange code for tokens
         try {
+          // Exchange code with exact redirectUri
           const params = new URLSearchParams({
             code,
             client_id: GOOGLE_CLIENT_ID,
             client_secret: GOOGLE_CLIENT_SECRET,
-            redirect_uri: GOOGLE_REDIRECT_URI,
+            redirect_uri: redirectUri,
             grant_type: 'authorization_code',
           });
 
@@ -1018,7 +1047,7 @@ app.whenReady().then(() => {
           if (!tokenRes.ok) {
             const errText = await tokenRes.text();
             console.error('[GoogleDrive] Token exchange failed:', errText);
-            resolve({ success: false, error: 'Token exchange failed: ' + errText });
+            cleanupAndResolve({ success: false, error: 'Token exchange failed: ' + errText });
             return;
           }
 
@@ -1030,57 +1059,37 @@ app.whenReady().then(() => {
           };
           saveTokens(stored);
           const userInfo = await fetchUserInfo(stored.access_token);
-          resolve({ success: true, userInfo });
+          console.log('[GoogleDrive] Login success for user:', userInfo?.email);
+          cleanupAndResolve({ success: true, userInfo });
         } catch (err: any) {
-          resolve({ success: false, error: err.message });
+          cleanupAndResolve({ success: false, error: err.message });
         }
       });
 
-      server.on('error', (err: any) => {
-        console.error('[GoogleDrive] Local OAuth server error:', err);
+      server.listen(activePort, '127.0.0.1', () => {
+        console.log(`[GoogleDrive] RFC 8252 loopback server listening on ${redirectUri}`);
+
+        const authUrl = new URL('https://accounts.google.com/o/oauth2/v2/auth');
+        authUrl.searchParams.set('client_id', GOOGLE_CLIENT_ID);
+        authUrl.searchParams.set('redirect_uri', redirectUri);
+        authUrl.searchParams.set('response_type', 'code');
+        authUrl.searchParams.set('scope', GOOGLE_SCOPES);
+        authUrl.searchParams.set('state', state);
+        authUrl.searchParams.set('access_type', 'offline');
+        authUrl.searchParams.set('prompt', 'consent');
+
+        // Open in user's default system browser (Chrome/Edge/Firefox) - Standard RFC 8252
+        shell.openExternal(authUrl.toString());
       });
 
-      // Listen on 127.0.0.1:8085
-      server.listen(GOOGLE_REDIRECT_PORT, '127.0.0.1', () => {
-        console.log(`[GoogleDrive] Server listening on http://127.0.0.1:${GOOGLE_REDIRECT_PORT}`);
-
-        // Open auth popup window in Electron
-        authWin = new BrowserWindow({
-          width: 520,
-          height: 650,
-          title: 'Đăng nhập Google - Engion',
-          parent: dashboardWindow || undefined,
-          modal: true,
-          show: true,
-          autoHideMenuBar: true,
-          webPreferences: {
-            nodeIntegration: false,
-            contextIsolation: true
-          }
-        });
-
-        authWin.webContents.setUserAgent(
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36'
-        );
-
-        authWin.on('closed', () => {
-          try { server.close(); } catch {}
-          if (!handled) {
-            handled = true;
-            resolve({ success: false, error: 'Đã hủy đăng nhập Google' });
-          }
-        });
-
-        authWin.loadURL(authUrl.toString());
+      server.on('error', (err) => {
+        console.error('[GoogleDrive] Server bind error:', err);
+        cleanupAndResolve({ success: false, error: 'Không thể khởi động cổng xác thực local: ' + err.message });
       });
 
       // Timeout 5 mins
       setTimeout(() => {
-        try { server.close(); } catch {}
-        if (!handled) {
-          handled = true;
-          resolve({ success: false, error: 'Login timeout' });
-        }
+        cleanupAndResolve({ success: false, error: 'Login timeout' });
       }, 5 * 60 * 1000);
     });
   });
