@@ -21,6 +21,16 @@ cd engion
 npm install
 ```
 
+### Google OAuth Credentials (required for Google Drive Sync)
+Copy `.env.example` to `.env` and fill in your own Google OAuth Client ID/Secret:
+```bash
+cp .env.example .env
+```
+1. Go to [Google Cloud Console](https://console.cloud.google.com) → APIs & Services → Credentials → create an OAuth Client ID of type **"Desktop app"**.
+2. Enable the **Google Drive API**, and under **OAuth consent screen → Scopes**, add `.../auth/drive.appdata`.
+3. While the consent screen is in **Testing** publishing status, add any Google account you'll test with under **Test users** — otherwise Drive Sync will silently fail with an insufficient-scope error (login still "succeeds", but sync doesn't).
+4. Paste the Client ID/Secret into `.env` as `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`. Without these, the app still runs, but Google Drive Sync (`electron/main.ts` OAuth handlers) will fail with a missing-credentials error.
+
 ---
 
 ## 🚀 Running Locally
@@ -73,4 +83,8 @@ Người dùng trên máy khác chỉ cần tải file `.exe` này về nhấp �
 
 4. **IPC Security**:
    - `contextIsolation: true` and `nodeIntegration: false` are enforced in `webPreferences`.
-   - All Main <-> Renderer communication must pass through `electron/preload.js` context bridge.
+   - All Main <-> Renderer communication must pass through `electron/preload.ts` context bridge.
+   - Preload must build to **CommonJS** (see `force-preload-cjs` plugin in `vite.config.ts`) — Electron loads it via `require()`, and this repo's `"type": "module"` would otherwise silently break `window.electronAPI` entirely.
+
+5. **Secrets in Packaged Builds**:
+   - `GOOGLE_CLIENT_ID`/`GOOGLE_CLIENT_SECRET` are inlined as literal strings into `dist-electron/main.js` at build time (via `vite.config.ts`'s `define`). This is expected for a "Desktop app" OAuth client — Google does not treat this secret as confidential, since it's inherently distributed with the app — but do not assume `.env` values stay off-disk once built.

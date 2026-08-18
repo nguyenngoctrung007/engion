@@ -124,3 +124,13 @@ This document details all implemented features, business logic, and UI capabilit
 - **🔄 Version Checker & Release Notification via GitHub**: Automatically checks for new releases on startup targeting `nguyenngoctrung007/engion`. When a new version is detected, displays a native desktop Windows Notification & System Tray menu shortcut redirecting the user directly to the GitHub Releases page (`/releases/latest`) to download the latest installer/portable executable.
 - **JSON Backup & Restore**: Export/Import full application state (Settings, Custom Words, SRS progress) via `.json`.
 - **Floating Toast Notifications**: Fixed bottom-right notifications (`position: fixed`) with zero layout shift.
+
+---
+
+### 8. ☁️ Google Drive Sync (Đồng Bộ Đám Mây)
+- **Đăng Nhập Google (OAuth2, RFC 8252)**: Bấm **`Đăng nhập Google Drive`** mở trình duyệt mặc định của hệ thống (không phải popup nhúng trong app) — Engion chạy một HTTP server tạm trên `127.0.0.1` (cổng `8085`, tự dò cổng trống nếu bị chiếm) để nhận callback sau khi đăng nhập, đúng chuẩn loopback-redirect cho ứng dụng desktop.
+- **Lưu Trữ Riêng Tư (`appDataFolder`)**: Dữ liệu (từ vựng tùy chỉnh, tiến trình SRS, yêu thích, cài đặt) được lưu vào vùng `appDataFolder` ẩn của Google Drive (scope `drive.appdata`) — chỉ Engion đọc/ghi được, **không hiển thị** trong giao diện Drive thông thường của người dùng.
+- **☁️ Đồng Bộ Ngay (Smart Two-Way Sync)**: So sánh thời điểm đồng bộ gần nhất giữa cloud và máy hiện tại trước khi quyết định đẩy lên hay tải về, tránh ghi đè nhầm dữ liệu mới hơn đã đồng bộ từ thiết bị khác.
+- **⬇️ Khôi Phục Từ Cloud**: Tải toàn bộ dữ liệu từ Drive về, ghi đè dữ liệu local — có hộp thoại xác nhận trước khi thực hiện vì đây là hành động không thể hoàn tác.
+- **Token Được Mã Hóa**: Access/refresh token lưu qua Electron `safeStorage` (mã hóa bằng DPAPI trên Windows), tự động làm mới access token khi hết hạn.
+- **Yêu Cầu Cấu Hình**: Cần khai báo `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` trong `.env` (xem [DEVELOPMENT_GUIDE.md](DEVELOPMENT_GUIDE.md)). Trong lúc OAuth Client còn ở trạng thái "Testing" trên Google Cloud Console, chỉ tài khoản được thêm vào danh sách **Test users** mới cấp được scope `drive.appdata`.

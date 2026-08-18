@@ -52,6 +52,10 @@ It features a **Pure Client-Side Anki Package (`.apkg`) Importer**, allowing you
 - **2-Mode Data Reset**: Reset to clean default presets or clean everything for a completely fresh 0-word starting slate.
 - **Anki CSV Export**: Export starred favorites or full vocabulary banks to UTF-8 `.csv` format compatible with Anki and Quizlet.
 
+### ☁️ 6. Google Drive Sync
+- **Cross-Device Sync**: Sign in with Google (system-browser OAuth2, RFC 8252) to sync vocabulary, SRS progress, streaks, and settings across devices — free, stored privately in your own Drive's hidden `appDataFolder`.
+- **Smart Two-Way Sync**: Compares cloud vs. local timestamps before pushing or pulling, so manual sync never blindly overwrites newer data from another device.
+
 ---
 
 ## 🛠️ Technology Stack
@@ -83,12 +87,14 @@ It features a **Pure Client-Side Anki Package (`.apkg`) Importer**, allowing you
    npm install
    ```
 
-3. **Run Development Server**:
+3. **(Optional) Configure Google Drive Sync**: `cp .env.example .env` and fill in your own Google OAuth Client ID/Secret — see [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md) for setup steps. The app runs fine without this; only Google Drive Sync requires it.
+
+4. **Run Development Server**:
    ```bash
    npm run dev
    ```
 
-4. **Build Production Executable**:
+5. **Build Production Executable**:
    ```bash
    npm run build
    ```
@@ -98,7 +104,7 @@ It features a **Pure Client-Side Anki Package (`.apkg`) Importer**, allowing you
 ## 📚 Project Documentation
 
 Detailed architectural, feature, and release notes guides are available:
-- 🚀 [RELEASE_NOTES.md](RELEASE_NOTES.md): What's new in **Engion v1.1.0** (Enhanced SRS Engine, Roast Badges, Top Weak Words Tracker).
+- 🚀 [RELEASE_NOTES.md](RELEASE_NOTES.md): What's new in **Engion v1.2.0** (Google Drive Sync, Enhanced SRS Engine, Roast Badges, Top Weak Words Tracker).
 - 📖 [FEATURES.md](docs/FEATURES.md): Complete list of business logic and UI capabilities.
 - 🏗️ [ARCHITECTURE.md](docs/ARCHITECTURE.md): Electron IPC bridge, window management, and state flow.
 - 🛠️ [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md): Developer environment setup and build scripts.

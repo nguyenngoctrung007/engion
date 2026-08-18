@@ -7,7 +7,7 @@ Tài liệu này quy định các nguyên tắc, chuẩn mực làm việc và p
 ## 🎯 1. Nguyên Tắc Code (Code Quality & Simplicity)
 - **Tối giản & Dễ hiểu**: Code phải sạch (Clean Code), ngắn gọn, trực quan và dễ bảo trì. Tránh over-engineering hoặc tạo các lớp trừu tượng (abstraction) phức tạp không cần thiết.
 - **Type Safety với TypeScript**: Định nghĩa kiểu dữ liệu rõ ràng trong `src/types/`, hạn chế tối đa việc sử dụng `any`.
-- **Giữ vững kiến trúc cốt lõi**: Không phá vỡ các luồng xử lý và guard hiện có (ví dụ: `Dual Mode Guard` bảo vệ Popup Window trong `App.tsx`, IPC Context Bridge trong `preload.js`).
+- **Giữ vững kiến trúc cốt lõi**: Không phá vỡ các luồng xử lý và guard hiện có (ví dụ: `Dual Mode Guard` bảo vệ Popup Window trong `App.tsx`, IPC Context Bridge trong `preload.ts`).
 
 ---
 

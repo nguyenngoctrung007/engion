@@ -14,6 +14,7 @@ Engion is a desktop vocabulary learning application built with **Electron + Reac
   - `https://api.dictionaryapi.dev/api/v2/entries/en/{word}` (Phonetics, POS, English Examples)
   - `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl={targetLang}&dt=t&q={word}` (Multi-language Translation: `vi`, `ja`, `ko`, `zh`, `fr`, `es`, `de`)
 - **Data Persistence**: HTML5 `localStorage` (Settings, Daily Targets, Custom Words, SRS Progress, Starred Favorites) & IPC File Backup (JSON / CSV).
+- **Cloud Sync**: Google OAuth2 (RFC 8252 loopback flow) + Google Drive API v3 `appDataFolder` for cross-device sync.
 
 ---
 
@@ -51,9 +52,10 @@ Engion is a desktop vocabulary learning application built with **Electron + Reac
   - `dashboardWindow`: Standard 1000x700 window for complete dashboard management.
   - `popupWindow`: Frameless, transparent, `alwaysOnTop: true`, `skipTaskbar: true`, 440x500 window anchored at bottom-right of primary display (`screenWidth - 460`, `screenHeight - 520`).
 - **Focus & Mouse Reactivity Safeguard**: Uses `popupWindow.focus()` and React `onMouseDown` event handlers to guarantee 1-click closing without OS focus-swallowing delays.
+- **Google OAuth2 Login (RFC 8252 loopback flow)**: `ipcMain.handle('google-auth-start')` spins up a short-lived `http` server on `127.0.0.1` (port `8085`, auto-falls back to `8086-8089`/a random port if occupied), opens the consent screen in the **system's default browser** via `shell.openExternal` (never an embedded `BrowserWindow` — Google blocks/degrades OAuth from embedded webviews), verifies the returned `state` param (CSRF), exchanges the auth code for tokens, and stores them via `safeStorage` (falls back to plain JSON if OS-level encryption is unavailable). `google-auth-status` / `google-get-token` auto-refresh the access token when expired; `google-auth-logout` clears stored tokens.
 
-### 2. Preload Script (`electron/preload.js`)
-Exposes safe context bridge API `window.electronAPI`:
+### 2. Preload Script (`electron/preload.ts`)
+Exposes safe context bridge API `window.electronAPI`. Built via `vite-plugin-electron`, which must emit **CommonJS**, not ESM — Electron loads preload scripts with `require()`, and this repo's `"type": "module"` in `package.json` would otherwise make Vite build it as ESM (silently breaking the entire bridge). See the `force-preload-cjs` plugin in `vite.config.ts`.
 - `openDashboard()`: Shows & focuses main dashboard.
 - `closePopup()`: Safely closes/destroys floating popup window.
 - `getTimerState()`: Fetches current countdown & next popup timestamp.
@@ -62,6 +64,7 @@ Exposes safe context bridge API `window.electronAPI`:
 - `setAutoLaunch(enable)`: Configures Windows startup registry launch (`applyAutoLaunch`) with Portable build support (`process.env.PORTABLE_EXECUTABLE_FILE`), Dev mode handling, and silent tray start Toast/Balloon notifications.
 - `checkForUpdates()`: Triggers background release check via GitHub API (`nguyenngoctrung007/engion`).
 - `onUpdateAvailable(callback)`: Listens for new release notifications with GitHub Release download URL.
+- `googleAuthStart()` / `googleAuthStatus()` / `googleGetToken()` / `googleAuthLogout()`: Google Drive Sync IPC bridge (see above).
 
 ### 3. Renderer Process (`src/`)
 - **Dual Mode Guard (`App.tsx`)**: Evaluates `isPopupMode` based on 3 strict criteria:
@@ -83,21 +86,22 @@ engion/
 │   ├── DEVELOPMENT_GUIDE.md          # Local setup & build instructions
 │   └── RULES.md                      # Developer & AI working rules
 ├── electron/                         # Electron Main & Preload source
-│   ├── main.ts                       # Main process entry point
-│   └── preload.js                    # Preload script (context bridge)
+│   ├── main.ts                       # Main process entry point + Google OAuth2 IPC handlers
+│   └── preload.ts                    # Preload script (context bridge, built to CJS)
 ├── scripts/
 │   └── create-icon.js                # Dynamically generates 32x32 PNG tray icon
 ├── src/                              # React App source
 │   ├── components/
 │   │   ├── Common/                   # Reusable UI components (AudioButton, Badge, SpeechMicButton)
-│   │   ├── Dashboard/                # Dashboard tabs & Modals (DeckManager, StatsOverview, SettingsPanel, QuickAddModal, QuickAddReviewModal)
+│   │   ├── Dashboard/                # Dashboard tabs & Modals (DeckManager, StatsOverview, SettingsPanel, QuickAddModal, QuickAddReviewModal, GoogleDriveSyncCard)
 │   │   └── Popup/                    # Floating popup components (PopupContainer, FlashcardView, FillInBlankQuiz, MultipleChoiceQuiz)
 │   ├── data/
 │   │   └── vocabulary.ts             # 24 Built-in vocabulary words (IT, TOEIC, IELTS, Oxford)
 │   ├── services/
 │   │   ├── dictionary.ts             # Dictionary API & Google Translate integration
 │   │   ├── srs.ts                    # Enhanced SM-2 Engine, ±10% fuzzing, 3-tier smart word picker
-│   │   └── storage.ts                # StorageService (localStorage, SRS, favorites, weak words, CSV/JSON export)
+│   │   ├── storage.ts                # StorageService (localStorage, SRS, favorites, weak words, CSV/JSON export)
+│   │   └── googleDriveService.ts     # Google Drive Sync: login, appDataFolder upload/download, smart two-way sync
 │   ├── types/
 │   │   └── index.ts                  # TypeScript interfaces & types
 │   ├── App.tsx                       # Main React App root
