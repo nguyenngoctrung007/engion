@@ -5,6 +5,7 @@ import { DictionaryService } from '../../services/dictionary';
 import { AudioButton } from '../Common/AudioButton';
 import { SpeechMicButton } from '../Common/SpeechMicButton';
 import { Badge } from '../Common/Badge';
+import { SRSBadge } from '../Common/SRSBadge';
 import { PresetLibraryModal } from './PresetLibraryModal';
 import { Search, Plus, Trash2, Sparkles, Flame, Star, Edit3, FolderPlus, X, BookOpen, ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
 
@@ -379,24 +380,28 @@ export const DeckManager: React.FC = () => {
                 )}
               </div>
 
-              {/* Card Action Buttons (Edit & Delete) */}
-              <div style={{ marginTop: '16px', display: 'flex', justifyContent: 'flex-end', gap: '8px', borderTop: '1px solid var(--border-subtle)', paddingTop: '12px' }}>
-                <button
-                  onClick={() => setEditingWord(item)}
-                  className="btn-icon"
-                  style={{ color: 'var(--accent-cyan)', padding: '6px' }}
-                  title="Chỉnh sửa từ vựng"
-                >
-                  <Edit3 size={16} />
-                </button>
-                <button
-                  onClick={() => handleDeleteWord(item.id, item.word)}
-                  className="btn-icon"
-                  style={{ color: '#EF4444', padding: '6px' }}
-                  title="Xóa từ vựng này"
-                >
-                  <Trash2 size={16} />
-                </button>
+              {/* Card Footer: SRS Review Badge & Action Buttons */}
+              <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderTop: '1px solid var(--border-subtle)', paddingTop: '12px' }}>
+                <SRSBadge wordId={item.id} />
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <button
+                    onClick={() => setEditingWord(item)}
+                    className="btn-icon"
+                    style={{ color: 'var(--accent-cyan)', padding: '6px' }}
+                    title="Chỉnh sửa từ vựng"
+                  >
+                    <Edit3 size={16} />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteWord(item.id, item.word)}
+                    className="btn-icon"
+                    style={{ color: '#EF4444', padding: '6px' }}
+                    title="Xóa từ vựng này"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
             </div>
           );

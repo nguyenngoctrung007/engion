@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { VocabularyWord } from '../../types';
 import { Badge } from '../Common/Badge';
+import { SRSBadge } from '../Common/SRSBadge';
 import { AudioButton } from '../Common/AudioButton';
 import { CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
 import { speakWord } from '../../services/audio';
@@ -36,8 +37,11 @@ export const FillInBlankQuiz: React.FC<FillInBlankQuizProps> = ({ word, onAnswer
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <Badge text={word.deck} type={word.deck} />
-          <span style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>Thử thách điền từ</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Badge text={word.deck} type={word.deck} />
+            <span style={{ fontSize: '0.74rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>Điền từ</span>
+          </div>
+          <SRSBadge wordId={word.id} compact />
         </div>
 
         {/* Meaning hint */}

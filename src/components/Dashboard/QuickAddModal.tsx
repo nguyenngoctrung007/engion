@@ -10,6 +10,7 @@ export const QuickAddModal: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<{ text: string; isError: boolean } | null>(null);
   const [difficulty, setDifficulty] = useState<number>(StorageService.getSettings().wordDifficulty || 1);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [keepOpen, setKeepOpen] = useState<boolean>(StorageService.getSettings().keepQuickAddOpenAfterSave ?? false);
 
   const [draft, setDraft] = useState<{
     word: string;
@@ -24,6 +25,34 @@ export const QuickAddModal: React.FC = () => {
   const definitionInputRef = useRef<HTMLInputElement>(null);
   const draftRef = useRef(draft);
   draftRef.current = draft;
+  const keepOpenRef = useRef(keepOpen);
+  keepOpenRef.current = keepOpen;
+
+  const handleToggleKeepOpen = (checked: boolean) => {
+    setKeepOpen(checked);
+    const s = StorageService.getSettings();
+    StorageService.saveSettings({ ...s, keepQuickAddOpenAfterSave: checked });
+  };
+
+  const resetModalState = (preserveToast: boolean = false) => {
+    setSearchWord('');
+    setDraft(null);
+    setLoading(false);
+    if (!preserveToast) {
+      setToastMessage(null);
+    }
+    const freshSettings = StorageService.getSettings();
+    const freshDiff = freshSettings.wordDifficulty || 1;
+    setDifficulty(freshDiff);
+    setKeepOpen(freshSettings.keepQuickAddOpenAfterSave ?? false);
+    setSuggestions(DictionaryService.getRandomSuggestions(4, freshDiff));
+    setTimeout(() => {
+      if (searchInputRef.current) {
+        searchInputRef.current.focus();
+        searchInputRef.current.select?.();
+      }
+    }, 50);
+  };
 
   useEffect(() => {
     setSuggestions(DictionaryService.getRandomSuggestions(4, difficulty));
@@ -31,11 +60,20 @@ export const QuickAddModal: React.FC = () => {
       searchInputRef.current.focus();
     }
 
+    if ((window as any).electronAPI?.onQuickAddActivated) {
+      (window as any).electronAPI.onQuickAddActivated(() => {
+        resetModalState(false);
+      });
+    }
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || (e.altKey && e.key.toLowerCase() === 'q')) {
         e.preventDefault();
         handleClose();
-      } else if ((e.ctrlKey || e.altKey) && e.key === 'Enter') {
+      } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'Enter') {
+        e.preventDefault();
+        handleConfirmSave(undefined, true);
+      } else if ((e.ctrlKey || e.metaKey || e.altKey) && e.key === 'Enter') {
         e.preventDefault();
         handleConfirmSave();
       }
@@ -144,7 +182,7 @@ export const QuickAddModal: React.FC = () => {
     }
   };
 
-  const handleConfirmSave = (e?: React.FormEvent) => {
+  const handleConfirmSave = (e?: React.FormEvent, forceKeepOpen?: boolean) => {
     if (e) e.preventDefault();
 
     const currentDraft = draftRef.current;
@@ -170,8 +208,20 @@ export const QuickAddModal: React.FC = () => {
 
     StorageService.saveCustomWord(finalWord);
 
-    // Close window cleanly on save
-    handleClose();
+    const shouldKeep = forceKeepOpen !== undefined ? forceKeepOpen : keepOpenRef.current;
+
+    if (shouldKeep) {
+      setToastMessage({
+        text: `🎉 Đã lưu thành công "${finalWord.word}"! Sẵn sàng nhập từ tiếp theo...`,
+        isError: false
+      });
+      resetModalState(true);
+      setTimeout(() => {
+        setToastMessage((prev) => (prev?.text.includes(finalWord.word) ? null : prev));
+      }, 4000);
+    } else {
+      handleClose();
+    }
   };
 
   return (
@@ -558,28 +608,63 @@ export const QuickAddModal: React.FC = () => {
         </div>
       )}
 
-      {/* Bottom Action Bar - ONLY SHOWN WHEN DRAFT WORD IS READY */}
-      {draft && (
-        <div style={{ display: 'flex', gap: '10px', marginTop: 'auto', paddingTop: '6px' }}>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="btn btn-secondary"
-            style={{ padding: '8px 14px', fontSize: '0.82rem' }}
-          >
-            <X size={15} /> Hủy (ESC)
-          </button>
+      {/* Bottom Action Bar */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: 'auto', paddingTop: '6px' }}>
+        {draft && (
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="btn btn-secondary"
+              style={{ padding: '8px 12px', fontSize: '0.82rem' }}
+            >
+              <X size={15} /> Hủy (ESC)
+            </button>
 
-          <button
-            type="button"
-            onClick={handleConfirmSave}
-            className="btn btn-primary"
-            style={{ flex: 1, justifyContent: 'center', padding: '8px 14px', fontSize: '0.88rem', fontWeight: 800, gap: '8px' }}
-          >
-            <Save size={16} /> 💾 XÁC NHẬN LƯU (Ctrl + Enter)
-          </button>
+            {!keepOpen && (
+              <button
+                type="button"
+                onClick={() => handleConfirmSave(undefined, true)}
+                className="btn btn-secondary"
+                style={{ padding: '8px 12px', fontSize: '0.82rem', color: 'var(--accent-cyan)', borderColor: 'rgba(6, 182, 212, 0.4)', gap: '5px' }}
+                title="Lưu từ này và giữ mở cửa sổ để thêm từ tiếp theo (Ctrl + Shift + Enter)"
+              >
+                <Save size={15} /> Lưu & Thêm Tiếp
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => handleConfirmSave()}
+              className="btn btn-primary"
+              style={{ flex: 1, justifyContent: 'center', padding: '8px 14px', fontSize: '0.88rem', fontWeight: 800, gap: '6px' }}
+            >
+              <Save size={16} /> 💾 {keepOpen ? 'LƯU & TIẾP TỤC' : 'XÁC NHẬN LƯU'} (Ctrl + Enter)
+            </button>
+          </div>
+        )}
+
+        {/* Continuous Mode Checkbox Switch & Instructions */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '2px 2px 0 2px' }}>
+          <label style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.76rem', color: keepOpen ? 'var(--accent-cyan)' : 'var(--text-muted)', cursor: 'pointer', userSelect: 'none' }}>
+            <input
+              type="checkbox"
+              checked={keepOpen}
+              onChange={(e) => handleToggleKeepOpen(e.target.checked)}
+              style={{ cursor: 'pointer', accentColor: 'var(--accent-cyan)' }}
+            />
+            <span style={{ fontWeight: keepOpen ? 700 : 500 }}>
+              ⚡ Giữ cửa sổ để thêm liên tục nhiều từ
+            </span>
+          </label>
+
+          {draft && !keepOpen && (
+            <span style={{ fontSize: '0.72rem', color: 'var(--text-dim)', fontFamily: 'JetBrains Mono' }}>
+              Ctrl+Shift+Enter: Lưu & Tiếp
+            </span>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Footer Instructions */}
       <div
@@ -596,10 +681,10 @@ export const QuickAddModal: React.FC = () => {
       >
         <span>
           {draft
-            ? '✏️ Bạn có thể tự do chỉnh sửa bản dịch ➔ Bấm Ctrl + Enter để Lưu'
+            ? (keepOpen ? '✨ Chế độ thêm liên tục: Lưu xong sẽ tự động sẵn sàng cho từ mới' : '✏️ Có thể chỉnh sửa bản dịch ➔ Ctrl + Enter để Lưu')
             : '💡 Gõ từ tiếng Anh ➔ Bấm Enter để Tra từ từ điển'}
         </span>
-        <span style={{ fontFamily: 'JetBrains Mono' }}>Alt + Q / ESC: Đóng</span>
+        <span style={{ fontFamily: 'JetBrains Mono' }}>ESC / Alt + Q: Đóng</span>
       </div>
     </div>
   );

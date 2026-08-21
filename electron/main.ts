@@ -189,13 +189,9 @@ function createDashboardWindow(showOnCreate: boolean = true) {
   });
 }
 
-function createPopupWindow() {
+function createPopupWindow(showOnCreate: boolean = false) {
   if (popupWindow && !popupWindow.isDestroyed()) {
-    try {
-      if (popupWindow.isMinimized()) popupWindow.restore();
-      popupWindow.show();
-      popupWindow.focus();
-    } catch {}
+    if (showOnCreate) showPopupWindow();
     return;
   }
 
@@ -219,6 +215,7 @@ function createPopupWindow() {
     alwaysOnTop: true,
     skipTaskbar: true,
     resizable: false,
+    show: false,
     icon: createTrayIcon(),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -237,26 +234,67 @@ function createPopupWindow() {
 
   popupWindow.loadURL(popupUrl);
 
+  popupWindow.once('ready-to-show', () => {
+    if (showOnCreate) {
+      showPopupWindow();
+    }
+  });
+
+  popupWindow.on('close', (e) => {
+    if (!(app as any).isQuitting) {
+      e.preventDefault();
+      popupWindow?.hide();
+    }
+  });
+
   popupWindow.on('closed', () => {
     popupWindow = null;
   });
 }
 
-function createQuickAddWindow() {
+function showPopupWindow(manual: boolean = false) {
+  if (!popupWindow || popupWindow.isDestroyed()) {
+    createPopupWindow(true);
+    return;
+  }
+
+  try {
+    const currentPoint = screen.getCursorScreenPoint();
+    const activeDisplay = screen.getDisplayNearestPoint(currentPoint);
+    const { x: dispX, y: dispY, width: dispW, height: dispH } = activeDisplay.workArea;
+
+    const popupWidth = 440;
+    const popupHeight = 500;
+    const margin = 20;
+
+    const targetX = dispX + dispW - popupWidth - margin;
+    const targetY = dispY + dispH - popupHeight - margin;
+
+    popupWindow.setPosition(targetX, targetY, false);
+
+    if (popupWindow.isMinimized()) popupWindow.restore();
+    popupWindow.show();
+    popupWindow.focus();
+
+    popupWindow.webContents.send('quiz-popup-activated', { manual, timestamp: Date.now() });
+    popupWindow.webContents.send('open-popup-quiz', { manual, timestamp: Date.now() });
+  } catch (err) {
+    console.error('[ENGION] Failed to show popup window:', err);
+    createPopupWindow(true);
+  }
+}
+
+function createQuickAddWindow(showOnCreate: boolean = false) {
   if (quickAddWindow && !quickAddWindow.isDestroyed()) {
-    try {
-      if (quickAddWindow.isMinimized()) quickAddWindow.restore();
-      quickAddWindow.show();
-      quickAddWindow.focus();
-    } catch {}
+    if (showOnCreate) showQuickAddWindow();
     return;
   }
 
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
 
-  const winWidth = 500;
-  const winHeight = 440;
+  const winWidth = 550;
+  const winHeight = 500;
 
   const x = Math.round((screenWidth - winWidth) / 2);
   const y = Math.round((screenHeight - winHeight) / 2 - 30);
@@ -271,6 +309,7 @@ function createQuickAddWindow() {
     alwaysOnTop: true,
     skipTaskbar: true,
     resizable: true,
+    show: false,
     icon: createTrayIcon(),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -289,15 +328,58 @@ function createQuickAddWindow() {
 
   quickAddWindow.loadURL(quickAddUrl);
 
+  quickAddWindow.once('ready-to-show', () => {
+    if (showOnCreate) {
+      showQuickAddWindow();
+    }
+  });
+
+  quickAddWindow.on('close', (e) => {
+    if (!(app as any).isQuitting) {
+      e.preventDefault();
+      quickAddWindow?.hide();
+    }
+  });
+
   quickAddWindow.on('closed', () => {
     quickAddWindow = null;
   });
 }
 
+function showQuickAddWindow() {
+  if (!quickAddWindow || quickAddWindow.isDestroyed()) {
+    createQuickAddWindow(true);
+    return;
+  }
+
+  try {
+    const currentPoint = screen.getCursorScreenPoint();
+    const activeDisplay = screen.getDisplayNearestPoint(currentPoint);
+    const { x: dispX, y: dispY, width: dispW, height: dispH } = activeDisplay.workArea;
+
+    const [curW, curH] = quickAddWindow.getSize();
+    const winWidth = curW || 550;
+    const winHeight = curH || 500;
+
+    const targetX = Math.round(dispX + (dispW - winWidth) / 2);
+    const targetY = Math.round(dispY + (dispH - winHeight) / 2 - 30);
+
+    quickAddWindow.setPosition(targetX, targetY, false);
+
+    if (quickAddWindow.isMinimized()) quickAddWindow.restore();
+    quickAddWindow.show();
+    quickAddWindow.focus();
+
+    quickAddWindow.webContents.send('quick-add-activated', { timestamp: Date.now() });
+  } catch (err) {
+    console.error('[ENGION] Failed to show quick add window:', err);
+    createQuickAddWindow(true);
+  }
+}
+
 function createQuickAddReviewWindow(wordToLookup: string) {
   if (quickAddWindow && !quickAddWindow.isDestroyed()) {
-    try { quickAddWindow.destroy(); } catch {}
-    quickAddWindow = null;
+    try { quickAddWindow.hide(); } catch {}
   }
 
   if (quickAddReviewWindow && !quickAddReviewWindow.isDestroyed()) {
@@ -308,8 +390,8 @@ function createQuickAddReviewWindow(wordToLookup: string) {
   const primaryDisplay = screen.getPrimaryDisplay();
   const { width: screenWidth, height: screenHeight } = primaryDisplay.workAreaSize;
 
-  const winWidth = 510;
-  const winHeight = 460;
+  const winWidth = 550;
+  const winHeight = 500;
 
   const x = Math.round((screenWidth - winWidth) / 2);
   const y = Math.round((screenHeight - winHeight) / 2 - 30);
@@ -490,19 +572,7 @@ function triggerQuizPopup(force: boolean = false) {
     return;
   }
 
-  createPopupWindow();
-  if (popupWindow && !popupWindow.isDestroyed()) {
-    try {
-      popupWindow.show();
-      popupWindow.focus();
-    } catch {}
-  }
-
-  setTimeout(() => {
-    if (popupWindow && !popupWindow.isDestroyed()) {
-      popupWindow.webContents.send('open-popup-quiz', { timestamp: Date.now() });
-    }
-  }, 300);
+  showPopupWindow(force);
 }
 
 function setQuizInterval(minutes: number, notifyRenderer: boolean = true) {
@@ -658,21 +728,18 @@ app.whenReady().then(() => {
       showAutoStartNotification();
     }, 1500);
   }
+  // Pre-warm hidden windows for instant hotkey response (<10ms)
+  createPopupWindow(false);
+  createQuickAddWindow(false);
+
   setQuizInterval(30);
 
-  // Register Global Hotkeys (Alt+Q: Close, Alt+D: Dashboard, Alt+E: Quiz, Alt+N: Quick Add)
+  // Register Global Hotkeys (Alt+Q: Hide, Alt+D: Dashboard, Alt+E: Quiz, Alt+N: Quick Add)
   try {
     globalShortcut.register('Alt+Q', () => {
       const focusedWin = BrowserWindow.getFocusedWindow();
       if (focusedWin && !focusedWin.isDestroyed()) {
-        if (focusedWin === dashboardWindow) {
-          focusedWin.hide();
-        } else {
-          try { focusedWin.destroy(); } catch {}
-          if (focusedWin === popupWindow) popupWindow = null;
-          if (focusedWin === quickAddWindow) quickAddWindow = null;
-          if (focusedWin === quickAddReviewWindow) quickAddReviewWindow = null;
-        }
+        focusedWin.hide();
       }
     });
     globalShortcut.register('Alt+D', () => {
@@ -682,16 +749,16 @@ app.whenReady().then(() => {
       showOrCreateDashboard();
     });
     globalShortcut.register('Alt+E', () => {
-      triggerQuizPopup(true);
+      showPopupWindow(true);
     });
     globalShortcut.register('CommandOrControl+Shift+E', () => {
-      triggerQuizPopup(true);
+      showPopupWindow(true);
     });
     globalShortcut.register('Alt+N', () => {
-      createQuickAddWindow();
+      showQuickAddWindow();
     });
     globalShortcut.register('CommandOrControl+Shift+N', () => {
-      createQuickAddWindow();
+      showQuickAddWindow();
     });
   } catch (err) {
     console.log('[ENGION] Failed to register global shortcuts:', err);
@@ -699,10 +766,9 @@ app.whenReady().then(() => {
 
   ipcMain.on('open-quick-add-window', () => {
     if (popupWindow && !popupWindow.isDestroyed()) {
-      try { popupWindow.destroy(); } catch {}
-      popupWindow = null;
+      try { popupWindow.hide(); } catch {}
     }
-    createQuickAddWindow();
+    showQuickAddWindow();
   });
 
   ipcMain.on('open-quick-add-review-window', (_event, wordToLookup: string) => {
@@ -711,8 +777,7 @@ app.whenReady().then(() => {
 
   ipcMain.on('open-dashboard-window', () => {
     if (popupWindow && !popupWindow.isDestroyed()) {
-      try { popupWindow.destroy(); } catch {}
-      popupWindow = null;
+      try { popupWindow.hide(); } catch {}
     }
     showOrCreateDashboard();
   });
@@ -720,13 +785,10 @@ app.whenReady().then(() => {
   ipcMain.on('close-quick-add-window', (event) => {
     const sender = BrowserWindow.fromWebContents(event.sender);
     if (sender && sender !== dashboardWindow) {
-      try { sender.destroy(); } catch {}
-      if (sender === quickAddWindow) quickAddWindow = null;
-      if (sender === quickAddReviewWindow) quickAddReviewWindow = null;
+      try { sender.hide(); } catch {}
     } else {
       if (quickAddWindow && !quickAddWindow.isDestroyed()) {
-        try { quickAddWindow.destroy(); } catch {}
-        quickAddWindow = null;
+        try { quickAddWindow.hide(); } catch {}
       }
       if (quickAddReviewWindow && !quickAddReviewWindow.isDestroyed()) {
         try { quickAddReviewWindow.destroy(); } catch {}
@@ -764,17 +826,15 @@ app.whenReady().then(() => {
 
   ipcMain.on('close-popup-window', (event) => {
     const sender = BrowserWindow.fromWebContents(event.sender);
-    // Never close or destroy dashboardWindow from close-popup-window IPC
+    // Never hide or destroy dashboardWindow from close-popup-window IPC
     if (sender && sender !== dashboardWindow) {
       try {
-        sender.destroy();
+        sender.hide();
       } catch {}
-      if (sender === popupWindow) popupWindow = null;
     } else if (popupWindow && !popupWindow.isDestroyed() && popupWindow !== dashboardWindow) {
       try {
-        popupWindow.destroy();
+        popupWindow.hide();
       } catch {}
-      popupWindow = null;
     }
   });
 

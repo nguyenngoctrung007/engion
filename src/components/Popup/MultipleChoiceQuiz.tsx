@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { VocabularyWord } from '../../types';
 import { Badge } from '../Common/Badge';
+import { SRSBadge } from '../Common/SRSBadge';
 import { AudioButton } from '../Common/AudioButton';
 import { CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
 import { speakWord } from '../../services/audio';
@@ -42,8 +43,11 @@ export const MultipleChoiceQuiz: React.FC<MultipleChoiceQuizProps> = ({ word, al
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-          <Badge text={word.deck} type={word.deck} />
-          <span style={{ fontSize: '0.75rem', color: 'var(--accent-amber)', fontWeight: 600 }}>Trắc nghiệm nhanh (3s)</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Badge text={word.deck} type={word.deck} />
+            <span style={{ fontSize: '0.74rem', color: 'var(--accent-amber)', fontWeight: 600 }}>Trắc nghiệm</span>
+          </div>
+          <SRSBadge wordId={word.id} compact />
         </div>
 
         {/* Word header */}

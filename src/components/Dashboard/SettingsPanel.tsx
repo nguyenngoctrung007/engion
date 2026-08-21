@@ -4,7 +4,7 @@ import { StorageService } from '../../services/storage';
 import { UpdateCheckerService, UpdateCheckResult } from '../../services/updateChecker';
 import { APP_VERSION } from '../../config/version';
 import { GoogleDriveSyncCard } from './GoogleDriveSyncCard';
-import { Clock, Sliders, Volume2, ShieldAlert, Sparkles, Check, Power, Keyboard, Download, Upload, Moon, Globe, Target, Trash2, RotateCcw, ExternalLink, Loader2, RefreshCw } from 'lucide-react';
+import { Clock, Sliders, Volume2, ShieldAlert, Sparkles, Check, Power, Keyboard, Download, Upload, Moon, Globe, Target, Trash2, RotateCcw, ExternalLink, Loader2, RefreshCw, PlusCircle } from 'lucide-react';
 
 interface SettingsPanelProps {
   onPracticeNow: () => void;
@@ -387,6 +387,27 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
                 </button>
               );
             })}
+          </div>
+        </div>
+
+        {/* Continuous Quick Add Setting */}
+        <div className="glass-card" style={{ padding: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+            <div>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: '#FFF', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <PlusCircle size={18} style={{ color: 'var(--accent-cyan)' }} /> Chế độ Thêm từ liên tục (Continuous Quick Add)
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                Tự động giữ cửa sổ Thêm nhanh (Alt+N) mở sau khi lưu để tiếp tục nhập từ khác mà không bị đóng:
+              </p>
+            </div>
+            <button
+              onClick={() => handleSave({ ...settings, keepQuickAddOpenAfterSave: !settings.keepQuickAddOpenAfterSave })}
+              className={`btn ${settings.keepQuickAddOpenAfterSave ? 'btn-primary' : 'btn-secondary'}`}
+              style={{ minWidth: '160px', justifyContent: 'center' }}
+            >
+              {settings.keepQuickAddOpenAfterSave ? '⚡ Đang Bật (Giữ mở)' : '❌ Tắt (Tự đóng)'}
+            </button>
           </div>
         </div>
 

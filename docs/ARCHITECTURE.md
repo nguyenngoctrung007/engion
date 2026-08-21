@@ -48,16 +48,19 @@ Engion is a desktop vocabulary learning application built with **Electron + Reac
 - **Single Instance Lock**: Ensures only 1 instance of Engion runs; second launch restores Dashboard.
 - **Tray Management**: Generates 32x32 PNG icon (`scripts/create-icon.js`) dynamically, updates context menu (`Open Dashboard`, `Test Popup`, `Do Not Disturb Submenu`, `Intervals`, `Exit`), and live hover tooltip countdown / DND status.
 - **Do Not Disturb (DND) Safeguard**: Evaluates temporary pauses (`dndUntil`) and scheduled quiet hours (`dndEnabled`, `dndStart`, `dndEnd`) before automatically triggering floating popups.
-- **Window Management**:
-  - `dashboardWindow`: Standard 1000x700 window for complete dashboard management.
-  - `popupWindow`: Frameless, transparent, `alwaysOnTop: true`, `skipTaskbar: true`, 440x500 window anchored at bottom-right of primary display (`screenWidth - 460`, `screenHeight - 520`).
-- **Focus & Mouse Reactivity Safeguard**: Uses `popupWindow.focus()` and React `onMouseDown` event handlers to guarantee 1-click closing without OS focus-swallowing delays.
+- **Window Management (Pre-warmed Singleton Windows)**:
+  - `dashboardWindow`: Standard 1000x700 window for complete dashboard management (minimized/hidden on close).
+  - `popupWindow`: Frameless, transparent, `alwaysOnTop: true`, `skipTaskbar: true`, 440x500 window anchored at bottom-right of active display. Pre-warmed at startup (`show: false`) and reused with `hide()`/`show()` for instant (<10ms) invocation.
+  - `quickAddWindow`: Frameless 500x440 modal centered on active display (`screen.getDisplayNearestPoint`). Pre-warmed at startup and reused via `hide()`/`show()` with auto-reset & focus signal.
+- **Focus & Multi-monitor Safeguard**: Dynamically calculates coordinates on the active monitor containing the cursor before `win.show()`, fires `quiz-popup-activated` / `quick-add-activated` IPC signals to reset state, and uses React `onMouseDown` event handlers to guarantee 1-click closing without OS focus-swallowing delays.
 - **Google OAuth2 Login (RFC 8252 loopback flow)**: `ipcMain.handle('google-auth-start')` spins up a short-lived `http` server on `127.0.0.1` (port `8085`, auto-falls back to `8086-8089`/a random port if occupied), opens the consent screen in the **system's default browser** via `shell.openExternal` (never an embedded `BrowserWindow` — Google blocks/degrades OAuth from embedded webviews), verifies the returned `state` param (CSRF), exchanges the auth code for tokens, and stores them via `safeStorage` (falls back to plain JSON if OS-level encryption is unavailable). `google-auth-status` / `google-get-token` auto-refresh the access token when expired; `google-auth-logout` clears stored tokens.
 
 ### 2. Preload Script (`electron/preload.ts`)
 Exposes safe context bridge API `window.electronAPI`. Built via `vite-plugin-electron`, which must emit **CommonJS**, not ESM — Electron loads preload scripts with `require()`, and this repo's `"type": "module"` in `package.json` would otherwise make Vite build it as ESM (silently breaking the entire bridge). See the `force-preload-cjs` plugin in `vite.config.ts`.
 - `openDashboard()`: Shows & focuses main dashboard.
-- `closePopup()`: Safely closes/destroys floating popup window.
+- `closePopup()`: Safely hides floating popup window (`popupWindow.hide()`).
+- `onQuizPopupActivated(callback)`: Listens for popup activation to refresh SRS cards.
+- `onQuickAddActivated(callback)`: Listens for quick-add activation to reset input & autofocus.
 - `getTimerState()`: Fetches current countdown & next popup timestamp.
 - `onUpdateTimer(callback)`: Listens for live countdown tick updates.
 - `onOpenPopupQuiz(callback)`: Listens for popup trigger events.

@@ -4,6 +4,12 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onOpenPopup: (callback: (data: any) => void) => {
     ipcRenderer.on('open-popup-quiz', (_event, data) => callback(data));
   },
+  onQuizPopupActivated: (callback: (data: any) => void) => {
+    ipcRenderer.on('quiz-popup-activated', (_event, data) => callback(data));
+  },
+  onQuickAddActivated: (callback: () => void) => {
+    ipcRenderer.on('quick-add-activated', () => callback());
+  },
   onTimerTick: (callback: (data: any) => void) => {
     ipcRenderer.on('timer-tick', (_event, data) => callback(data));
   },

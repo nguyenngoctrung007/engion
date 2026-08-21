@@ -3,6 +3,7 @@ import { VocabularyWord, UserWordProgress } from '../../types';
 import { AudioButton } from '../Common/AudioButton';
 import { SpeechMicButton } from '../Common/SpeechMicButton';
 import { Badge } from '../Common/Badge';
+import { SRSBadge } from '../Common/SRSBadge';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 interface FlashcardViewProps {
@@ -11,7 +12,7 @@ interface FlashcardViewProps {
   onAnswer: (rating: 'hard' | 'good' | 'easy', keepGoing?: boolean) => void;
 }
 
-export const FlashcardView: React.FC<FlashcardViewProps> = ({ word, onAnswer }) => {
+export const FlashcardView: React.FC<FlashcardViewProps> = ({ word, progress, onAnswer }) => {
   const [showAnswer, setShowAnswer] = useState(false);
 
   const renderExample = () => {
@@ -29,7 +30,7 @@ export const FlashcardView: React.FC<FlashcardViewProps> = ({ word, onAnswer }) 
             <Badge type={word.deck} text={word.deck} />
             {word.pos && <span className="badge badge-custom">{word.pos}</span>}
           </div>
-          <span style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>Thẻ từ vựng</span>
+          <SRSBadge wordId={word.id} progress={progress} compact />
         </div>
 
         {/* Word Title & IPA */}

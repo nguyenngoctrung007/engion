@@ -11,18 +11,23 @@ This document details all implemented features, business logic, and UI capabilit
 - **Non-Transparent Tray Icon**: Clean 32x32 PNG icon built to conform to Win32 System Tray specs.
 - **Minimize-to-Tray 📥**: Clicking Minimize (`_`) or Close (`X`) on the main Dashboard window hides the window directly to System Tray instead of cluttering the Windows Taskbar.
 - **Ultra-Compact Non-Wrapping Header**: Segmented quiz mode tabs (`Thẻ từ`, `Điền từ`, `Trắc nghiệm`) are strictly configured with `whiteSpace: 'nowrap'` and compact icon padding to ensure zero line wrapping and a clean, spacious layout on 360px-wide windows.
+- **Live SRS Progress Badge trên Thẻ Quiz 🔄**: Thay thế chữ tĩnh "Thẻ từ vựng" bằng huy hiệu tiến độ Spaced Repetition trực tiếp trên cả 3 chế độ (`Thẻ từ`, `Điền từ`, `Trắc nghiệm`), hiển thị rõ ràng `✨ Mới • 0 lượt`, `🔄 3 lượt • Box 2`, hoặc `🌟 8 lượt • Thuộc lòng` kèm tooltip thống kê chi tiết.
 ### ⚡ 2. Global Hotkeys & Quick Add Word (Bộ Phím Tắt Toàn Cục & Thêm Từ Vựng Siêu Nhanh)
 - **Bộ Phím Tắt Toàn Cục (System-wide Global Shortcuts)**:
   - **`Alt + D`**: Mở Engion Dashboard (Bảng điều khiển chính).
   - **`Alt + N`**: Mở Quick Add (Cửa sổ thêm từ vựng siêu nhanh 500x440px).
   - **`Alt + E`**: Bật Popup Flashcard (Học / Luyện từ ngay lập tức).
-  - **`Alt + Q`**: **Đóng ngay cửa sổ / dialog hiện tại đang focus**.
+  - **`Alt + Q`**: **Ẩn ngay cửa sổ / dialog hiện tại đang focus**.
+- **Chế độ Thêm từ liên tục (Continuous Quick Add Mode ⚡)**:
+  - **Giữ cửa sổ mở để thêm nhiều từ**: Tùy chọn tick `[x] Giữ cửa sổ để thêm liên tục nhiều từ` hoặc bật trong Settings Panel. Sau khi bấm lưu, cửa sổ không bị đóng mà tự động xóa trắng form và autofocus lại vào ô input để nhập tiếp từ tiếp theo.
+  - **Phím tắt `Ctrl + Shift + Enter`**: Luôn thực hiện "Lưu & Tiếp tục thêm từ mới" mà không đóng popup bất kể setting.
+  - **Phím tắt `Ctrl + Enter` (hoặc `Enter`)**: Lưu từ theo cấu hình mặc định.
 - **Luồng Tra Từ 1-Click & Chống Trùng Lặp Gộp Nghĩa**:
   - Gõ từ tiếng Anh ➔ Bấm `Enter` để tra từ điển Oxford & Google Translate.
   - **Smart POS Selector**: Tự động nhận diện chính xác Động từ (`verb`), Danh từ (`noun`), Tính từ (`adjective`), Trạng từ (`adverb`).
   - **Natural Context Generator**: Tự động sinh câu ngữ cảnh mượt mà thực tế cho các từ giao tiếp (`okay`, `hello`, `hi`).
   - **Smart Duplicate Prevention & Merge**: Nếu từ đã có sẵn trong Kho, hệ thống tự động gộp nghĩa mới (ví dụ: `"chơi; vở kịch"`) tránh tạo rác dữ liệu.
-  - Nhấn `Ctrl + Enter` (hoặc `Alt + Enter`) để lưu ngầm vào Kho và tự đóng cửa sổ.
+  - Bấm `Esc` / `Alt + Q` để ẩn cửa sổ khi đã nhập xong danh sách từ.
 
 ---
 
@@ -42,6 +47,7 @@ This document details all implemented features, business logic, and UI capabilit
 - **Word & Deck Management & Deletion 🗑️**:
   - **Universal Word Deletion 🗑️**: Delete any individual word card (custom, imported Anki, or built-in words).
   - **Custom Deck Deletion ✕**: Delete user-created custom deck categories and purge associated words.
+  - **SRS Review & Mastery Badge 🔄**: Mỗi thẻ từ vựng hiển thị trực tiếp số lượt đã học/xuất hiện và cấp độ hộp ghi nhớ (`✨ Mới • 0 lượt`, `🔄 3 lượt • Box 2`, `🌟 7 lượt • Thuộc lòng`) kèm tooltip thống kê tỷ lệ nhớ đúng.
 - **Data Backup & Reset All Data 🔄**:
   - **Reset All Data Button 🔄**: Clear all custom words, imported Anki decks, custom categories, and study history back to fresh initial state in Settings.
 - **Filtering Tabs**: `TẤT CẢ`, `⭐ YÊU THÍCH`, `🔥 CẦN ÔN LẠI`, `IT`, `TOEIC`, `IELTS`, `OXFORD`, `CUSTOM`, + Dynamic User-Created Decks.

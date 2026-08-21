@@ -104,7 +104,7 @@ It features a **Pure Client-Side Anki Package (`.apkg`) Importer**, allowing you
 ## 📚 Project Documentation
 
 Detailed architectural, feature, and release notes guides are available:
-- 🚀 [RELEASE_NOTES.md](RELEASE_NOTES.md): What's new in **Engion v1.2.0** (Google Drive Sync, Enhanced SRS Engine, Roast Badges, Top Weak Words Tracker).
+- 🚀 [RELEASE_NOTES.md](RELEASE_NOTES.md): What's new in **Engion v1.2.1** (Instant Hotkey Invocation, Continuous Quick Add, Live SRS Progress Badges).
 - 📖 [FEATURES.md](docs/FEATURES.md): Complete list of business logic and UI capabilities.
 - 🏗️ [ARCHITECTURE.md](docs/ARCHITECTURE.md): Electron IPC bridge, window management, and state flow.
 - 🛠️ [DEVELOPMENT_GUIDE.md](docs/DEVELOPMENT_GUIDE.md): Developer environment setup and build scripts.

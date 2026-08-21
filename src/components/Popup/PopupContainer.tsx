@@ -24,10 +24,13 @@ export const PopupContainer: React.FC = () => {
     setCurrentWord(next);
   };
 
-  useEffect(() => {
+  const refreshQuizSession = () => {
     const words = StorageService.getAllVocabulary();
     setAllWords(words);
     setFavoriteIds(StorageService.getFavoriteIds());
+    setEditingWord(null);
+    setIsSearchingDict(false);
+    setLookupMessage(null);
 
     const settings = StorageService.getSettings();
     if (settings.quizMode && settings.quizMode !== 'random') {
@@ -37,9 +40,24 @@ export const PopupContainer: React.FC = () => {
       setQuizMode(modes[Math.floor(Math.random() * modes.length)]);
     }
 
-    // Use smart SRS picker on first load
     const next = pickSmartNextWord(words, undefined);
     setCurrentWord(next);
+  };
+
+  useEffect(() => {
+    refreshQuizSession();
+
+    if ((window as any).electronAPI?.onQuizPopupActivated) {
+      (window as any).electronAPI.onQuizPopupActivated(() => {
+        refreshQuizSession();
+      });
+    }
+
+    if ((window as any).electronAPI?.onOpenPopup) {
+      (window as any).electronAPI.onOpenPopup(() => {
+        refreshQuizSession();
+      });
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' || (e.altKey && e.key.toLowerCase() === 'q')) {

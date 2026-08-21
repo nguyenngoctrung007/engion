@@ -26,7 +26,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
   dndStart: '22:00',
   dndEnd: '07:00',
   dailyTargetWords: 10,
-  wordDifficulty: 1
+  wordDifficulty: 1,
+  keepQuickAddOpenAfterSave: false
 };
 
 export const StorageService = {

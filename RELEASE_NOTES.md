@@ -1,3 +1,28 @@
+# 🚀 Engion v1.2.1 - Release Notes
+
+**Release Date**: August 21, 2026
+
+Engion v1.2.1 mang đến cải tiến vượt bậc về tốc độ phản hồi phím tắt tức thì (<10ms) trong Production, Chế độ Thêm từ liên tục (Continuous Quick Add), và Live SRS Progress Badge hiển thị số lượt ôn tập trực quan trên từng thẻ từ vựng và Popup Quiz.
+
+---
+
+## 🔥 Key Highlights in v1.2.1
+
+### ⚡ 1. Pre-warmed Singleton Windows & Tốc Độ Invoke Tức Thì (< 10ms)
+- **Tối ưu triệt để độ trễ**: Khởi tạo sẵn cửa sổ Quiz và Quick Add ở chế độ ẩn (`show: false`), chuyển đổi hoàn toàn cơ chế `destroy()` sang `hide()` / `show()`. Giảm độ trễ từ 500ms xuống **dưới 10ms (tức thì)** khi bấm `Alt+N`, `Alt+E`, `Alt+D` trong bản build Production.
+- **Tự động Reset & Focus**: IPC signal `quick-add-activated` và `quiz-popup-activated` tự động làm mới form nhập liệu và cập nhật câu hỏi SRS mới nhất mỗi khi mở lại cửa sổ.
+
+### 📝 2. Chế Độ Thêm Từ Liên Tục (Continuous Quick Add Mode)
+- **Nhập hàng loạt không gián đoạn**: Bổ sung checkbox `[x] ⚡ Giữ cửa sổ để thêm liên tục nhiều từ` ngay trên Quick Add Modal và tùy chọn trong Settings.
+- **Phím tắt Power-user**: `Ctrl + Shift + Enter` để lưu từ hiện tại và sẵn sàng nhập từ tiếp theo ngay lập tức mà không cần rời tay khỏi bàn phím.
+- **Kích thước rộng rãi hơn**: Cửa sổ Quick Add được mở rộng lên **550x500px** giúp hiển thị thoải mái đầy đủ mọi thông tin.
+
+### 🔄 3. Live SRS Progress & Mastery Badge
+- **Huy hiệu số lượt ôn tập trực quan**: Hiển thị rõ ràng số lần xuất hiện/ôn tập và cấp độ hộp ghi nhớ (`✨ Mới • 0 lượt`, `🔄 3 lượt • Box 2`, `🌟 8 lượt • Thuộc lòng`) kèm tooltip tỷ lệ nhớ đúng.
+- **Đồng bộ toàn diện**: Tích hợp trên cả **Kho Từ Vựng (DeckManager)** và **Popup Quiz** (cả 3 chế độ: Thẻ từ, Điền từ, Trắc nghiệm).
+
+---
+
 # 🚀 Engion v1.2.0 - Release Notes
 
 **Release Date**: August 18, 2026

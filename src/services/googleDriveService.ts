@@ -10,6 +10,7 @@
 
 import { CloudSyncPayload, GoogleAuthInfo, SyncStatus } from '../types';
 import { StorageService } from './storage';
+import { APP_VERSION } from '../config/version';
 
 const SYNC_FILE_NAME = 'engion_sync_v1.json';
 const DRIVE_UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v3/files';
@@ -128,7 +129,7 @@ export const GoogleDriveService = {
   /** Pack all localStorage data into a CloudSyncPayload. */
   packLocalData(): CloudSyncPayload {
     return {
-      version: '1.2.0',
+      version: APP_VERSION,
       syncedAt: new Date().toISOString(),
       customWords:    localStorage.getItem('engion_custom_words')   ?? '[]',
       progressMap:    localStorage.getItem('engion_word_progress')  ?? '{}',
