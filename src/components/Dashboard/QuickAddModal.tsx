@@ -3,9 +3,11 @@ import { StorageService } from '../../services/storage';
 import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { Sparkles, X, CheckCircle2, Zap, Volume2, Save, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import { DeckType } from '../../types';
+import { MeaningSuggestions, MeaningSuggestionSet } from '../Common/MeaningSuggestions';
 
 export const QuickAddModal: React.FC = () => {
   const [searchWord, setSearchWord] = useState('');
+  const [meaningSuggestions, setMeaningSuggestions] = useState<MeaningSuggestionSet | null>(null);
   const [loading, setLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState<{ text: string; isError: boolean } | null>(null);
   const [difficulty, setDifficulty] = useState<number>(StorageService.getSettings().wordDifficulty || 1);
@@ -134,6 +136,7 @@ export const QuickAddModal: React.FC = () => {
       };
 
       setDraft(parsedDraft);
+      setMeaningSuggestions(dictData ? { word: dictData.word, groups: dictData.alternatives ?? [] } : null);
       if (dictData?.word) {
         setSearchWord(dictData.word);
       }
@@ -347,8 +350,9 @@ export const QuickAddModal: React.FC = () => {
         </div>
       </form>
 
-      {/* Main Body Section */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      {/* Main Body Section — scrolls when meaning chips make it taller than the fixed-size window,
+          keeping the bottom action bar visible ('safe center' avoids clipping the top when overflowing) */}
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'safe center' }}>
         {/* Case 1: Empty State Before Search */}
         {!draft && !loading && (
           <div
@@ -563,6 +567,13 @@ export const QuickAddModal: React.FC = () => {
                   color: '#FFF',
                   outline: 'none'
                 }}
+              />
+              <MeaningSuggestions
+                key={meaningSuggestions?.word}
+                suggestions={meaningSuggestions}
+                word={draft.word}
+                definition={draft.definition}
+                onChange={(definition) => setDraft({ ...draft, definition })}
               />
             </div>
 

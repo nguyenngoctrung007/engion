@@ -6,6 +6,7 @@ import { AudioButton } from '../Common/AudioButton';
 import { SpeechMicButton } from '../Common/SpeechMicButton';
 import { Badge } from '../Common/Badge';
 import { SRSBadge } from '../Common/SRSBadge';
+import { MeaningSuggestions, MeaningSuggestionSet } from '../Common/MeaningSuggestions';
 import { PresetLibraryModal } from './PresetLibraryModal';
 import { Search, Plus, Trash2, Sparkles, Flame, Star, Edit3, FolderPlus, X, BookOpen, ChevronLeft, ChevronRight, Lightbulb } from 'lucide-react';
 
@@ -28,6 +29,7 @@ export const DeckManager: React.FC = () => {
   
   const [isSearchingDict, setIsSearchingDict] = useState(false);
   const [dictError, setDictError] = useState<string | null>(null);
+  const [meaningSuggestions, setMeaningSuggestions] = useState<MeaningSuggestionSet | null>(null);
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
 
   // Add word state
@@ -97,6 +99,7 @@ export const DeckManager: React.FC = () => {
     setIsSearchingDict(false);
 
     if (result) {
+      setMeaningSuggestions({ word: result.word, groups: result.alternatives ?? [] });
       if (isEdit && editingWord) {
         setEditingWord({
           ...editingWord,
@@ -130,6 +133,7 @@ export const DeckManager: React.FC = () => {
       const result = await DictionaryService.lookupWord(suggested, settings.targetLanguage);
 
       if (result) {
+        setMeaningSuggestions({ word: result.word, groups: result.alternatives ?? [] });
         setNewWord(prev => ({
           ...prev,
           word: result.word,
@@ -597,6 +601,13 @@ export const DeckManager: React.FC = () => {
                   onChange={(e) => setNewWord({ ...newWord, definition: e.target.value })}
                   placeholder="Kiên cường, phục hồi nhanh"
                 />
+                <MeaningSuggestions
+                  key={meaningSuggestions?.word}
+                  suggestions={meaningSuggestions}
+                  word={newWord.word}
+                  definition={newWord.definition}
+                  onChange={(definition) => setNewWord({ ...newWord, definition })}
+                />
               </div>
 
               <div>
@@ -730,6 +741,13 @@ export const DeckManager: React.FC = () => {
                   className="input-field"
                   value={editingWord.definition}
                   onChange={(e) => setEditingWord({ ...editingWord, definition: e.target.value })}
+                />
+                <MeaningSuggestions
+                  key={meaningSuggestions?.word}
+                  suggestions={meaningSuggestions}
+                  word={editingWord.word}
+                  definition={editingWord.definition}
+                  onChange={(definition) => setEditingWord({ ...editingWord, definition })}
                 />
               </div>
 

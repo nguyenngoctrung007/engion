@@ -26,6 +26,7 @@ This document details all implemented features, business logic, and UI capabilit
   - Gõ từ tiếng Anh ➔ Bấm `Enter` để tra từ điển Oxford & Google Translate.
   - **Smart POS Selector**: Tự động nhận diện chính xác Động từ (`verb`), Danh từ (`noun`), Tính từ (`adjective`), Trạng từ (`adverb`).
   - **Natural Context Generator**: Tự động sinh câu ngữ cảnh mượt mà thực tế cho các từ giao tiếp (`okay`, `hello`, `hi`).
+  - **Gợi ý nghĩa khác (Multi-meaning Chips)**: Cùng request Google Translate (`dt=t&dt=bd`) trả về các nghĩa khác theo từ loại (tối đa 8 nghĩa/từ loại, bỏ trùng & bỏ nghĩa chính). Dưới ô nghĩa hiện các chip `verb: [chơi đùa] [đánh bài]…`; bấm chip để thêm nghĩa vào ô theo dạng `chơi; trò chơi`, bấm lại để bỏ. Có ở Quick Add, Quick Add Review và form Thêm/Sửa từ trong Kho từ vựng (component `src/components/Common/MeaningSuggestions.tsx`). Google không xếp hạng các nghĩa này nên người dùng tự chọn nghĩa phù hợp.
   - **Smart Duplicate Prevention & Merge**: Nếu từ đã có sẵn trong Kho, hệ thống tự động gộp nghĩa mới (ví dụ: `"chơi; vở kịch"`) tránh tạo rác dữ liệu.
   - Bấm `Esc` / `Alt + Q` để ẩn cửa sổ khi đã nhập xong danh sách từ.
 

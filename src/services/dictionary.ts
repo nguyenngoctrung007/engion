@@ -10,6 +10,67 @@ export interface AutoDictResult {
   wasCorrected?: boolean;
   /** Google Translate could not be reached, so `definition` may be the untranslated English definition. */
   translationFailed?: boolean;
+  /** Other target-language meanings grouped by part of speech, for the user to pick from. */
+  alternatives?: MeaningGroup[];
+}
+
+export interface MeaningGroup {
+  pos: string;
+  meanings: string[];
+}
+
+interface TranslationResult {
+  text: string;
+  alternatives: MeaningGroup[];
+}
+
+const MAX_MEANINGS_PER_POS = 8;
+
+function normalizePos(rawPos: string): string {
+  const p = (rawPos || '').toLowerCase();
+  // 'adverb' contains 'verb', so adverbs must be matched first
+  if (p.includes('adv')) return 'adverb';
+  if (p.includes('verb') || p.includes('participle')) return 'verb';
+  if (p.includes('adj')) return 'adjective';
+  if (p.includes('noun')) return 'noun';
+  if (p.includes('interjection') || p.includes('preposition') || p.includes('conjunction') || p.includes('phrase')) return 'phrase';
+  return 'noun';
+}
+
+/**
+ * Parses Google's `dt=bd` dictionary block: data[1] = [[posLabel, [meanings...], [[meaning, reverse[], ?, score], ...]], ...].
+ * Meanings with a relevance score come first; the rest keep Google's order.
+ */
+function parseAlternatives(data: unknown, exclude: string[]): MeaningGroup[] {
+  const groups = (data as unknown[])?.[1];
+  if (!Array.isArray(groups)) return [];
+
+  const seen = new Set(exclude.map(e => e.toLowerCase()));
+  const byPos = new Map<string, string[]>();
+
+  for (const group of groups) {
+    if (!Array.isArray(group) || typeof group[0] !== 'string') continue;
+    const entries: Array<{ text: string; score: number }> = Array.isArray(group[2])
+      ? group[2]
+          .filter((e: unknown) => Array.isArray(e) && typeof e[0] === 'string')
+          .map((e: unknown[]) => ({ text: e[0] as string, score: typeof e[3] === 'number' ? e[3] : 0 }))
+      : Array.isArray(group[1])
+        ? group[1].filter((m: unknown) => typeof m === 'string').map((m: string) => ({ text: m, score: 0 }))
+        : [];
+    entries.sort((a, b) => b.score - a.score); // stable: unscored entries keep Google's order
+
+    const pos = normalizePos(group[0]);
+    const meanings = byPos.get(pos) ?? [];
+    for (const { text } of entries) {
+      const meaning = text.trim();
+      if (!meaning || seen.has(meaning.toLowerCase()) || meanings.length >= MAX_MEANINGS_PER_POS) continue;
+      seen.add(meaning.toLowerCase());
+      meanings.push(meaning);
+    }
+    if (meanings.length > 0) byPos.set(pos, meanings);
+  }
+
+  return Array.from(byPos, ([pos, meanings]) => ({ pos, meanings }));
 }
 
 export const TRANSLATION_FAILED_WARNING =
@@ -30,33 +91,46 @@ async function fetchWithTimeout(url: string, timeoutMs: number): Promise<Respons
   }
 }
 
+/**
+ * Calls the unofficial Google Translate endpoint with timeout + retries.
+ * `withAlternatives` also requests the dictionary block (`dt=bd`) — only useful for single words.
+ * Returns null if the request kept failing (network error, timeout, non-2xx).
+ */
+async function fetchTranslation(text: string, lang: string, withAlternatives: boolean): Promise<TranslationResult | null> {
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t${withAlternatives ? '&dt=bd' : ''}&q=${encodeURIComponent(text)}`;
+
+  for (let attempt = 0; attempt <= TRANSLATE_RETRY_DELAYS_MS.length; attempt++) {
+    if (attempt > 0) await delay(TRANSLATE_RETRY_DELAYS_MS[attempt - 1]);
+    try {
+      const res = await fetchWithTimeout(url, TRANSLATE_TIMEOUT_MS);
+      if (!res.ok) {
+        console.warn(`[Dictionary] Google Translate HTTP ${res.status} (attempt ${attempt + 1})`);
+        continue;
+      }
+      const data = await res.json();
+      // Google splits multi-sentence input into segments: data[0] = [[translated, source, ...], ...]
+      const translated = Array.isArray(data?.[0])
+        ? data[0].map((segment: unknown) => (Array.isArray(segment) && typeof segment[0] === 'string' ? segment[0] : '')).join('').trim()
+        : '';
+      const alternatives = withAlternatives ? parseAlternatives(data, [translated, text]) : [];
+      return { text: translated, alternatives };
+    } catch (err) {
+      console.warn(`[Dictionary] Google Translate request failed (attempt ${attempt + 1}):`, err);
+    }
+  }
+  return null;
+}
+
 export const DictionaryService = {
   /**
-   * Translates English text via the unofficial Google Translate endpoint.
+   * Translates English text via Google Translate.
    * Returns the translation ('' if Google returned nothing to translate),
-   * or null if the request kept failing (network error, timeout, non-2xx) after retries.
+   * or null if the request kept failing after retries.
    */
   async translateToTargetLang(text: string, targetLang?: string): Promise<string | null> {
     const lang = targetLang || StorageService.getSettings().targetLanguage || 'vi';
-    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURIComponent(text)}`;
-
-    for (let attempt = 0; attempt <= TRANSLATE_RETRY_DELAYS_MS.length; attempt++) {
-      if (attempt > 0) await delay(TRANSLATE_RETRY_DELAYS_MS[attempt - 1]);
-      try {
-        const res = await fetchWithTimeout(url, TRANSLATE_TIMEOUT_MS);
-        if (!res.ok) {
-          console.warn(`[Dictionary] Google Translate HTTP ${res.status} (attempt ${attempt + 1})`);
-          continue;
-        }
-        const data = await res.json();
-        // Google splits multi-sentence input into segments: data[0] = [[translated, source, ...], ...]
-        if (!Array.isArray(data?.[0])) return '';
-        return data[0].map((segment: unknown) => (Array.isArray(segment) && typeof segment[0] === 'string' ? segment[0] : '')).join('').trim();
-      } catch (err) {
-        console.warn(`[Dictionary] Google Translate request failed (attempt ${attempt + 1}):`, err);
-      }
-    }
-    return null;
+    const result = await fetchTranslation(text, lang, false);
+    return result ? result.text : null;
   },
 
   async translateToVietnamese(text: string): Promise<string | null> {
@@ -72,16 +146,6 @@ export const DictionaryService = {
     let wasCorrected = false;
 
     const lang = targetLang || StorageService.getSettings().targetLanguage || 'vi';
-
-    const normalizePos = (rawPos: string): string => {
-      const p = (rawPos || '').toLowerCase();
-      if (p.includes('verb') || p.includes('participle')) return 'verb';
-      if (p.includes('adj')) return 'adjective';
-      if (p.includes('adv')) return 'adverb';
-      if (p.includes('noun')) return 'noun';
-      if (p.includes('interjection') || p.includes('preposition') || p.includes('conjunction') || p.includes('phrase')) return 'phrase';
-      return 'noun';
-    };
 
     // Helper to query Free English Dictionary API
     const fetchFromDictApi = async (query: string) => {
@@ -158,9 +222,10 @@ export const DictionaryService = {
     const detectedPosList = dictRes.posList;
 
     // 3. Translate word to target language via Google Translate API
-    const wordTransResult = await this.translateToTargetLang(cleanWord, lang);
+    const wordTransResult = await fetchTranslation(cleanWord, lang, true);
     let translationFailed = wordTransResult === null;
-    const targetWordTrans = wordTransResult ?? '';
+    const targetWordTrans = wordTransResult?.text ?? '';
+    const alternatives = wordTransResult?.alternatives ?? [];
     const isTransIdentical = targetWordTrans.toLowerCase() === cleanWord;
 
     // If both Dictionary API failed AND translation is identical or empty, it's gibberish/invalid!
@@ -219,7 +284,8 @@ export const DictionaryService = {
       example: example || generateNaturalExample(cleanWord, pos),
       originalQuery: originalInput,
       wasCorrected,
-      translationFailed
+      translationFailed,
+      alternatives
     };
   },
 

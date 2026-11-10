@@ -3,9 +3,11 @@ import { StorageService } from '../../services/storage';
 import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { Sparkles, X, CheckCircle2, Zap, Volume2, Save, ArrowLeft } from 'lucide-react';
 import { DeckType } from '../../types';
+import { MeaningSuggestions, MeaningSuggestionSet } from '../Common/MeaningSuggestions';
 
 export const QuickAddReviewModal: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [meaningSuggestions, setMeaningSuggestions] = useState<MeaningSuggestionSet | null>(null);
   const [toastMessage, setToastMessage] = useState<{ text: string; isError: boolean } | null>(null);
 
   const [draft, setDraft] = useState({
@@ -41,6 +43,7 @@ export const QuickAddReviewModal: React.FC = () => {
           deck: 'custom' as DeckType
         };
         setDraft(parsed);
+        setMeaningSuggestions(dictData ? { word: dictData.word, groups: dictData.alternatives ?? [] } : null);
         playAudio(finalWordStr);
         if (dictData?.translationFailed) {
           setToastMessage({ text: `⚠️ ${TRANSLATION_FAILED_WARNING}`, isError: true });
@@ -107,6 +110,7 @@ export const QuickAddReviewModal: React.FC = () => {
     try {
       const dictData = await DictionaryService.lookupWord(draft.word.trim());
       if (dictData) {
+        setMeaningSuggestions({ word: dictData.word, groups: dictData.alternatives ?? [] });
         setDraft(prev => ({
           ...prev,
           phonetic: dictData.phonetic || prev.phonetic,
@@ -231,7 +235,7 @@ export const QuickAddReviewModal: React.FC = () => {
           <span className="animate-pulse">🔍 Đang tự động kết nối từ điển & tạo dữ liệu...</span>
         </div>
       ) : (
-        <form onSubmit={handleConfirmSave} className="animate-pop" style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <form onSubmit={handleConfirmSave} className="animate-pop" style={{ flex: 1, minHeight: 0, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {/* Header Word & Audio Test */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'rgba(99, 102, 241, 0.12)', padding: '12px 14px', borderRadius: 'var(--radius-md)', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -346,6 +350,13 @@ export const QuickAddReviewModal: React.FC = () => {
                 outline: 'none',
                 boxShadow: '0 0 10px rgba(99, 102, 241, 0.15)'
               }}
+            />
+            <MeaningSuggestions
+              key={meaningSuggestions?.word}
+              suggestions={meaningSuggestions}
+              word={draft.word}
+              definition={draft.definition}
+              onChange={(definition) => setDraft({ ...draft, definition })}
             />
           </div>
 
