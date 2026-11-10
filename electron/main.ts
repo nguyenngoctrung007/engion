@@ -514,6 +514,18 @@ function updateContextMenu() {
           click: () => setQuizInterval(0.16)
         },
         {
+          label: '5 phút',
+          type: 'radio',
+          checked: Math.abs(currentIntervalMinutes - 5) < 0.5,
+          click: () => setQuizInterval(5)
+        },
+        {
+          label: '10 phút',
+          type: 'radio',
+          checked: Math.abs(currentIntervalMinutes - 10) < 0.5,
+          click: () => setQuizInterval(10)
+        },
+        {
           label: '15 phút',
           type: 'radio',
           checked: Math.abs(currentIntervalMinutes - 15) < 0.5,

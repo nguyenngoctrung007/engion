@@ -34,7 +34,7 @@ export interface UserWordProgress {
 export type TargetLanguage = 'vi' | 'ja' | 'ko' | 'zh' | 'fr' | 'es' | 'de';
 
 export interface AppSettings {
-  popupIntervalMinutes: number; // e.g. 15, 30, 60, or 0.16 (10 sec test)
+  popupIntervalMinutes: number; // 5, 10, 15, 30, 60, or 0.16 (10 sec test)
   selectedDecks: DeckType[];
   autoCloseSeconds: number; // 0 = disabled, or e.g. 45 seconds
   soundEnabled: boolean;

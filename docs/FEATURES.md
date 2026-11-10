@@ -119,7 +119,7 @@ This document details all implemented features, business logic, and UI capabilit
 
 ### 7. ⚙️ Settings & System Backup
 - **Daily Target Control**: Configure daily word target (5, 10, 15, 20, 30 words/day).
-- **Interval Control**: 10 seconds (Test), 15 minutes, 30 minutes (Recommended), 60 minutes.
+- **Interval Control**: 10 seconds (Test), 5 minutes, 10 minutes, 15 minutes, 30 minutes (Recommended), 60 minutes — available in both Settings and the tray `Interval` submenu.
 - **Active Deck Selection**: Multi-select which decks trigger in popup quizzes.
 - **Target Translation Language**: Select default auto-lookup translation language (Vietnamese, Japanese, Korean, Chinese, French, Spanish, German).
 - **Do Not Disturb (DND)**:

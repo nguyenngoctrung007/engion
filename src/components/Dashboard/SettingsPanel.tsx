@@ -423,6 +423,8 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({ onPracticeNow }) =
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '10px' }}>
             {[
               { label: '10 giây (Test)', value: 0.16 },
+              { label: '5 phút', value: 5 },
+              { label: '10 phút', value: 10 },
               { label: '15 phút', value: 15 },
               { label: '30 phút (Khuyên dùng)', value: 30 },
               { label: '60 phút', value: 60 }
