@@ -883,10 +883,6 @@ app.whenReady().then(() => {
     }
   });
 
-  ipcMain.on('install-update', () => {
-    autoUpdater.quitAndInstall();
-  });
-
   // ─── Google OAuth2 IPC Handlers ──────────────────────────────────────────
 
   function loadStoredTokens(): { access_token: string; refresh_token: string; expiry: number } | null {

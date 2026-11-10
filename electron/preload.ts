@@ -55,15 +55,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
   onUpdateAvailable: (callback: (data: { version: string; releaseUrl: string }) => void) => {
     ipcRenderer.on('update-available', (_event, data) => callback(data));
   },
-  onUpdateProgress: (callback: (data: { percent: number; bytesPerSecond: number; transferred: number; total: number }) => void) => {
-    ipcRenderer.on('update-progress', (_event, data) => callback(data));
-  },
-  onUpdateError: (callback: (data: { message: string }) => void) => {
-    ipcRenderer.on('update-error', (_event, data) => callback(data));
-  },
-  installUpdate: () => {
-    ipcRenderer.send('install-update');
-  },
   googleAuthStart: () => {
     return ipcRenderer.invoke('google-auth-start');
   },

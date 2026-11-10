@@ -66,7 +66,7 @@ Exposes safe context bridge API `window.electronAPI`. Built via `vite-plugin-ele
 - **Timer**: `getTimerStatus()` (asks main to emit current state), `onTimerTick(cb)` (live countdown), `triggerPracticeNow()`.
 - **Settings**: `updateSettings(settings)` sends `update-timer-settings` — main applies the interval, DND fields, and `autoLaunch` (via `applyAutoLaunch`, with Portable build support through `process.env.PORTABLE_EXECUTABLE_FILE`). `onSettingsUpdatedFromTray(cb)` receives changes made from the tray menu.
 - **Misc**: `sendNotification(title, body)` (native notification), `selectAndParseApkg()` (file dialog + `.apkg` read).
-- **Updates**: `checkForUpdates()`, `onUpdateAvailable(cb)`, `onUpdateProgress(cb)`, `onUpdateError(cb)`, `installUpdate()`.
+- **Updates**: `checkForUpdates()`, `onUpdateAvailable(cb)`. Engion does not download or install updates in-app — users get the new installer/portable `.exe` from the GitHub Releases page.
 - **Google Drive Sync**: `googleAuthStart()` / `googleAuthStatus()` / `googleGetToken()` / `googleAuthLogout()` (see above).
 
 ### 3. Renderer Process (`src/`)
