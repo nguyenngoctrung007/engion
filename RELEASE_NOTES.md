@@ -1,3 +1,33 @@
+# 🚀 Engion v1.3.0 - Release Notes
+
+**Release Date**: November 10, 2026
+
+Engion v1.3.0 giúp việc thêm từ vựng chính xác và đáng tin cậy hơn: gợi ý nhiều nghĩa để bạn tự chọn, tra từ không còn "lúc được lúc không" khi mạng chập chờn, và thêm tần suất popup dày hơn cho những buổi học tập trung.
+
+---
+
+## 🔥 Key Highlights in v1.3.0
+
+### 📖 1. Gợi Ý Nhiều Nghĩa (Multi-meaning Chips)
+- **Chọn nghĩa phù hợp**: Sau khi tra từ, bên dưới ô nghĩa hiện các nghĩa khác chia theo từ loại (`verb: [chơi đùa] [đánh bài]…`, `noun: [trò chơi] [vở kịch]…`). Bấm chip để thêm nghĩa vào ô (`chơi; trò chơi`), bấm lại để bỏ.
+- **Có ở mọi nơi thêm từ**: Quick Add (`Alt+N`), Quick Add Review và form Thêm/Sửa từ trong Kho từ vựng.
+- **Không tốn thêm thời gian tra**: Các nghĩa gợi ý đến từ cùng một request Google Translate.
+
+### 🌐 2. Tra Từ Ổn Định Hơn
+- **Tự động thử lại**: Mỗi request Google Translate có timeout 5 giây và tự thử lại 2 lần — lỗi mạng thoáng qua không còn làm nghĩa hiện bằng tiếng Anh.
+- **Cảnh báo rõ ràng**: Nếu Google vẫn không phản hồi, app hiện cảnh báo *"Google Translate chưa phản hồi — nghĩa có thể đang là tiếng Anh"* thay vì âm thầm điền định nghĩa tiếng Anh.
+- **Dịch đầy đủ**: Định nghĩa nhiều câu được dịch trọn vẹn (trước đây chỉ lấy câu đầu tiên).
+- **Nhận diện trạng từ đúng**: Sửa lỗi mọi trạng từ (vd `quickly`) bị gán nhầm là động từ.
+
+### ⏱️ 3. Tần Suất Popup 5 & 10 Phút
+- Thêm 2 mức **5 phút** và **10 phút** trong Cài đặt và menu khay hệ thống (`Tần suất lặp lại`).
+
+### 🧹 4. Dọn Dẹp & Tài Liệu
+- Gỡ nút "Nâng cấp" trong sidebar vốn không bao giờ hoạt động. Khi có bản mới, Engion vẫn thông báo và mở trang GitHub Releases để tải như trước.
+- Đồng bộ toàn bộ tài liệu `docs/` với mã nguồn thực tế.
+
+---
+
 # 🚀 Engion v1.2.1 - Release Notes
 
 **Release Date**: August 21, 2026
