@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VocabularyWord, DeckType, CustomDeckCategory } from '../../types';
 import { StorageService } from '../../services/storage';
-import { DictionaryService } from '../../services/dictionary';
+import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { AudioButton } from '../Common/AudioButton';
 import { SpeechMicButton } from '../Common/SpeechMicButton';
 import { Badge } from '../Common/Badge';
@@ -115,6 +115,7 @@ export const DeckManager: React.FC = () => {
           example: result.example || prev.example
         }));
       }
+      if (result.translationFailed) setDictError(TRANSLATION_FAILED_WARNING);
     } else {
       setDictError('Không tìm thấy từ này trong từ điển');
     }
@@ -137,6 +138,7 @@ export const DeckManager: React.FC = () => {
           definition: result.definition || '',
           example: result.example || ''
         }));
+        if (result.translationFailed) setDictError(TRANSLATION_FAILED_WARNING);
       }
     } catch {
       setDictError('Lỗi kết nối từ điển');

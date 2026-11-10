@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StorageService } from '../../services/storage';
-import { DictionaryService } from '../../services/dictionary';
+import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { Sparkles, X, CheckCircle2, Zap, Volume2, Save, Search, ArrowRight, Lightbulb } from 'lucide-react';
 import { DeckType } from '../../types';
 
@@ -139,7 +139,9 @@ export const QuickAddModal: React.FC = () => {
       }
       playAudio(dictData?.word || cleanWord);
 
-      if (dictData?.wasCorrected) {
+      if (dictData?.translationFailed) {
+        setToastMessage({ text: `⚠️ ${TRANSLATION_FAILED_WARNING}`, isError: true });
+      } else if (dictData?.wasCorrected) {
         setToastMessage({
           text: `💡 Đã tự động sửa lỗi chính tả: "${dictData.originalQuery}" ➔ "${dictData.word}"`,
           isError: false

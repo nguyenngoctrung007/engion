@@ -8,26 +8,58 @@ export interface AutoDictResult {
   example: string;
   originalQuery?: string;
   wasCorrected?: boolean;
+  /** Google Translate could not be reached, so `definition` may be the untranslated English definition. */
+  translationFailed?: boolean;
+}
+
+export const TRANSLATION_FAILED_WARNING =
+  'Google Translate chưa phản hồi — nghĩa có thể đang là tiếng Anh. Bấm Tra từ để thử lại.';
+
+const TRANSLATE_TIMEOUT_MS = 5000;
+const TRANSLATE_RETRY_DELAYS_MS = [400, 1200];
+
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+async function fetchWithTimeout(url: string, timeoutMs: number): Promise<Response> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(url, { signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 export const DictionaryService = {
-  async translateToTargetLang(text: string, targetLang?: string): Promise<string> {
+  /**
+   * Translates English text via the unofficial Google Translate endpoint.
+   * Returns the translation ('' if Google returned nothing to translate),
+   * or null if the request kept failing (network error, timeout, non-2xx) after retries.
+   */
+  async translateToTargetLang(text: string, targetLang?: string): Promise<string | null> {
     const lang = targetLang || StorageService.getSettings().targetLanguage || 'vi';
-    try {
-      const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURIComponent(text)}`;
-      const res = await fetch(url);
-      if (!res.ok) return '';
-      const data = await res.json();
-      if (data && data[0] && data[0][0] && data[0][0][0]) {
-        return data[0][0][0];
+    const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${lang}&dt=t&q=${encodeURIComponent(text)}`;
+
+    for (let attempt = 0; attempt <= TRANSLATE_RETRY_DELAYS_MS.length; attempt++) {
+      if (attempt > 0) await delay(TRANSLATE_RETRY_DELAYS_MS[attempt - 1]);
+      try {
+        const res = await fetchWithTimeout(url, TRANSLATE_TIMEOUT_MS);
+        if (!res.ok) {
+          console.warn(`[Dictionary] Google Translate HTTP ${res.status} (attempt ${attempt + 1})`);
+          continue;
+        }
+        const data = await res.json();
+        // Google splits multi-sentence input into segments: data[0] = [[translated, source, ...], ...]
+        if (!Array.isArray(data?.[0])) return '';
+        return data[0].map((segment: unknown) => (Array.isArray(segment) && typeof segment[0] === 'string' ? segment[0] : '')).join('').trim();
+      } catch (err) {
+        console.warn(`[Dictionary] Google Translate request failed (attempt ${attempt + 1}):`, err);
       }
-      return '';
-    } catch {
-      return '';
     }
+    return null;
   },
 
-  async translateToVietnamese(text: string): Promise<string> {
+  async translateToVietnamese(text: string): Promise<string | null> {
     return this.translateToTargetLang(text, 'vi');
   },
 
@@ -126,8 +158,10 @@ export const DictionaryService = {
     const detectedPosList = dictRes.posList;
 
     // 3. Translate word to target language via Google Translate API
-    const targetWordTrans = await this.translateToTargetLang(cleanWord, lang);
-    const isTransIdentical = targetWordTrans.trim().toLowerCase() === cleanWord;
+    const wordTransResult = await this.translateToTargetLang(cleanWord, lang);
+    let translationFailed = wordTransResult === null;
+    const targetWordTrans = wordTransResult ?? '';
+    const isTransIdentical = targetWordTrans.toLowerCase() === cleanWord;
 
     // If both Dictionary API failed AND translation is identical or empty, it's gibberish/invalid!
     if (!isValidWord && (isTransIdentical || !targetWordTrans)) {
@@ -135,8 +169,12 @@ export const DictionaryService = {
     }
 
     let finalTargetDef = !isTransIdentical ? targetWordTrans : '';
-    if (!finalTargetDef && englishDef) {
-      finalTargetDef = await this.translateToTargetLang(englishDef, lang);
+    // Fall back to translating the English definition — unless Google is already unreachable,
+    // in which case retrying a second text would only double the wait.
+    if (!finalTargetDef && englishDef && !translationFailed) {
+      const defTransResult = await this.translateToTargetLang(englishDef, lang);
+      translationFailed = defTransResult === null;
+      finalTargetDef = defTransResult ?? '';
     }
 
     // 4. Smart POS selector
@@ -180,7 +218,8 @@ export const DictionaryService = {
       definition: finalTargetDef || englishDef || targetWordTrans,
       example: example || generateNaturalExample(cleanWord, pos),
       originalQuery: originalInput,
-      wasCorrected
+      wasCorrected,
+      translationFailed
     };
   },
 

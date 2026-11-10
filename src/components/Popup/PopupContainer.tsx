@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { VocabularyWord, UserWordProgress } from '../../types';
 import { StorageService } from '../../services/storage';
-import { DictionaryService } from '../../services/dictionary';
+import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { calculateSRS, pickSmartNextWord } from '../../services/srs';
 import { FlashcardView } from './FlashcardView';
 import { FillInBlankQuiz } from './FillInBlankQuiz';
@@ -146,7 +146,9 @@ export const PopupContainer: React.FC = () => {
           example: dictData.example || prev.example,
           pos: dictData.pos || prev.pos
         } : null);
-        setLookupMessage('✨ Đã tự động cập nhật IPA, nghĩa & ví dụ!');
+        setLookupMessage(dictData.translationFailed
+          ? `⚠️ ${TRANSLATION_FAILED_WARNING}`
+          : '✨ Đã tự động cập nhật IPA, nghĩa & ví dụ!');
       } else {
         setLookupMessage('⚠️ Không tìm thấy từ này trong từ điển.');
       }

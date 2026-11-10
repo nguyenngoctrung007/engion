@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { StorageService } from '../../services/storage';
-import { DictionaryService } from '../../services/dictionary';
+import { DictionaryService, TRANSLATION_FAILED_WARNING } from '../../services/dictionary';
 import { Sparkles, X, CheckCircle2, Zap, Volume2, Save, ArrowLeft } from 'lucide-react';
 import { DeckType } from '../../types';
 
@@ -42,7 +42,9 @@ export const QuickAddReviewModal: React.FC = () => {
         };
         setDraft(parsed);
         playAudio(finalWordStr);
-        if (dictData?.wasCorrected) {
+        if (dictData?.translationFailed) {
+          setToastMessage({ text: `⚠️ ${TRANSLATION_FAILED_WARNING}`, isError: true });
+        } else if (dictData?.wasCorrected) {
           setToastMessage({
             text: `💡 Đã tự động sửa lỗi chính tả: "${dictData.originalQuery}" ➔ "${dictData.word}"`,
             isError: false
@@ -112,7 +114,9 @@ export const QuickAddReviewModal: React.FC = () => {
           definition: dictData.definition || prev.definition,
           example: dictData.example || prev.example
         }));
-        setToastMessage({ text: '✨ Đã cập nhật lại IPA, nghĩa & câu ví dụ!', isError: false });
+        setToastMessage(dictData.translationFailed
+          ? { text: `⚠️ ${TRANSLATION_FAILED_WARNING}`, isError: true }
+          : { text: '✨ Đã cập nhật lại IPA, nghĩa & câu ví dụ!', isError: false });
       } else {
         setToastMessage({ text: '⚠️ Không tìm thấy từ này trong từ điển.', isError: true });
       }
