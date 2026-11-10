@@ -6,7 +6,8 @@ import { StorageService } from './storage';
  * - Proper interval progression per SM-2 spec
  * - Ease factor clamped 1.3 – 3.0
  * - ±10% fuzz to prevent "interval stacking" (many words due same day)
- * - Leech detection: word answered "hard" 4+ times in a row → flagged
+ * - Leech tracking: `consecutiveHard` counts "hard" ratings in a row (reset by good/easy);
+ *   any word with consecutiveHard > 0 is surfaced first in StorageService.getTopWeakWords()
  */
 
 const MIN_EASE = 1.3;
@@ -33,7 +34,7 @@ export function calculateSRS(
   let interval = current?.interval ?? 0;
   let reviewsCount = (current?.reviewsCount ?? 0) + 1;
   let correctCount = current?.correctCount ?? 0;
-  let consecutiveHard = (current as any)?.consecutiveHard ?? 0;
+  let consecutiveHard = current?.consecutiveHard ?? 0;
 
   // --- Compute new interval & ease based on rating ---
   if (rating === 'hard') {
@@ -85,7 +86,7 @@ export function calculateSRS(
     consecutiveHard,
     lastReviewed: now.toISOString(),
     nextReview: nextDate.toISOString()
-  } as UserWordProgress & { consecutiveHard: number };
+  };
 }
 
 export function isWordDue(progress?: UserWordProgress): boolean {

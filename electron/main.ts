@@ -820,10 +820,6 @@ app.whenReady().then(() => {
     }
   });
 
-  ipcMain.on('set-auto-launch', (_event, enable: boolean) => {
-    applyAutoLaunch(enable);
-  });
-
   ipcMain.on('close-popup-window', (event) => {
     const sender = BrowserWindow.fromWebContents(event.sender);
     // Never hide or destroy dashboardWindow from close-popup-window IPC
