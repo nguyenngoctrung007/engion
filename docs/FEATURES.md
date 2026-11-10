@@ -14,9 +14,9 @@ This document details all implemented features, business logic, and UI capabilit
 - **Live SRS Progress Badge trên Thẻ Quiz 🔄**: Thay thế chữ tĩnh "Thẻ từ vựng" bằng huy hiệu tiến độ Spaced Repetition trực tiếp trên cả 3 chế độ (`Thẻ từ`, `Điền từ`, `Trắc nghiệm`), hiển thị rõ ràng `✨ Mới • 0 lượt`, `🔄 3 lượt • Box 2`, hoặc `🌟 8 lượt • Thuộc lòng` kèm tooltip thống kê chi tiết.
 ### ⚡ 2. Global Hotkeys & Quick Add Word (Bộ Phím Tắt Toàn Cục & Thêm Từ Vựng Siêu Nhanh)
 - **Bộ Phím Tắt Toàn Cục (System-wide Global Shortcuts)**:
-  - **`Alt + D`**: Mở Engion Dashboard (Bảng điều khiển chính).
-  - **`Alt + N`**: Mở Quick Add (Cửa sổ thêm từ vựng siêu nhanh 500x440px).
-  - **`Alt + E`**: Bật Popup Flashcard (Học / Luyện từ ngay lập tức).
+  - **`Alt + D`** (hoặc `Ctrl + Shift + D`): Mở Engion Dashboard (Bảng điều khiển chính).
+  - **`Alt + N`** (hoặc `Ctrl + Shift + N`): Mở Quick Add (Cửa sổ thêm từ vựng siêu nhanh 550x500px).
+  - **`Alt + E`** (hoặc `Ctrl + Shift + E`): Bật Popup Flashcard (Học / Luyện từ ngay lập tức).
   - **`Alt + Q`**: **Ẩn ngay cửa sổ / dialog hiện tại đang focus**.
 - **Chế độ Thêm từ liên tục (Continuous Quick Add Mode ⚡)**:
   - **Giữ cửa sổ mở để thêm nhiều từ**: Tùy chọn tick `[x] Giữ cửa sổ để thêm liên tục nhiều từ` hoặc bật trong Settings Panel. Sau khi bấm lưu, cửa sổ không bị đóng mà tự động xóa trắng form và autofocus lại vào ô input để nhập tiếp từ tiếp theo.
@@ -32,11 +32,11 @@ This document details all implemented features, business logic, and UI capabilit
 ---
 
 ### 2. 📚 Vocabulary Management (Kho Từ Vựng)
-- **Built-in Decks**: 24 curated words spanning 4 categories:
-  - **IT**: `asynchronous`, `refactor`, `deprecated`, `concurrency`, `idempotent`, `middleware`
-  - **TOEIC**: `negotiate`, `implement`, `collaborate`, `schedule`, `requisition`, `compliance`
-  - **IELTS**: `ubiquitous`, `pragmatic`, `scrutinize`, `mitigate`, `ambiguous`, `delineate`
-  - **Oxford**: `resilient`, `meticulous`, `proactive`, `versatile`, `eloquent`, `advocate`
+- **Built-in Decks** (`src/data/vocabulary.ts`): 23 curated words spanning 4 categories:
+  - **IT** (8): `Refactor`, `Deprecate`, `Idempotent`, `Bottleneck`, `Asynchronous`, `Concurrency`, `Payload`, `Middleware`
+  - **TOEIC** (6): `Negotiate`, `Implement`, `Agenda`, `Comply`, `Reimburse`, `Discrepancy`
+  - **IELTS** (5): `Ubiquitous`, `Mitigate`, `Plausible`, `Detrimental`, `Prevalent`
+  - **Oxford** (4): `Consistent`, `Accurate`, `Enthusiastic`, `Crucial`
 - **Preset Vocabulary Library Catalog 📥 & Anki APKG Importer 🎴**: Click **`📥 Thư viện bộ từ có sẵn`** to:
   - **Direct Anki Package (.apkg) Import**: Select any `.apkg` file downloaded from AnkiWeb/computer and automatically extract & import hundreds of vocabulary cards into Engion.
   - **🌟 4000 Essential English Words 1** (600 real words extracted from Anki)
@@ -75,7 +75,7 @@ This document details all implemented features, business logic, and UI capabilit
 - **⚡ Dashboard Quick Review Modal**: Click **"⚡ Ôn 10 từ siêu tốc"** on the Dashboard to practice 10 random vocabulary words instantly in a 4-choice quiz modal.
 - **🔔 Windows Goal Notifications**: Automatic Windows native desktop notification triggers when you reach 100% of your daily vocabulary target.
 
-### 4. ⭐ Starred Favorites & Anki CSV Exporter
+### 4b. ⭐ Starred Favorites & Anki CSV Exporter
 - **Favorite Tagging**: Click the star icon **`⭐`** on any word card in the Deck Manager or directly in the top action bar of the **Popup Quiz window** to toggle favorite status for special attention without needing to open the Deck Manager.
 - **Dedicated Favorite Filter**: Filter deck by **`⭐ YÊU THÍCH`** to review starred words.
 - **Anki / CSV Exporter**: Export entire vocabulary bank (Word, Phonetic, POS, Definition, Example, Deck) into a UTF-8 `.csv` file format ready for import into **Anki** or **Quizlet** mobile apps.
@@ -83,22 +83,22 @@ This document details all implemented features, business logic, and UI capabilit
 ---
 
 ### 5. 🧠 Enhanced Spaced Repetition System (SRS Engine) & Visual Box Distribution
-- **Thuật Toán SM-2 Nâng Cấp & Fuzz ±10%**:
-  - `Box 1`: Mới học / Hay quên (Lặp sau 1 ngày) — Thanh Đỏ `#EF4444`
-  - `Box 2`: Đang ghi nhớ (Lặp sau 4 ngày) — Thanh Cam `#F59E0B`
-  - `Box 3`: Khá vững (Lặp sau 7-10 ngày) — Thanh Xanh Chàm `#6366F1`
-  - `Box 4 & 5`: Thuộc lòng (Lặp sau 15-30 ngày) — Thanh Xanh Lá `#10B981`
-  - `EaseFactor`: Giới hạn từ `1.3` (từ rất khó) đến `3.0` (từ rất dễ).
+- **Thuật Toán SM-2 Nâng Cấp & Fuzz ±10%** (`src/services/srs.ts`): Box chạy từ `0` (chưa học) đến `5`. Ease mặc định `2.5`, giới hạn `1.3`–`3.0`.
+  - **`good`**: ease −0.05; khoảng lặp = 1 ngày (từ Box 0/1), 4 ngày (từ Box 2), sau đó `interval × ease`; Box +1.
+  - **`easy`**: ease +0.15; khoảng lặp = 3 ngày (từ Box 0/1), 7 ngày (từ Box 2), sau đó `interval × ease × 1.3`; Box +1.
+  - **`hard`**: ease −0.20; Box −1 (tối thiểu Box 1); khoảng lặp giảm một nửa (tối thiểu 1 ngày); `consecutiveHard` +1.
+  - **Fuzz ±10%** áp dụng cho `good`/`easy` khi khoảng lặp > 1 ngày, để các từ không dồn cùng một ngày đến hạn.
+  - Màu thanh phân bố Box: Box 1 Đỏ `#EF4444`, Box 2 Cam `#F59E0B`, Box 3 Xanh Chàm `#6366F1`, Box 4 & 5 (Thuộc lòng) Xanh Lá `#10B981`.
   - `Leech Detection`: Theo dõi các từ bị chọn `hard` liên tiếp (`consecutiveHard`) để đưa vào danh sách **🔥 Từ vựng hay sai nhất**.
 - **Bộ Chọn Từ 3 Tầng Ưu Tiên Thông Minh (3-Tier Smart Word Picker)**:
-  - **Tier 1 (Đến hạn ôn - Due Words)**: Ưu tiên tuyệt đối các từ đã đến hạn hoặc quá hạn ôn luyện (`nextReview ≤ now`), sắp xếp từ cũ nhất lên đầu.
+  - **Tier 1 (Đến hạn ôn - Due Words)**: Ưu tiên tuyệt đối các từ đã đến hạn hoặc quá hạn ôn luyện (`nextReview ≤ now`), sắp xếp từ quá hạn lâu nhất lên đầu rồi chọn ngẫu nhiên 1 trong 3 từ đầu tiên.
   - **Tier 2 (Từ mới - Unseen Words)**: Tiếp theo ưu tiên hiển thị các từ vựng mới thêm vào Kho chưa học bao giờ.
   - **Tier 3 (Ôn dải rộng - Least Recently Reviewed)**: Nếu không có từ quá hạn hay từ mới, lấy ngẫu nhiên trong 30% số từ ít được ôn tập nhất gần đây.
 - **3 Interactive Quiz Modes**:
   1. **Flashcard**: Lật thẻ xem đáp án, đánh giá trí nhớ (`Khó`, `Nhớ được`, `Thuộc`).
   2. **Fill-in-the-blank**: Gõ từ tiếng Anh tương ứng với nghĩa Tiếng Việt.
   3. **Multiple Choice**: Trắc nghiệm 4 lựa chọn bản dịch chuẩn xác.
-- **Weak Words Focus Deck (`🔥 CẦN ÔN LẠI`)**: Tự động tổng hợp các từ thuộc Box 1 & 2 hoặc từ có tỷ lệ chính xác thấp để ôn tập tập trung.
+- **Weak Words Focus Deck (`🔥 CẦN ÔN LẠI`)**: Tự động tổng hợp các từ đã học có `consecutiveHard > 0`, hoặc đang ở Box ≤ 2, hoặc tỷ lệ chính xác < 75%; sắp xếp theo `consecutiveHard` giảm dần rồi theo tỷ lệ chính xác tăng dần.
 
 ---
 

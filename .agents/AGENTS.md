@@ -1,6 +1,6 @@
 # Engion Workspace Agent Rules
 
-Khi làm việc trong dự án này, hãy luôn tuân thủ các quy tắc trong [docs/RULES.md](file:///d:/training/engion/docs/RULES.md):
+Khi làm việc trong dự án này, hãy luôn tuân thủ các quy tắc trong [docs/RULES.md](../docs/RULES.md):
 
 1. **Code tối giản, dễ hiểu**: Viết mã nguồn sạch, trực quan, có TypeScript types đầy đủ, tránh over-engineering.
 2. **Chủ động hỏi lại**: Nếu yêu cầu của người dùng chưa đủ rõ ràng hoặc mơ hồ, hãy đặt câu hỏi làm rõ trước khi triển khai.

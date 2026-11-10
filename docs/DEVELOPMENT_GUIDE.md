@@ -61,7 +61,7 @@ Executes:
 npm run dist
 # Hoặc: npx electron-builder
 ```
-Tự động biên dịch mã nguồn và đóng gói thành file cài đặt Windows (`Engion Setup 1.0.0.exe`) hoặc bản chạy ngay (`Engion 1.0.0.exe` portable) nằm trong thư mục `dist_electron/`.
+Tự động biên dịch mã nguồn và đóng gói thành file cài đặt Windows (`Engion Setup <version>.exe`) hoặc bản chạy ngay (`Engion <version>.exe` portable — `<version>` lấy từ `package.json`) nằm trong thư mục `dist_electron/`.
 
 Người dùng trên máy khác chỉ cần tải file `.exe` này về nhấp đúp để cài đặt/chạy mà **không cần cài Node.js, npm hay VSCode**.
 
